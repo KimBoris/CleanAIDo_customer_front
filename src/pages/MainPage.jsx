@@ -1,5 +1,5 @@
-import TabBar from "../component/layout/TabBar.jsx";
-import NaviBar from "../component/layout/NaviBar.jsx";
+import TabBarMain from "../component/layout/TabBarMain.jsx";
+import NaviBarMain from "../component/layout/NaviBarMain.jsx";
 
 function MainPage() {
     return (
@@ -9,7 +9,7 @@ function MainPage() {
                 className="bg-bara_blue w-full h-[30rem] bg-[url('/images/bara-back.png')] bg-cover pl-8 pr-8"
             >
                 {/* 네비게이션바 */}
-                <NaviBar />
+                <NaviBarMain />
 
                 {/* 컨텐츠 */}
                 <div className="pt-4">
@@ -68,7 +68,7 @@ function MainPage() {
             </div>
 
             {/*  탭바  */}
-            <TabBar/>
+            <TabBarMain/>
         </div>
     );
 }

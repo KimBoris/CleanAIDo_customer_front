@@ -1,5 +1,5 @@
 
-function TabBar() {
+function TabBarMain() {
     return (
         <div className="
                 fixed bottom-0 left-0 w-full h-[6.25rem] bg-white text-bara_sodomy flex justify-around items-start
@@ -23,4 +23,4 @@ function TabBar() {
     );
 }
 
-export default TabBar;
+export default TabBarMain;
