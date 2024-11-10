@@ -1,6 +1,6 @@
 import  { useEffect, useState } from 'react';
 import axios from 'axios';
-import ProductListComponent from "../../component/ProductListComponent.jsx";
+import ProductListComponent from "../../component/product/ProductListComponent.jsx";
 
 
 const ProductListPage = () => {
