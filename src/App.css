@@ -1,8 +1,9 @@
 /* 모바일 사이즈 설정 */
-@media (max-width: 480px) {
+@media (max-width: 430px) {
   body {
     width: 100%;
     margin: 0 auto;
+    padding-top: env(safe-area-inset-top);
   }
 }
 
