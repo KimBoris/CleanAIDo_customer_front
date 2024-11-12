@@ -1,11 +1,23 @@
 import PropTypes from 'prop-types';
-import './ProductListComponent.css'; // 스타일링을 위한 CSS 파일
+import { useNavigate } from 'react-router-dom';
+import './ProductListComponent.css';
 
 const ProductListComponent = ({ products }) => {
+    const navigate = useNavigate();
+
+    const handleProductClick = (product) => {
+        navigate('/order/create', { state: { product } });
+    };
+
     return (
         <ul className="product-list">
             {products.map(product => (
-                <li key={product.pno} className="product-item">
+                <li
+                    key={product.pno}
+                    className="product-item"
+                    onClick={() => handleProductClick(product)}
+                    style={{ cursor: 'pointer' }}
+                >
                     <img src={product.filename} alt={product.pname} className="product-thumbnail" />
                     <div className="product-info">
                         <h2 className="product-name">{product.pname}</h2>
@@ -23,10 +35,9 @@ ProductListComponent.propTypes = {
             pno: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
             pname: PropTypes.string.isRequired,
             price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-            thumbnail: PropTypes.string, // 선택적으로 설정
+            thumbnail: PropTypes.string,
         })
     ).isRequired,
 };
-
 
 export default ProductListComponent;

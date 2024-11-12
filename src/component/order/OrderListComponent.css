@@ -1,0 +1,27 @@
+.order-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.order-item {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.order-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-customer-id, .order-phone, .order-address, .order-message, .order-price, .order-date, .order-status {
+    margin: 0.25rem 0;
+}
+
+.order-customer-id {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
