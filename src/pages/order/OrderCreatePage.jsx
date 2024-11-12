@@ -1,24 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import TabBarShop from "../../component/layout/TabBarShop.jsx";
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
 
 function OrderCreatePage() {
     const { state } = useLocation();
     const product = state?.product;
 
+    // 백엔드에서 사용자 정보 가져오기 (예: 고객 정보가 로그인된 사용자 정보인 경우)
     const [form, setForm] = useState({
         customerId: '',
         phoneNumber: '',
         deliveryAddress: '',
         deliveryMessage: '',
         totalPrice: product ? product.price : '',
-        productId: product ? product.id : '' // 상품 ID 추가
+        productId: product ? product.id : ''
     });
 
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    // 페이지 로드 시 고객 정보 가져오기
+    useEffect(() => {
+        async function fetchCustomerInfo() {
+            try {
+                const response = await axios.get('http://localhost:8080/api/v1/customer/profile'); // 고객 정보 API
+                const customerData = response.data;
+                setForm((prevForm) => ({
+                    ...prevForm,
+                    customerId: customerData.customerId,
+                    phoneNumber: customerData.phoneNumber,
+                    deliveryAddress: customerData.address
+                }));
+            } catch (error) {
+                console.error("Failed to fetch customer info:", error);
+            }
+        }
+
+        fetchCustomerInfo();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,7 +53,7 @@ function OrderCreatePage() {
         try {
             const response = await axios.post('http://localhost:8080/api/v1/order/create', {
                 ...form,
-                productNumber: product ? product.pno : null // 선택된 상품의 번호를 추가
+                productNumber: product ? product.pno : null
             });
             setSuccessMessage(`Order created successfully! Order ID: ${response.data.orderNumber}`);
             setErrorMessage('');
@@ -55,8 +75,6 @@ function OrderCreatePage() {
             setSuccessMessage('');
         }
     };
-
-
 
     return (
         <div className="bg-bara_gray_1 min-h-screen flex flex-col">
@@ -80,7 +98,7 @@ function OrderCreatePage() {
                 )}
 
                 <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 text-bara_sodomy">
-                    <h2 className="text-xl font-semibold mb-4">주문 정보를 입력해주세요</h2>
+                    <h2 className="text-xl font-semibold mb-4">배송정보</h2>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
@@ -91,7 +109,7 @@ function OrderCreatePage() {
                                 value={form.customerId}
                                 onChange={handleChange}
                                 className="w-full border border-gray-300 rounded-lg p-2"
-                                required
+                                readOnly
                             />
                         </div>
                         <div>
@@ -102,18 +120,18 @@ function OrderCreatePage() {
                                 value={form.phoneNumber}
                                 onChange={handleChange}
                                 className="w-full border border-gray-300 rounded-lg p-2"
-                                required
+                                readOnly
                             />
                         </div>
                         <div>
-                            <label className="block font-medium">주소</label>
+                            <label className="block font-medium">배송 받을 주소</label>
                             <input
                                 type="text"
                                 name="deliveryAddress"
                                 value={form.deliveryAddress}
                                 onChange={handleChange}
                                 className="w-full border border-gray-300 rounded-lg p-2"
-                                required
+                                readOnly
                             />
                         </div>
                         <div>
@@ -134,7 +152,7 @@ function OrderCreatePage() {
                                 value={form.totalPrice}
                                 onChange={handleChange}
                                 className="w-full border border-gray-300 rounded-lg p-2"
-                                required
+                                readOnly
                             />
                         </div>
                         <button
@@ -149,8 +167,6 @@ function OrderCreatePage() {
                     {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
                 </div>
             </div>
-
-            <TabBarShop />
         </div>
     );
 }
