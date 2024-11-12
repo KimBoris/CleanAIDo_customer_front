@@ -1,23 +1,27 @@
-// src/routers/mainRouter.jsx
-import { createBrowserRouter } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import {createBrowserRouter} from "react-router-dom";
+import {lazy, Suspense} from "react";
 import LoadingPage from "../pages/LoadingPage.jsx";
 
+
 const MainPage = lazy(() => import("../pages/MainPage"));
+const ProductReadPage = lazy(() => import("../pages/product/ProductReadPage"))
 const ProductListPage = lazy(() => import("../pages/product/ProductListPage"));
 const OrderListPage = lazy(() => import("../pages/order/OrderListPage.jsx"));
 const OrderCreatePage = lazy(() => import("../pages/order/OrderCreatePage.jsx"));
 
 const Loading = <LoadingPage />;
-
 const mainRouter = createBrowserRouter([
     {
         path: "/",
         element: <Suspense fallback={Loading}><MainPage /></Suspense>,
     },
     {
-        path: "/products",
-        element: <Suspense fallback={Loading}><ProductListPage /></Suspense>,
+        path: "/product/list",
+        element: <Suspense fallback={Loading}><ProductListPage/></Suspense>,
+    },
+    {
+        path: "/product/read/:pno",
+        element: <Suspense fallback={Loading}><ProductReadPage/></Suspense>,
     },
     {
         path: "/order/list",

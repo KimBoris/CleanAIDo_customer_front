@@ -1,31 +1,28 @@
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
 import './ProductListComponent.css';
+import {Link} from "react-router-dom";
 
-const ProductListComponent = ({ products }) => {
-    const navigate = useNavigate();
 
-    const handleProductClick = (product) => {
-        navigate('/order/create', { state: { product } });
-    };
 
+
+const ProductListComponent = ({products}) => {
     return (
-        <ul className="product-list">
-            {products.map(product => (
-                <li
-                    key={product.pno}
-                    className="product-item"
-                    onClick={() => handleProductClick(product)}
-                    style={{ cursor: 'pointer' }}
-                >
-                    <img src={product.filename} alt={product.pname} className="product-thumbnail" />
-                    <div className="product-info">
-                        <h2 className="product-name">{product.pname}</h2>
-                        <p className="product-price">{product.price}원</p>
-                    </div>
-                </li>
-            ))}
-        </ul>
+        <div>
+            <ul className="product-list">
+                {products.map(product => (
+                    <Link to={`/product/read/${product.pno}`} key={product.pno} className='product-link'>
+                        <li className="product-item">
+                            <img src='../../../public/images/star_1.svg' className="product-thumbnail"/>
+                            <div className="product-info">
+                                <h2 className="product-name">{product.pname}</h2>
+                                <p className="product-price">{product.price}원</p>
+                            </div>
+                        </li>
+                    </Link>
+                ))}
+            </ul>
+
+        </div>
     );
 };
 
@@ -35,9 +32,10 @@ ProductListComponent.propTypes = {
             pno: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
             pname: PropTypes.string.isRequired,
             price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-            thumbnail: PropTypes.string,
+            thumbnail: PropTypes.string, // 선택적으로 설정
         })
     ).isRequired,
 };
+
 
 export default ProductListComponent;
