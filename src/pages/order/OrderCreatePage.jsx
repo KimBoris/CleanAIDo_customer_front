@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { createOrder } from '../../api/orderApi';
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
 
 function OrderCreatePage() {
     const { state } = useLocation();
+    const navigate = useNavigate();
     const product = state?.product;
 
     const [form, setForm] = useState({
@@ -14,10 +15,10 @@ function OrderCreatePage() {
         deliveryMessage: '',
         totalPrice: product ? product.price : '',
         productId: product ? product.pno : '',
-        orderDetails: product ? [{ productId: product.pno, quantity: 1 }] : [] // orderDetails 초기화
+        orderDetails: product ? [{ productId: product.pno, quantity: 1 }] : []
     });
 
-    const [successMessage, setSuccessMessage] = useState('');
+    const [orderCompleted, setOrderCompleted] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
@@ -31,30 +32,31 @@ function OrderCreatePage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/order/create', {
-                ...form,
-                orderDetails: [{ productId: form.productId, quantity: 1 }] // 서버에 전송할 orderDetails 설정
-            });
-            setSuccessMessage(`Order created successfully! Order ID: ${response.data.orderNumber}`);
+            await createOrder(form); // orderApi.js의 createOrder 사용
+            setOrderCompleted(true);
             setErrorMessage('');
+            // 폼 초기화
             setForm({
                 customerId: '',
                 phoneNumber: '',
                 deliveryAddress: '',
                 deliveryMessage: '',
-                totalPrice: '',
-                orderDetails: []
+                totalPrice: product ? product.price : '',
+                productId: product ? product.pno : '',
+                orderDetails: product ? [{ productId: product.pno, quantity: 1 }] : []
             });
         } catch (error) {
-            if (error.response) {
-                console.error("Error response:", error.response);
-                setErrorMessage(`Failed to create order: ${error.response.data.message}`);
-            } else {
-                console.error("Error message:", error.message);
-                setErrorMessage('Failed to create order. Please try again later.');
-            }
-            setSuccessMessage('');
+            console.error("Error response:", error.response || error);
+            setErrorMessage(error.response?.data?.message || 'Failed to create order. Please try again later.');
         }
+    };
+
+    const goToOrderList = () => {
+        navigate('/order/list');
+    };
+
+    const goToProductList = () => {
+        navigate('/product/list');
     };
 
     return (
@@ -70,74 +72,84 @@ function OrderCreatePage() {
             </div>
 
             <div className="pl-8 pr-8 mt-10 flex flex-col items-center">
-                {product && (
-                    <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 text-bara_sodomy mb-6">
-                        <h2 className="text-xl font-semibold mb-2">선택한 상품</h2>
-                        <p className="font-medium">상품명: {product.pname}</p>
-                        <p className="text-gray-600">가격: {product.price}원</p>
+                {orderCompleted ? (
+                    <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 text-center text-bara_sodomy">
+                        <h2 className="text-2xl font-semibold mb-4">주문이 완료되었습니다!</h2>
+                        <div className="mt-6 space-x-4">
+                            <button
+                                onClick={goToOrderList}
+                                className="bg-bara_blue text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700"
+                            >
+                                주문 내역 보러 가기
+                            </button>
+                            <button
+                                onClick={goToProductList}
+                                className="bg-gray-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-gray-700"
+                            >
+                                상품 리스트 보러 가기
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 text-bara_sodomy">
+                        <h2 className="text-xl font-semibold mb-4">주문 정보를 입력해주세요</h2>
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block font-medium">고객 ID</label>
+                                <input
+                                    type="text"
+                                    name="customerId"
+                                    value={form.customerId}
+                                    onChange={handleChange}
+                                    className="w-full border border-gray-300 rounded-lg p-2"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block font-medium">전화번호</label>
+                                <input
+                                    type="text"
+                                    name="phoneNumber"
+                                    value={form.phoneNumber}
+                                    onChange={handleChange}
+                                    className="w-full border border-gray-300 rounded-lg p-2"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block font-medium">주소</label>
+                                <input
+                                    type="text"
+                                    name="deliveryAddress"
+                                    value={form.deliveryAddress}
+                                    onChange={handleChange}
+                                    className="w-full border border-gray-300 rounded-lg p-2"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block font-medium">배송 메시지</label>
+                                <input
+                                    type="text"
+                                    name="deliveryMessage"
+                                    value={form.deliveryMessage}
+                                    onChange={handleChange}
+                                    className="w-full border border-gray-300 rounded-lg p-2"
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="w-full bg-bara_blue text-white py-2 rounded-lg font-semibold hover:bg-blue-700"
+                            >
+                                주문하기
+                            </button>
+                        </form>
+
+                        {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
                     </div>
                 )}
-
-                <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 text-bara_sodomy">
-                    <h2 className="text-xl font-semibold mb-4">주문 정보를 입력해주세요</h2>
-
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block font-medium">고객 ID</label>
-                            <input
-                                type="text"
-                                name="customerId"
-                                value={form.customerId}
-                                onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block font-medium">전화번호</label>
-                            <input
-                                type="text"
-                                name="phoneNumber"
-                                value={form.phoneNumber}
-                                onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block font-medium">주소</label>
-                            <input
-                                type="text"
-                                name="deliveryAddress"
-                                value={form.deliveryAddress}
-                                onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-lg p-2"
-                                required
-                            />
-                        </div>
-                        <div>
-                            <label className="block font-medium">배송 메시지</label>
-                            <input
-                                type="text"
-                                name="deliveryMessage"
-                                value={form.deliveryMessage}
-                                onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-lg p-2"
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            className="w-full bg-bara_blue text-white py-2 rounded-lg font-semibold hover:bg-blue-700"
-                        >
-                            주문하기
-                        </button>
-                    </form>
-
-                    {successMessage && <p className="mt-4 text-green-500">{successMessage}</p>}
-                    {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
-                </div>
             </div>
-
         </div>
     );
 }
