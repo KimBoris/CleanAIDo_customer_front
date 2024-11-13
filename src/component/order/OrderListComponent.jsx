@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
 import './OrderListComponent.css';
 
-const OrderListComponent = ({ orders }) => {
+const OrderListComponent = ({ orders, onStatusChange }) => {
     return (
         <ul className="order-list">
             {orders.map(order => (
                 <li key={order.orderNumber} className="order-item">
                     <div className="order-info">
-                        {/* 상품명 표시 */}
                         {order.orderDetails && order.orderDetails.length > 0 && (
                             <h2 className="order-product-name">
                                 상품명: {order.orderDetails.map(detail => detail.productName).join(', ')}
                             </h2>
                         )}
-                        {/* 상품 번호 표시 */}
                         {order.orderDetails && order.orderDetails.length > 0 ? (
                             <p className="order-product-number">
                                 상품 번호: {order.orderDetails.map(detail => detail.productId).join(', ')}
@@ -21,8 +19,6 @@ const OrderListComponent = ({ orders }) => {
                         ) : (
                             <p className="order-product-number">상품 번호: 없음</p>
                         )}
-
-                        {/* 주문 상세 정보 표시 */}
                         <p className="order-customer-id">고객 ID: {order.customerId}</p>
                         <p className="order-phone">전화번호: {order.phoneNumber}</p>
                         <p className="order-address">주소: {order.deliveryAddress}</p>
@@ -31,7 +27,16 @@ const OrderListComponent = ({ orders }) => {
                         <p className="order-date">주문 시간: {new Date(order.orderDate).toLocaleString()}</p>
                         <p className="order-status">상태: {order.orderStatus}</p>
 
-
+                        {/* 상태 변경 버튼 */}
+                        <button className="button cancel" onClick={() => onStatusChange(order.orderNumber, '취소')}>
+                            취소
+                        </button>
+                        <button className="button exchange" onClick={() => onStatusChange(order.orderNumber, '교환')}>
+                            교환
+                        </button>
+                        <button className="button refund" onClick={() => onStatusChange(order.orderNumber, '환불')}>
+                            환불
+                        </button>
                     </div>
                 </li>
             ))}
@@ -50,9 +55,15 @@ OrderListComponent.propTypes = {
             totalPrice: PropTypes.number.isRequired,
             orderDate: PropTypes.string.isRequired,
             orderStatus: PropTypes.string.isRequired,
-            productNumber: PropTypes.number.isRequired,
+            orderDetails: PropTypes.arrayOf(
+                PropTypes.shape({
+                    productId: PropTypes.number.isRequired,
+                    productName: PropTypes.string.isRequired
+                })
+            ).isRequired
         })
     ).isRequired,
+    onStatusChange: PropTypes.func.isRequired
 };
 
 export default OrderListComponent;

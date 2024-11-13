@@ -10,7 +10,7 @@ function OrderListPage() {
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/v1/order/list', {
-            params: { customerId: '4' }  // 실제로는 로그인한 사용자의 ID를 전달해야 합니다.
+            params: { customerId: 'customer0@aaa.com' }  // String ID 전달
         })
             .then(response => {
                 setOrders(response.data);
@@ -23,6 +23,20 @@ function OrderListPage() {
             });
     }, []);
 
+    const handleStatusChange = (orderNumber, status) => {
+        axios.patch(`http://localhost:8080/api/v1/order/${orderNumber}/status`, null, {
+            params: { status }
+        })
+            .then(() => {
+                setOrders(prevOrders => prevOrders.map(order =>
+                    order.orderNumber === orderNumber ? { ...order, orderStatus: status } : order
+                ));
+            })
+            .catch(error => {
+                console.error("Failed to update order status:", error);
+            });
+    };
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
@@ -30,8 +44,8 @@ function OrderListPage() {
         <div className="bg-gray-100 min-h-screen flex flex-col">
             <NaviBarMain />
             <div className="flex-grow p-4">
-                <h1 className="text-2xl font-bold mb-4">Order List</h1>
-                <OrderListComponent orders={orders} />
+                <h1 className="text-2xl font-bold mb-4">주문 내역</h1>
+                <OrderListComponent orders={orders} onStatusChange={handleStatusChange} />
             </div>
         </div>
     );
