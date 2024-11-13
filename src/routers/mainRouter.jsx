@@ -4,10 +4,12 @@ import LoadingPage from "../pages/LoadingPage.jsx";
 
 
 const MainPage = lazy(() => import("../pages/MainPage"));
-const ProductListPage = lazy(() => import("../pages/product/ProductListPage"))
-const ProductReadPage = lazy(() => import("../pages/product/ProductReadPage"))
-const Loading = <LoadingPage />
+const ProductReadPage = lazy(() => import("../pages/product/ProductReadPage.jsx"))
+const ProductListPage = lazy(() => import("../pages/product/ProductListPage.jsx"));
+const OrderListPage = lazy(() => import("../pages/order/OrderListPage.jsx"));
+const OrderCreatePage = lazy(() => import("../pages/order/OrderCreatePage.jsx"));
 
+const Loading = <LoadingPage />;
 const mainRouter = createBrowserRouter([
     {
         path: "/",
@@ -20,7 +22,15 @@ const mainRouter = createBrowserRouter([
     {
         path: "/product/read/:pno",
         element: <Suspense fallback={Loading}><ProductReadPage/></Suspense>,
-    }
-])
+    },
+    {
+        path: "/order/list",
+        element: <Suspense fallback={Loading}><OrderListPage /></Suspense>,
+    },
+    {
+        path: "/order/create",
+        element: <Suspense fallback={Loading}><OrderCreatePage /></Suspense>,
+    },
+]);
 
 export default mainRouter;
