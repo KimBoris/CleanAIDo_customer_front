@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
@@ -7,38 +7,18 @@ function OrderCreatePage() {
     const { state } = useLocation();
     const product = state?.product;
 
-    // 백엔드에서 사용자 정보 가져오기 (예: 고객 정보가 로그인된 사용자 정보인 경우)
     const [form, setForm] = useState({
         customerId: '',
         phoneNumber: '',
         deliveryAddress: '',
         deliveryMessage: '',
         totalPrice: product ? product.price : '',
-        productId: product ? product.id : ''
+        productId: product ? product.pno : '',
+        orderDetails: product ? [{ productId: product.pno, quantity: 1 }] : [] // orderDetails 초기화
     });
 
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-
-    // 페이지 로드 시 고객 정보 가져오기
-    useEffect(() => {
-        async function fetchCustomerInfo() {
-            try {
-                const response = await axios.get('http://localhost:8080/api/v1/customer/profile'); // 고객 정보 API
-                const customerData = response.data;
-                setForm((prevForm) => ({
-                    ...prevForm,
-                    customerId: customerData.customerId,
-                    phoneNumber: customerData.phoneNumber,
-                    deliveryAddress: customerData.address
-                }));
-            } catch (error) {
-                console.error("Failed to fetch customer info:", error);
-            }
-        }
-
-        fetchCustomerInfo();
-    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -53,7 +33,7 @@ function OrderCreatePage() {
         try {
             const response = await axios.post('http://localhost:8080/api/v1/order/create', {
                 ...form,
-                productNumber: product ? product.pno : null
+                orderDetails: [{ productId: form.productId, quantity: 1 }] // 서버에 전송할 orderDetails 설정
             });
             setSuccessMessage(`Order created successfully! Order ID: ${response.data.orderNumber}`);
             setErrorMessage('');
@@ -62,7 +42,8 @@ function OrderCreatePage() {
                 phoneNumber: '',
                 deliveryAddress: '',
                 deliveryMessage: '',
-                totalPrice: ''
+                totalPrice: '',
+                orderDetails: []
             });
         } catch (error) {
             if (error.response) {
@@ -98,7 +79,7 @@ function OrderCreatePage() {
                 )}
 
                 <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 text-bara_sodomy">
-                    <h2 className="text-xl font-semibold mb-4">배송정보</h2>
+                    <h2 className="text-xl font-semibold mb-4">주문 정보를 입력해주세요</h2>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div>
@@ -109,7 +90,7 @@ function OrderCreatePage() {
                                 value={form.customerId}
                                 onChange={handleChange}
                                 className="w-full border border-gray-300 rounded-lg p-2"
-                                readOnly
+                                required
                             />
                         </div>
                         <div>
@@ -120,18 +101,18 @@ function OrderCreatePage() {
                                 value={form.phoneNumber}
                                 onChange={handleChange}
                                 className="w-full border border-gray-300 rounded-lg p-2"
-                                readOnly
+                                required
                             />
                         </div>
                         <div>
-                            <label className="block font-medium">배송 받을 주소</label>
+                            <label className="block font-medium">주소</label>
                             <input
                                 type="text"
                                 name="deliveryAddress"
                                 value={form.deliveryAddress}
                                 onChange={handleChange}
                                 className="w-full border border-gray-300 rounded-lg p-2"
-                                readOnly
+                                required
                             />
                         </div>
                         <div>
@@ -142,17 +123,6 @@ function OrderCreatePage() {
                                 value={form.deliveryMessage}
                                 onChange={handleChange}
                                 className="w-full border border-gray-300 rounded-lg p-2"
-                            />
-                        </div>
-                        <div>
-                            <label className="block font-medium">총 가격</label>
-                            <input
-                                type="number"
-                                name="totalPrice"
-                                value={form.totalPrice}
-                                onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-lg p-2"
-                                readOnly
                             />
                         </div>
                         <button
@@ -167,6 +137,7 @@ function OrderCreatePage() {
                     {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
                 </div>
             </div>
+
         </div>
     );
 }

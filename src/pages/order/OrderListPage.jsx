@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import NaviBarMain from "../../component/layout/NaviBarMain";
-import TabBarMain from "../../component/layout/TabBarMain";
 import OrderListComponent from "../../component/order/OrderListComponent";
 
 function OrderListPage() {
@@ -11,7 +10,7 @@ function OrderListPage() {
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/v1/order/list', {
-            params: { customerId: 'user01' }  // 실제로는 로그인한 사용자의 ID를 전달해야 합니다.
+            params: { customerId: '2' }  // 실제로는 로그인한 사용자의 ID를 전달해야 합니다.
         })
             .then(response => {
                 setOrders(response.data);
@@ -34,7 +33,6 @@ function OrderListPage() {
                 <h1 className="text-2xl font-bold mb-4">Order List</h1>
                 <OrderListComponent orders={orders} />
             </div>
-            <TabBarMain />
         </div>
     );
 }
