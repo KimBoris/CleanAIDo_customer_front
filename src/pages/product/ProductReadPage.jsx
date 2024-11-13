@@ -4,6 +4,7 @@ import axios from "axios";
 import {useParams} from "react-router-dom";
 import TabBarShop from "../../component/layout/TabBarShop.jsx";
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
+import TabBarProductDetail from "../../component/layout/TabBarProductDetail.jsx";
 
 function ProductReadPage() {
     const {pno} = useParams();
@@ -37,7 +38,9 @@ function ProductReadPage() {
             <div className="p-6 bg-gray-50 min-h-screen w-full h-full overflow-y-auto">
                 {/*<h1 className="text-3xl font-bold mb-4"></h1>*/}
                 <ProductReadComponent products={products}/>
+                <TabBarProductDetail/>
                 <TabBarShop></TabBarShop>
+
             </div>
         </>
     );

@@ -6,7 +6,7 @@ function ProductReadComponent({ products }) {
             {products.map((product) => (
                 <div key={product.pno} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* 이미지 캐러셀 */}
-                    <div className="p-4 border rounded shadow">
+                    <div>
                         <Carousel images={product.filename} />
                     </div>
 
@@ -19,7 +19,7 @@ function ProductReadComponent({ products }) {
 
                     <hr />
                     <div>
-                        <h2 className="text-3xl font-medium">상세 이미지</h2>
+                        <h2 className="text-3xl font-medium  p-2">상세 이미지</h2>
                         <img src="../../../public/images/M1.png" className="w-full h-auto" alt="Product Detail" />
                         <img src="../../../public/images/M1.png" className="w-full h-auto" alt="Product Detail" />
                         <img src="../../../public/images/M1.png" className="w-full h-auto" alt="Product Detail" />
