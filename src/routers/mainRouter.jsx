@@ -4,8 +4,8 @@ import LoadingPage from "../pages/LoadingPage.jsx";
 
 
 const MainPage = lazy(() => import("../pages/MainPage"));
-const ProductReadPage = lazy(() => import("../pages/product/ProductReadPage"))
-const ProductListPage = lazy(() => import("../pages/product/ProductListPage"));
+const ProductReadPage = lazy(() => import("../pages/product/ProductReadPage.jsx"))
+const ProductListPage = lazy(() => import("../pages/product/ProductListPage.jsx"));
 const OrderListPage = lazy(() => import("../pages/order/OrderListPage.jsx"));
 const OrderCreatePage = lazy(() => import("../pages/order/OrderCreatePage.jsx"));
 

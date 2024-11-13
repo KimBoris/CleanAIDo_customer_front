@@ -18,7 +18,7 @@ const OrderForm = ({ onSubmit }) => {
             deliveryAddress,
             deliveryMessage,
             totalPrice: parseInt(totalPrice, 10),
-            productId: parseInt(productId, 10)  // 추가된 부분
+            productId: parseInt(productId, 10)
         };
 
         onSubmit(purchaseDTO);

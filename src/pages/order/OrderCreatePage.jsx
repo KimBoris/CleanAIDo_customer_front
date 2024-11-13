@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import TabBarShop from "../../component/layout/TabBarShop.jsx";
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
 
 function OrderCreatePage() {
@@ -14,7 +13,8 @@ function OrderCreatePage() {
         deliveryAddress: '',
         deliveryMessage: '',
         totalPrice: product ? product.price : '',
-        productId: product ? product.id : '' // 상품 ID 추가
+        productId: product ? product.pno : '',
+        orderDetails: product ? [{ productId: product.pno, quantity: 1 }] : [] // orderDetails 초기화
     });
 
     const [successMessage, setSuccessMessage] = useState('');
@@ -33,7 +33,7 @@ function OrderCreatePage() {
         try {
             const response = await axios.post('http://localhost:8080/api/v1/order/create', {
                 ...form,
-                productNumber: product ? product.pno : null // 선택된 상품의 번호를 추가
+                orderDetails: [{ productId: form.productId, quantity: 1 }] // 서버에 전송할 orderDetails 설정
             });
             setSuccessMessage(`Order created successfully! Order ID: ${response.data.orderNumber}`);
             setErrorMessage('');
@@ -42,7 +42,8 @@ function OrderCreatePage() {
                 phoneNumber: '',
                 deliveryAddress: '',
                 deliveryMessage: '',
-                totalPrice: ''
+                totalPrice: '',
+                orderDetails: []
             });
         } catch (error) {
             if (error.response) {
@@ -55,8 +56,6 @@ function OrderCreatePage() {
             setSuccessMessage('');
         }
     };
-
-
 
     return (
         <div className="bg-bara_gray_1 min-h-screen flex flex-col">
@@ -126,17 +125,6 @@ function OrderCreatePage() {
                                 className="w-full border border-gray-300 rounded-lg p-2"
                             />
                         </div>
-                        <div>
-                            <label className="block font-medium">총 가격</label>
-                            <input
-                                type="number"
-                                name="totalPrice"
-                                value={form.totalPrice}
-                                onChange={handleChange}
-                                className="w-full border border-gray-300 rounded-lg p-2"
-                                required
-                            />
-                        </div>
                         <button
                             type="submit"
                             className="w-full bg-bara_blue text-white py-2 rounded-lg font-semibold hover:bg-blue-700"
@@ -150,7 +138,6 @@ function OrderCreatePage() {
                 </div>
             </div>
 
-            <TabBarShop />
         </div>
     );
 }
