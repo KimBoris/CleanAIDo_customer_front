@@ -10,10 +10,10 @@ function TabBarProductDetail() {
                     ">
                 {/* 원하는 요소들을 여기에 추가하세요 */}
                 <button className="flex-1 h-[3rem] flex justify-center border-2 bg-blue-700">
-                    <button>구매</button>
+                    <span>구매</span>
                 </button>
                 <button className="flex-1 h-[3rem] flex justify-center border-2 bg-red-500">
-                    <button>장바구니 담기</button>
+                    <span>장바구니 담기</span>
                 </button>
             </div>
 
