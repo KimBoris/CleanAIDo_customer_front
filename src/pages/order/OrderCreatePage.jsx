@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { createOrder } from '../../api/orderApi';
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
 
 function OrderCreatePage() {
@@ -18,7 +18,7 @@ function OrderCreatePage() {
         orderDetails: product ? [{ productId: product.pno, quantity: 1 }] : []
     });
 
-    const [orderCompleted, setOrderCompleted] = useState(false); // 주문 완료 상태 추가
+    const [orderCompleted, setOrderCompleted] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
@@ -32,21 +32,31 @@ function OrderCreatePage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8080/api/v1/order/create', form);
-            setOrderCompleted(true); // 주문 완료 상태로 설정
-            setErrorMessage(''); // 에러 메시지 초기화
+            await createOrder(form); // orderApi.js의 createOrder 사용
+            setOrderCompleted(true);
+            setErrorMessage('');
+            // 폼 초기화
+            setForm({
+                customerId: '',
+                phoneNumber: '',
+                deliveryAddress: '',
+                deliveryMessage: '',
+                totalPrice: product ? product.price : '',
+                productId: product ? product.pno : '',
+                orderDetails: product ? [{ productId: product.pno, quantity: 1 }] : []
+            });
         } catch (error) {
-            console.error("Error response:", error.response);
-            setErrorMessage('Failed to create order. Please try again later.');
+            console.error("Error response:", error.response || error);
+            setErrorMessage(error.response?.data?.message || 'Failed to create order. Please try again later.');
         }
     };
 
     const goToOrderList = () => {
-        navigate('/order/list'); // 주문 내역 페이지로 이동
+        navigate('/order/list');
     };
 
     const goToProductList = () => {
-        navigate('/product/list'); // 상품 리스트 페이지로 이동
+        navigate('/product/list');
     };
 
     return (

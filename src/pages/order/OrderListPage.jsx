@@ -1,41 +1,43 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import NaviBarMain from "../../component/layout/NaviBarMain";
 import OrderListComponent from "../../component/order/OrderListComponent";
+import { fetchOrders, updateOrderStatus } from '../../api/orderApi';
 
 function OrderListPage() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/order/list', {
-            params: { customerId: 'customer0@aaa.com' }  // String ID 전달
-        })
-            .then(response => {
-                setOrders(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching orders:', error);
-                setError('Failed to fetch orders. Please try again later.');
-                setLoading(false);
-            });
-    }, []);
+    const customerId = 'customer3@aaa.com'; // 고객 ID 정의
 
-    const handleStatusChange = (orderNumber, status) => {
-        axios.patch(`http://localhost:8080/api/v1/order/${orderNumber}/status`, null, {
-            params: { status }
-        })
-            .then(() => {
-                setOrders(prevOrders => prevOrders.map(order =>
-                    order.orderNumber === orderNumber ? { ...order, orderStatus: status } : order
-                ));
-            })
-            .catch(error => {
-                console.error("Failed to update order status:", error);
-            });
+    // 주문 목록을 가져오는 함수
+    const loadOrders = async () => {
+        try {
+            const response = await fetchOrders(customerId);
+            setOrders(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('fetching orders 에러입니당:', error);
+            setError('Failed to fetch orders. Please try again later.');
+            setLoading(false);
+        }
     };
+
+    // 상태 변경 함수
+    const handleStatusChange = async (orderNumber, status) => {
+        try {
+            await updateOrderStatus(orderNumber, status);
+            setOrders(prevOrders => prevOrders.map(order =>
+                order.orderNumber === orderNumber ? { ...order, orderStatus: status } : order
+            ));
+        } catch (error) {
+            console.error("Failed to update order status:", error);
+        }
+    };
+
+    useEffect(() => {
+        loadOrders(); // 주문 목록 로드
+    }, []);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
