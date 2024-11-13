@@ -10,7 +10,7 @@ function OrderListPage() {
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/v1/order/list', {
-            params: { customerId: '2' }  // 실제로는 로그인한 사용자의 ID를 전달해야 합니다.
+            params: { customerId: '4' }  // 실제로는 로그인한 사용자의 ID를 전달해야 합니다.
         })
             .then(response => {
                 setOrders(response.data);

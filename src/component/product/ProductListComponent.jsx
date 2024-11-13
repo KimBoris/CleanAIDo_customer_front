@@ -12,7 +12,7 @@ const ProductListComponent = ({products}) => {
                 {products.map(product => (
                     <Link to={`/product/read/${product.pno}`} key={product.pno} className='product-link'>
                         <li className="product-item">
-                            <img src='../../../public/images/star_1.svg' className="product-thumbnail"/>
+                            <img src='../../../public/images/star_5.svg' className="product-thumbnail"/>
                             <div className="product-info">
                                 <h2 className="product-name">{product.pname}</h2>
                                 <p className="product-price">{product.price}원</p>
