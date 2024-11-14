@@ -1,35 +1,42 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
-import './CartDetailListComponent.css'; // Assuming you have a CSS file for styling
+import './CartDetailListComponent.css';
 
 function CartDetailListComponent({ cart }) {
     const navigate = useNavigate();
 
-    // Calculate total amount
-    const totalAmount = cart.reduce((total, item) => {
+    // 선택된 상품들을 저장하는 상태
+    const [checkedProducts, setCheckedProducts] = useState([]);
+
+    // 선택된 상품들의 총 합계 계산
+    const totalAmount = checkedProducts.reduce((total, item) => {
         return total + item.product.price * item.quantity;
     }, 0);
 
-    // State for selected products
-    const [checkedProducts, setCheckedProducts] = useState([]);
-
-    // Handle checkbox change
+    // 체크박스 변경 처리 함수
     const handleCheckboxChange = (item) => {
         setCheckedProducts((prevCheckedProducts) => {
-            if (prevCheckedProducts.includes(item.product)) {
-                // Remove from array if already selected
-                return prevCheckedProducts.filter(product => product !== item.product);
+            if (prevCheckedProducts.some(checkedItem => checkedItem.product === item.product)) {
+                // 이미 선택된 경우 배열에서 제거
+                return prevCheckedProducts.filter(checkedItem => checkedItem.product !== item.product);
             } else {
-                // Add to array if not already selected
-                return [...prevCheckedProducts, item.product];
+                // 선택되지 않은 경우 배열에 추가
+                return [...prevCheckedProducts, item];
             }
         });
     };
 
+    // '구매하기' 버튼 클릭 시 선택된 상품 정보와 함께 이동
     const handlePurchaseClick = () => {
-        console.log(checkedProducts);
-        navigate("/order/create", { state: { product: checkedProducts } });
+        const productsToPurchase = checkedProducts.map(item => ({
+            productId: item.product.pno,
+            pname: item.product.pname,
+            price: item.product.price,
+            quantity: item.quantity
+        }));
+
+        navigate("/order/create", { state: { products: productsToPurchase } });
     };
 
     return (
@@ -42,7 +49,7 @@ function CartDetailListComponent({ cart }) {
                                 type="checkbox"
                                 className="cart-item-checkbox"
                                 onChange={() => handleCheckboxChange(item)}
-                                checked={checkedProducts.includes(item.product)}
+                                checked={checkedProducts.some(checkedItem => checkedItem.product === item.product)}
                             />
                             <div className="cart-item-image">
                                 <p>
@@ -63,7 +70,7 @@ function CartDetailListComponent({ cart }) {
             <div className="total-amount-container">
                 <h4 className="total-amount">총 합계: {totalAmount.toLocaleString()} 원</h4>
             </div>
-            <button className="purchase-button" onClick={handlePurchaseClick}>구매하기</button>
+            <button className="purchase-button" onClick={handlePurchaseClick} disabled={checkedProducts.length === 0}>구매하기</button>
         </div>
     );
 }
@@ -78,10 +85,10 @@ CartDetailListComponent.propTypes = {
                 imageFiles: PropTypes.arrayOf(
                     PropTypes.shape({
                         ord: PropTypes.number,
-                        fileName: PropTypes.string, // isRequired removed
+                        fileName: PropTypes.string,
                         type: PropTypes.bool,
                     })
-                ), // imageFiles is an array of objects
+                ),
             }).isRequired,
             quantity: PropTypes.number.isRequired,
         })
