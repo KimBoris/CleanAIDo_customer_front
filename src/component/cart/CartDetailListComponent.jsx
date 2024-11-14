@@ -1,69 +1,55 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
-import './CartDetailListComponent.css'; // Assuming you have a CSS file for styling
 
 function CartDetailListComponent({ cart }) {
     const navigate = useNavigate();
-
-    // Calculate total amount
-    const totalAmount = cart.reduce((total, item) => {
-        return total + item.product.price * item.quantity;
-    }, 0);
-
-    // State for selected products
     const [checkedProducts, setCheckedProducts] = useState([]);
 
-    // Handle checkbox change
     const handleCheckboxChange = (item) => {
         setCheckedProducts((prevCheckedProducts) => {
-            if (prevCheckedProducts.includes(item.product)) {
-                // Remove from array if already selected
-                return prevCheckedProducts.filter(product => product !== item.product);
+            if (prevCheckedProducts.some(product => product.product.pno === item.product.pno)) {
+                // 이미 선택된 경우 배열에서 제거
+                return prevCheckedProducts.filter(product => product.product.pno !== item.product.pno);
             } else {
-                // Add to array if not already selected
-                return [...prevCheckedProducts, item.product];
+                // 선택되지 않은 경우 배열에 추가
+                return [...prevCheckedProducts, item];
             }
         });
     };
 
     const handlePurchaseClick = () => {
-        console.log(checkedProducts);
-        navigate("/order/create", { state: { product: checkedProducts } });
+        console.log("Selected products for purchase:", checkedProducts);
+        navigate("/order/create", { state: { products: checkedProducts } });
     };
 
     return (
-        <div className="cart-container">
+        <div>
             <ul className="cart-list">
                 {cart.map((item) => (
                     <li key={item.cdno} className="cart-item">
-                        <div className="cart-item-details">
-                            <input
-                                type="checkbox"
-                                className="cart-item-checkbox"
-                                onChange={() => handleCheckboxChange(item)}
-                                checked={checkedProducts.includes(item.product)}
-                            />
-                            <div className="cart-item-image">
-                                <p>
-                                    {item.product.imageFiles && item.product.imageFiles.length > 0 && item.product.imageFiles[0].fileName
-                                        ? <img src={`path/to/images/${item.product.imageFiles[0].fileName}`} alt={item.product.pname} />
-                                        : <span className="no-image">No Image</span>}
-                                </p>
-                            </div>
-                            <div className="cart-item-info">
-                                <h3 className="cart-item-name">{item.product.pname}</h3>
-                                <p className="cart-item-price">Price: {item.product.price.toLocaleString()} 원</p>
-                                <p className="cart-item-quantity">{item.quantity}개</p>
-                            </div>
-                        </div>
+                        <input
+                            type="checkbox"
+                            onChange={() => handleCheckboxChange(item)}
+                            checked={checkedProducts.some(product => product.product.pno === item.product.pno)}
+                        />
+                        <p>
+                            {item.product.imageFiles && item.product.imageFiles.length > 0
+                                ? item.product.imageFiles[0].fileName
+                                : "No Image"}
+                        </p>
+                        <h3>{item.product.pname}</h3>
+                        <p>Price: {item.product.price.toLocaleString()} 원</p>
+                        <p>Quantity: {item.quantity}개</p>
                     </li>
                 ))}
             </ul>
-            <div className="total-amount-container">
-                <h4 className="total-amount">총 합계: {totalAmount.toLocaleString()} 원</h4>
+            <div className="total-amount">
+                <h4>선택한 상품 총 합계: {checkedProducts.reduce((total, item) => total + item.product.price * item.quantity, 0).toLocaleString()} 원</h4>
             </div>
-            <button className="purchase-button" onClick={handlePurchaseClick}>구매하기</button>
+            <button onClick={handlePurchaseClick} className="bg-blue-500 text-white py-2 px-4 rounded mt-4">
+                구매하기
+            </button>
         </div>
     );
 }
@@ -78,10 +64,10 @@ CartDetailListComponent.propTypes = {
                 imageFiles: PropTypes.arrayOf(
                     PropTypes.shape({
                         ord: PropTypes.number,
-                        fileName: PropTypes.string, // isRequired removed
+                        fileName: PropTypes.string,
                         type: PropTypes.bool,
                     })
-                ), // imageFiles is an array of objects
+                ),
             }).isRequired,
             quantity: PropTypes.number.isRequired,
         })

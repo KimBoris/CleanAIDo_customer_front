@@ -37,14 +37,11 @@ export const getProductOne = async (pno) => {
     }
 };
 
-export const addCart = async (pno) => {
-    const formData = new FormData();
-    formData.append('pno', pno);
-
-    const res = await axios.post(`${host}`, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
-    return res.data;
+export const fetchProduct = async (pno) => {
+    try {
+        const productData = await getProductOne(pno);
+        return [productData]; // 배열로 반환하여 ProductReadPage와 호환되도록 함
+    } catch (error) {
+        throw new Error('Failed to fetch product');
+    }
 };
