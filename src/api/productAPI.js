@@ -36,3 +36,15 @@ export const getProductOne = async (pno) => {
         throw new Error('Failed to fetch product');
     }
 };
+
+export const addCart = async (pno) => {
+    const formData = new FormData();
+    formData.append('pno', pno);
+
+    const res = await axios.post(`${host}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return res.data;
+};
