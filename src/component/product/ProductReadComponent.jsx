@@ -6,7 +6,7 @@ function ProductReadComponent({ products }) {
             {products.map((product) => (
                 <div key={product.pno} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <Carousel images={product.filename || ['../../../public/images/star_1.svg']} />
+                        <Carousel images={product.fileName || ['/images/star_1.svg']} />
                     </div>
 
                     <div className="flex justify-between m-0">
