@@ -16,7 +16,7 @@ export const getProductList = async (page, size, keyword = '') => {
 
 
         const res = await axios.get(`${host}/list`, {params});
-        console.log("Data:", data)
+        console.log("Data:", res.data)
         return res.data;
     } catch(error) {
         console.error("Failed to fetch product list:", error);
