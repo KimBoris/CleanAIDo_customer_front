@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { createOrder } from '../../api/orderApi';
+import axios from 'axios';
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
 
 function OrderCreatePage() {
     const { state } = useLocation();
     const navigate = useNavigate();
     const product = state?.product;
+
+    useEffect(() => {
+        console.log("Received product:", product);  // 상품 정보 확인을 위해 추가
+    }, [product]);
 
     const [form, setForm] = useState({
         customerId: '',
@@ -32,22 +36,12 @@ function OrderCreatePage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await createOrder(form); // orderApi.js의 createOrder 사용
+            await axios.post('http://localhost:8080/api/v1/order/create', form);
             setOrderCompleted(true);
             setErrorMessage('');
-            // 폼 초기화
-            setForm({
-                customerId: '',
-                phoneNumber: '',
-                deliveryAddress: '',
-                deliveryMessage: '',
-                totalPrice: product ? product.price : '',
-                productId: product ? product.pno : '',
-                orderDetails: product ? [{ productId: product.pno, quantity: 1 }] : []
-            });
         } catch (error) {
-            console.error("Error response:", error.response || error);
-            setErrorMessage(error.response?.data?.message || 'Failed to create order. Please try again later.');
+            console.error("Error response:", error.response);
+            setErrorMessage('Failed to create order. Please try again later.');
         }
     };
 
@@ -93,6 +87,16 @@ function OrderCreatePage() {
                 ) : (
                     <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-8 text-bara_sodomy">
                         <h2 className="text-xl font-semibold mb-4">주문 정보를 입력해주세요</h2>
+
+                        {/* 상품 정보 표시 */}
+                        {product ? (
+                            <div className="mb-4">
+                                <p className="text-lg font-medium">선택한 상품: {product.pname}</p>
+                                <p className="text-lg font-medium">가격: {product.price}원</p>
+                            </div>
+                        ) : (
+                            <p className="text-lg font-medium text-red-500">상품 정보를 불러올 수 없습니다.</p>
+                        )}
 
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
