@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import {useNavigate} from "react-router-dom";
 
 function CartDetailListComponent({ cart }) {
+    const navigate = useNavigate();
     // 총 합계 계산
     const totalAmount = cart.reduce((total, item) => {
         return total + item.product.price * item.quantity;
@@ -23,6 +25,10 @@ function CartDetailListComponent({ cart }) {
         });
     };
 
+    const handlePurchaseClick = () => {
+        console.log(checkedProducts)
+        navigate("/order/create", { state: { product : checkedProducts } });
+    };
 
     return (
         <div>
@@ -35,7 +41,11 @@ function CartDetailListComponent({ cart }) {
                             checked={checkedProducts.includes(item.product)}
                         />
                         {/* 첫 번째 이미지 파일 이름만 출력 */}
-                        <p>{item.product.imageFiles && item.product.imageFiles.length > 0 ? item.product.imageFiles[0].fileName : "No Image"}</p>
+                        <p>
+                            {item.product.imageFiles && item.product.imageFiles.length > 0 && item.product.imageFiles[0].fileName
+                                ? item.product.imageFiles[0].fileName
+                                : "No Image"}
+                        </p>
                         <h3>{item.product.pname}</h3>
                         <p>Price: {item.product.price.toLocaleString()} 원</p>
                         <p>{item.quantity}개</p>
@@ -45,12 +55,11 @@ function CartDetailListComponent({ cart }) {
             <div className="total-amount">
                 <h4>총 합계: {totalAmount.toLocaleString()} 원</h4>
             </div>
-            <button>구매하기</button>
+            <button onClick={()=>handlePurchaseClick()}>구매하기</button>
         </div>
     );
 }
 
-// propTypes 추가
 CartDetailListComponent.propTypes = {
     cart: PropTypes.arrayOf(
         PropTypes.shape({
@@ -58,11 +67,18 @@ CartDetailListComponent.propTypes = {
             product: PropTypes.shape({
                 pname: PropTypes.string.isRequired,
                 price: PropTypes.number.isRequired,
-                imageFiles: PropTypes.arrayOf(PropTypes.string),  // imageFiles는 문자열 배열
+                imageFiles: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        ord: PropTypes.number,
+                        fileName: PropTypes.string, // isRequired 제거
+                        type: PropTypes.bool,
+                    })
+                ),  // imageFiles는 객체 배열
             }).isRequired,
             quantity: PropTypes.number.isRequired,
         })
     ).isRequired,
 };
+
 
 export default CartDetailListComponent;
