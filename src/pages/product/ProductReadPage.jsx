@@ -1,32 +1,33 @@
 import { useState, useEffect } from "react";
-import ProductReadComponent from "../../component/product/ProductReadComponent.jsx";
-import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom"; // useNavigate 추가
+import { useParams, useNavigate } from "react-router-dom";
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
+import { getProductOne } from "../../api/productAPI.js";
+import ProductReadComponent from "../../component/product/ProductReadComponent.jsx";
 
 function ProductReadPage() {
     const { pno } = useParams();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); // navigate 추가
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/v1/product/read/${pno}`)
-            .then(response => {
-                const productList = Array.isArray(response.data) ? response.data : [response.data];
-                setProducts(productList);
+        const fetchProduct = async () => {
+            try {
+                const productData = await getProductOne(pno);
+                setProducts([productData]); // products 배열에 데이터 추가
                 setLoading(false);
-            })
-            .catch(err => {
+            } catch (err) {
                 console.error('Error fetching products:', err);
                 setError('Failed to fetch products');
                 setLoading(false);
-            });
+            }
+        };
+        fetchProduct();
     }, [pno]);
 
     const handlePurchaseClick = (product) => {
-        navigate("/order/create", { state: { product } });
+        navigate("/order/create", { state: { products: [product] } });
     };
 
     if (loading) return <div>Loading...</div>;

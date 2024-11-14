@@ -6,10 +6,23 @@ import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
 function OrderCreatePage() {
     const { state } = useLocation();
     const navigate = useNavigate();
-    const products = state?.products || []; // 여러 상품을 배열로 받음
+    const products = state?.products || [];
+
+    // 데이터 구조 통일: `CartPage`와 `ProductReadPage`의 구조 차이를 고려하여 접근
+    const standardizedProducts = products.map((item) => {
+        return {
+            productId: item.product?.pno || item.pno,
+            pname: item.product?.pname || item.pname,
+            price: item.product?.price || item.price,
+            quantity: item.quantity || 1
+        };
+    });
 
     // 총 가격 계산
-    const totalPrice = products.reduce((sum, product) => sum + product.price, 0);
+    const totalPrice = standardizedProducts.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+    );
 
     const [form, setForm] = useState({
         customerId: '',
@@ -17,7 +30,10 @@ function OrderCreatePage() {
         deliveryAddress: '',
         deliveryMessage: '',
         totalPrice: totalPrice,
-        orderDetails: products.map((product) => ({ productId: product.pno, quantity: 1 })) // 각 상품의 ID와 수량을 설정
+        orderDetails: standardizedProducts.map((item) => ({
+            productId: item.productId,
+            quantity: item.quantity
+        }))
     });
 
     const [orderCompleted, setOrderCompleted] = useState(false);
@@ -90,13 +106,13 @@ function OrderCreatePage() {
                         <div className="mb-4">
                             <p className="text-lg font-medium">선택한 상품:</p>
                             <ul className="list-disc list-inside">
-                                {products.map((product, index) => (
+                                {standardizedProducts.map((item, index) => (
                                     <li key={index}>
-                                        {product.pname} - {product.price}원
+                                        {item.pname} - {item.price.toLocaleString()}원 x {item.quantity}개
                                     </li>
                                 ))}
                             </ul>
-                            <p className="text-lg font-semibold mt-2">총 가격: {totalPrice}원</p>
+                            <p className="text-lg font-semibold mt-2">총 가격: {totalPrice.toLocaleString()}원</p>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-4">

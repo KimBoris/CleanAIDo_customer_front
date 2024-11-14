@@ -1,61 +1,55 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CartDetailListComponent({ cart }) {
     const navigate = useNavigate();
-    // 총 합계 계산
-    const totalAmount = cart.reduce((total, item) => {
-        return total + item.product.price * item.quantity;
-    }, 0);
-
-    // 선택된 제품 배열 상태
     const [checkedProducts, setCheckedProducts] = useState([]);
 
-    // 체크박스 변경 핸들러
     const handleCheckboxChange = (item) => {
         setCheckedProducts((prevCheckedProducts) => {
-            if (prevCheckedProducts.includes(item.product)) {
+            if (prevCheckedProducts.some(product => product.product.pno === item.product.pno)) {
                 // 이미 선택된 경우 배열에서 제거
-                return prevCheckedProducts.filter(product => product !== item.product);
+                return prevCheckedProducts.filter(product => product.product.pno !== item.product.pno);
             } else {
                 // 선택되지 않은 경우 배열에 추가
-                return [...prevCheckedProducts, item.product];
+                return [...prevCheckedProducts, item];
             }
         });
     };
 
     const handlePurchaseClick = () => {
-        console.log(checkedProducts)
-        navigate("/order/create", { state: { product : checkedProducts } });
+        console.log("Selected products for purchase:", checkedProducts);
+        navigate("/order/create", { state: { products: checkedProducts } });
     };
 
     return (
         <div>
-            <ul className={"cart-list"}>
+            <ul className="cart-list">
                 {cart.map((item) => (
-                    <li key={item.cdno} className={"cart-item"}>
+                    <li key={item.cdno} className="cart-item">
                         <input
                             type="checkbox"
                             onChange={() => handleCheckboxChange(item)}
-                            checked={checkedProducts.includes(item.product)}
+                            checked={checkedProducts.some(product => product.product.pno === item.product.pno)}
                         />
-                        {/* 첫 번째 이미지 파일 이름만 출력 */}
                         <p>
-                            {item.product.imageFiles && item.product.imageFiles.length > 0 && item.product.imageFiles[0].fileName
+                            {item.product.imageFiles && item.product.imageFiles.length > 0
                                 ? item.product.imageFiles[0].fileName
                                 : "No Image"}
                         </p>
                         <h3>{item.product.pname}</h3>
                         <p>Price: {item.product.price.toLocaleString()} 원</p>
-                        <p>{item.quantity}개</p>
+                        <p>Quantity: {item.quantity}개</p>
                     </li>
                 ))}
             </ul>
             <div className="total-amount">
-                <h4>총 합계: {totalAmount.toLocaleString()} 원</h4>
+                <h4>선택한 상품 총 합계: {checkedProducts.reduce((total, item) => total + item.product.price * item.quantity, 0).toLocaleString()} 원</h4>
             </div>
-            <button onClick={()=>handlePurchaseClick()}>구매하기</button>
+            <button onClick={handlePurchaseClick} className="bg-blue-500 text-white py-2 px-4 rounded mt-4">
+                구매하기
+            </button>
         </div>
     );
 }
@@ -70,15 +64,14 @@ CartDetailListComponent.propTypes = {
                 imageFiles: PropTypes.arrayOf(
                     PropTypes.shape({
                         ord: PropTypes.number,
-                        fileName: PropTypes.string, // isRequired 제거
+                        fileName: PropTypes.string,
                         type: PropTypes.bool,
                     })
-                ),  // imageFiles는 객체 배열
+                ),
             }).isRequired,
             quantity: PropTypes.number.isRequired,
         })
     ).isRequired,
 };
-
 
 export default CartDetailListComponent;
