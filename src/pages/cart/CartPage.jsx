@@ -27,6 +27,7 @@ function CartPage() {
 
     return (
         <div className="bg-gray-100 min-h-screen flex flex-col">
+            <h1>장바구니</h1>
             <NaviBarMain />
             <div className="flex-grow p-4">
                 <h1 className="text-2xl font-bold mb-4">Order List</h1>
