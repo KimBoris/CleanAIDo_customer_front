@@ -12,7 +12,7 @@ const ProductListPage = () => {
     const [totalPages, setTotalPages] = useState(1);
 
     const { search } = useLocation();  // URL에서 쿼리 파라미터를 가져옴
-    const observer = useRef();
+    // const observer = useRef();
 
     // keyword 쿼리 파라미터를 읽어오기
     const getKeywordFromURL = () => {
