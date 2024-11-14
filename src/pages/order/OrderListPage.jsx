@@ -8,7 +8,7 @@ function OrderListPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const customerId = 'customer3@aaa.com'; // 고객 ID 정의
+    const customerId = 'customer0@aaa.com'; // 고객 ID 정의
 
     // 주문 목록을 가져오는 함수
     const loadOrders = async () => {
