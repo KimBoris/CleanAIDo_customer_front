@@ -9,7 +9,7 @@ const ProductListComponent = ({ products }) => {
                 {products.map((product, index) => (
                     <Link to={`/product/read/${product.pno}`} key={`${product.pno}-${index}`} className='product-link'>
                         <li className="product-item">
-                            <img src={product.filename || '../../../public/images/star_1.svg'} className="product-thumbnail" alt={product.pname} />
+                            <img src={product.fileName || '../../../public/images/star_1.svg'} className="product-thumbnail" alt={product.pname} />
                             <div className="product-info">
                                 <h2 className="product-name">{product.pname}</h2>
                                 <p className="product-price">{product.price}원</p>
@@ -28,7 +28,7 @@ ProductListComponent.propTypes = {
             pno: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
             pname: PropTypes.string.isRequired,
             price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-            filename: PropTypes.string,
+            fileName: PropTypes.string,
         })
     ).isRequired,
 };
