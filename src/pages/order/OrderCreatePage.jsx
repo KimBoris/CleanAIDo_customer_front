@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
@@ -6,20 +6,18 @@ import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
 function OrderCreatePage() {
     const { state } = useLocation();
     const navigate = useNavigate();
-    const product = state?.product;
+    const products = state?.products || []; // 여러 상품을 배열로 받음
 
-    useEffect(() => {
-        console.log("Received product:", product);  // 상품 정보 확인을 위해 추가
-    }, [product]);
+    // 총 가격 계산
+    const totalPrice = products.reduce((sum, product) => sum + product.price, 0);
 
     const [form, setForm] = useState({
         customerId: '',
         phoneNumber: '',
         deliveryAddress: '',
         deliveryMessage: '',
-        totalPrice: product ? product.price : '',
-        productId: product ? product.pno : '',
-        orderDetails: product ? [{ productId: product.pno, quantity: 1 }] : []
+        totalPrice: totalPrice,
+        orderDetails: products.map((product) => ({ productId: product.pno, quantity: 1 })) // 각 상품의 ID와 수량을 설정
     });
 
     const [orderCompleted, setOrderCompleted] = useState(false);
@@ -89,14 +87,17 @@ function OrderCreatePage() {
                         <h2 className="text-xl font-semibold mb-4">주문 정보를 입력해주세요</h2>
 
                         {/* 상품 정보 표시 */}
-                        {product ? (
-                            <div className="mb-4">
-                                <p className="text-lg font-medium">선택한 상품: {product.pname}</p>
-                                <p className="text-lg font-medium">가격: {product.price}원</p>
-                            </div>
-                        ) : (
-                            <p className="text-lg font-medium text-red-500">상품 정보를 불러올 수 없습니다.</p>
-                        )}
+                        <div className="mb-4">
+                            <p className="text-lg font-medium">선택한 상품:</p>
+                            <ul className="list-disc list-inside">
+                                {products.map((product, index) => (
+                                    <li key={index}>
+                                        {product.pname} - {product.price}원
+                                    </li>
+                                ))}
+                            </ul>
+                            <p className="text-lg font-semibold mt-2">총 가격: {totalPrice}원</p>
+                        </div>
 
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
