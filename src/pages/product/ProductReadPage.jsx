@@ -3,6 +3,7 @@ import ProductReadComponent from "../../component/product/ProductReadComponent.j
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom"; // useNavigate 추가
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
+import {getProductOne} from "../../api/productAPI.js";
 
 function ProductReadPage() {
     const { pno } = useParams();
@@ -12,7 +13,7 @@ function ProductReadPage() {
     const navigate = useNavigate(); // navigate 추가
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/api/v1/product/read/${pno}`)
+        getProductOne(pno)
             .then(response => {
                 const productList = Array.isArray(response.data) ? response.data : [response.data];
                 setProducts(productList);

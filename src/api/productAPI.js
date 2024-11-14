@@ -4,8 +4,6 @@ import {data} from "autoprefixer";
 const host = "http://localhost:8080/api/v1/product";
 
 export const getProductList = async (page, size, keyword = '') => {
-
-
     try {
         const params = {
             page: page || 1,
@@ -30,6 +28,8 @@ export const getProductList = async (page, size, keyword = '') => {
 export const getProductOne = async (pno) => {
     try {
         const response = await axios.get(`${host}/read/${pno}`);
+        console.log("==================")
+        console.log(response.data)
         return response.data;
     } catch (err) {
         console.error('Error fetching product:', err);
