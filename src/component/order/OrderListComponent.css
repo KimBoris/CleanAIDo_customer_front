@@ -25,3 +25,42 @@
     font-weight: bold;
     font-size: 1.2rem;
 }
+.button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #4CAF50; /* 버튼 기본 배경색 (초록색) */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+}
+
+.button:hover {
+    background-color: #45a049; /* 마우스 오버 시 배경색 */
+}
+
+.button.cancel {
+    background-color: #f44336; /* 취소 버튼 색상 (빨간색) */
+}
+
+.button.cancel:hover {
+    background-color: #e53935; /* 취소 버튼 마우스 오버 색상 */
+}
+
+.button.exchange {
+    background-color: #ff9800; /* 교환 버튼 색상 (주황색) */
+}
+
+.button.exchange:hover {
+    background-color: #fb8c00; /* 교환 버튼 마우스 오버 색상 */
+}
+
+.button.refund {
+    background-color: #2196F3; /* 환불 버튼 색상 (파란색) */
+}
+
+.button.refund:hover {
+    background-color: #1976D2; /* 환불 버튼 마우스 오버 색상 */
+}
