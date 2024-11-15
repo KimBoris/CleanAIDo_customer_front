@@ -1,35 +1,41 @@
-import { useState } from 'react';
+import {useState} from 'react';
 
-function ProductReadComponent({ products }) {
+function ProductReadComponent({products}) {
     return (
-        <div>
-            {products.map((product) => (
-                <div key={product.pno} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <Carousel images={product.fileName || ['/images/star_1.svg']} />
-                    </div>
+        <>
+            <div>
+                {products.map((product) => (
+                    <div key={product.pno} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <Carousel images={product.fileName || ['/images/star_1.svg']}/>
+                        </div>
 
-                    <div className="flex justify-between m-0">
-                        <h2 className="text-xl break-words">{product.pname} </h2>
-                        <img src='../../../public/images/star_5.svg' className='ml-2 object-contain h-full' />
-                    </div>
+                        <div className="flex justify-between m-0">
+                            <h2 className="text-xl break-words">{product.pname}</h2>
+                            <img src='../../../public/images/star_5.svg' className='ml-2 object-contain h-full'
+                                 alt="Star rating"/>
+                        </div>
 
-                    <p className="text-2xl font-semibold">{product.price} 원</p>
+                        <p className="text-2xl font-semibold">{product.price} 원</p>
 
-                    <hr />
-                    <div>
-                        <h2 className="text-3xl font-medium p-2">상세 이미지</h2>
-                        <img src={product.detailImage || "../../../public/images/M1.png"} className="w-full h-auto"  />
-                        <img src={product.detailImage || "../../../public/images/M1.png"} className="w-full h-auto"  />
-                        <img src={product.detailImage || "../../../public/images/M1.png"} className="w-full h-auto"  />
+                        <hr/>
+                        <div>
+                            <h2 className="text-3xl font-medium p-2">상세 이미지</h2>
+                            <img src={product.fileName || "/images/M1.png"} className="w-full h-auto"
+                                 alt="Detail Image 1"/>
+                            <img src={product.fileName || "/images/M1.png"} className="w-full h-auto"
+                                 alt="Detail Image 2"/>
+                            <img src={product.fileName || "/images/M1.png"} className="w-full h-auto"
+                                 alt="Detail Image 3"/>
+                        </div>
                     </div>
-                </div>
-            ))}
-        </div>
+                ))}
+            </div>
+        </>
     );
 }
 
-function Carousel({ images }) {
+function Carousel({images}) {
     if (!images || images.length === 0) {
         return null;
     }
@@ -48,7 +54,7 @@ function Carousel({ images }) {
         <div>
             <div className="relative">
                 <img
-                    src={images[currentIndex]}
+                    src={images}
                     className="w-full h-64"
                     alt={`Product Image ${currentIndex + 1}`}
                 />
