@@ -18,6 +18,8 @@ function ProductReadPage() {
                 const productData = await getProductOne(pno);
                 const productList = Array.isArray(productData) ? productData : [productData]; // 배열로 변환
                 setProducts(productList);
+                console.log("====================Product List ==================")
+                console.log(productList)
                 setLoading(false);
             } catch (err) {
                 console.error('Error fetching product:', err);

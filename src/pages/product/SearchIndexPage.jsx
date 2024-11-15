@@ -7,7 +7,7 @@ function SearchIndexPage() {
 
             <div>
                 <Link to='/product/list'></Link>
-                <Link to='/product/read'></Link>
+                <Link to='/product/read/:pno'></Link>
             </div>
 
             <div>
