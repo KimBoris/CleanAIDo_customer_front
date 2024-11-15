@@ -1,9 +1,10 @@
 import { lazy, Suspense } from "react";
 import { Navigate } from "react-router-dom";
-import ProductIndexPage from "../pages/product/ProductIndexPage.jsx";
 
-const CartPage = lazy(() => import("../pages/cart/CartPage.jsx"));
-const LoadingPage = lazy(() => import("../pages/LoadingPage.jsx"));
+import ProductIndexPage from "../pages/product/ProductIndexPage.jsx";
+import LoadingPage from "../pages/LoadingPage.jsx";
+
+const Cart = lazy(() => import("../pages/cart/CartPage.jsx"));
 
 const Loading = <LoadingPage />;
 
@@ -13,7 +14,7 @@ const productRouter = {
     children: [
         {
             path: "",
-            element: <Suspense fallback={Loading}><CartPage /></Suspense>
+            element: <Suspense fallback={Loading}><Cart/></Suspense>
         },
         {
             path: "",
