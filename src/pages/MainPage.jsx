@@ -38,7 +38,6 @@ function MainPage() {
             }
 
             <div className={`bg-bara_gray_1 min-h-screen flex flex-col pb-40 ${isModalOpen ? 'hidden' : ''}`}>
-
                 {/* 상단 섹션 */}
                 <div
                     className="bg-bara_blue w-full h-[30rem] bg-[url('/images/bara-back.png')] bg-cover pl-8 pr-8"
