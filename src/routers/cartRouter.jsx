@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import { Navigate } from "react-router-dom";
 import ProductIndexPage from "../pages/product/ProductIndexPage.jsx";
 
-const CartPage = lazy(() => import("../pages/cart/CartPage.jsx"));
+const CartPage = lazy(() => import("../component/cart/CartPageComponent.jsx"));
 const LoadingPage = lazy(() => import("../pages/LoadingPage.jsx"));
 
 const Loading = <LoadingPage />;
