@@ -8,7 +8,7 @@ function OrderCreatePage() {
     const navigate = useNavigate();
     const products = state?.products || [];
 
-    // 데이터 구조 통일: `CartPage`와 `ProductReadPage`의 구조 차이를 고려하여 접근
+    // 데이터 구조 통일: `CartPageComponent`와 `ProductReadPage`의 구조 차이를 고려하여 접근
     const standardizedProducts = products.map((item) => {
         return {
             productId: item.product?.pno || item.pno,

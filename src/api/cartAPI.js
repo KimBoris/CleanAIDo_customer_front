@@ -21,6 +21,12 @@ export const getCartList = async () => {
 
 }
 
-// export const deleteCartList = async () => {
-//
-// }
+export const deleteCart = async (cdno) => {
+
+    console.log("deleteCart start");
+    const res = await  axios.delete(`${host}`,{
+        params:{cdno: cdno}
+    })
+    return res.data
+
+}

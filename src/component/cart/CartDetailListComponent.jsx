@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import './CartDetailListComponent.css';
 
-function CartDetailListComponent({ cart }) {
+function CartDetailListComponent({ cart, onDelete, onUpdate }) {
     const navigate = useNavigate();
 
     // 선택된 상품들을 저장하는 상태
@@ -39,6 +39,23 @@ function CartDetailListComponent({ cart }) {
         navigate("/order/create", { state: { products: productsToPurchase } });
     };
 
+    // 상품 삭제 처리 함수
+    const handleDeleteCart = async (cdno) => {
+        try {
+            await onDelete(cdno); // CartPage에서 전달받은 onDelete 함수 호출 (deleteCart API 포함)
+        } catch (error) {
+            console.error("Error deleting cart item:", error);
+        }
+    }
+
+    const handleUpdateQty = async (cdno, quantity) => {
+        try {
+            await onUpdate(cdno, quantity); // CartPage에서 전달받은 onDelete 함수 호출 (deleteCart API 포함)
+        } catch (error) {
+            console.error("Error deleting cart item:", error);
+        }
+    }
+
     return (
         <div className="cart-container">
             <ul className="cart-list">
@@ -63,6 +80,7 @@ function CartDetailListComponent({ cart }) {
                                 <p className="cart-item-price">Price: {item.product.price.toLocaleString()} 원</p>
                                 <p className="cart-item-quantity">{item.quantity}개</p>
                             </div>
+                            <button onClick={() => handleDeleteCart(item.cdno)}>X</button>
                         </div>
                     </li>
                 ))}
@@ -93,6 +111,7 @@ CartDetailListComponent.propTypes = {
             quantity: PropTypes.number.isRequired,
         })
     ).isRequired,
+    onDelete: PropTypes.func.isRequired, // 삭제 처리 함수 prop 타입 정의
 };
 
 export default CartDetailListComponent;
