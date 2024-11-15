@@ -93,25 +93,4 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
     );
 }
 
-CartDetailListComponent.propTypes = {
-    cart: PropTypes.arrayOf(
-        PropTypes.shape({
-            cdno: PropTypes.number.isRequired,
-            product: PropTypes.shape({
-                pname: PropTypes.string.isRequired,
-                price: PropTypes.number.isRequired,
-                imageFiles: PropTypes.arrayOf(
-                    PropTypes.shape({
-                        ord: PropTypes.number,
-                        fileName: PropTypes.string,
-                        type: PropTypes.bool,
-                    })
-                ),
-            }).isRequired,
-            quantity: PropTypes.number.isRequired,
-        })
-    ).isRequired,
-    onDelete: PropTypes.func.isRequired, // 삭제 처리 함수 prop 타입 정의
-};
-
 export default CartDetailListComponent;
