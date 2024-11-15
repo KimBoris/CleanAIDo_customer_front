@@ -1,10 +1,10 @@
 import { lazy, Suspense } from "react";
 import { Navigate } from "react-router-dom";
 import ProductIndexPage from "../pages/product/ProductIndexPage.jsx";
+import LoadingPage from "../pages/LoadingPage.jsx";
 
-const OrderListPage = lazy(() => import("../pages/order/OrderListPage.jsx"));
-const OrderCreatePage = lazy(() => import("../pages/order/OrderCreatePage.jsx"));
-const LoadingPage = lazy(() => import("../pages/LoadingPage.jsx"));
+const OrderList = lazy(() => import("../pages/order/OrderListPage.jsx"));
+const OrderCreate = lazy(() => import("../pages/order/OrderCreatePage.jsx"));
 
 const Loading = <LoadingPage />;
 
@@ -14,11 +14,11 @@ const myPageRouter = {
     children: [
         {
             path: "list",
-            element: <Suspense fallback={Loading}><OrderListPage /></Suspense>
+            element: <Suspense fallback={Loading}><OrderList/></Suspense>
         },
         {
             path: "create",
-            element: <Suspense fallback={Loading}><OrderCreatePage /></Suspense>
+            element: <Suspense fallback={Loading}><OrderCreate /></Suspense>
         },
         {
             path: "",
