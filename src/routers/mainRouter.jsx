@@ -3,6 +3,7 @@ import { lazy, Suspense } from "react";
 import productRouter from "./productRouter.jsx";
 import LoadingPage from "../pages/LoadingPage.jsx";
 import myPageRouter from "./myPageRouter.jsx";
+import cartRouter from "./cartRouter.jsx";
 
 const MainPage = lazy(() => import("../pages/MainPage"));
 
@@ -14,7 +15,8 @@ const mainRouter = createBrowserRouter([
         element: <Suspense fallback={Loading}><MainPage /></Suspense>,
     },
     productRouter,
-    myPageRouter
+    myPageRouter,
+    cartRouter
 ]);
 
 export default mainRouter;
