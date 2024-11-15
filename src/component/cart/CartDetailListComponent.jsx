@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
 import './CartDetailListComponent.css';
 
-function CartDetailListComponent({ cart, onDelete }) {
+function CartDetailListComponent({ cart, onDelete, onUpdate }) {
     const navigate = useNavigate();
 
     // 선택된 상품들을 저장하는 상태
@@ -43,6 +43,14 @@ function CartDetailListComponent({ cart, onDelete }) {
     const handleDeleteCart = async (cdno) => {
         try {
             await onDelete(cdno); // CartPage에서 전달받은 onDelete 함수 호출 (deleteCart API 포함)
+        } catch (error) {
+            console.error("Error deleting cart item:", error);
+        }
+    }
+
+    const handleUpdateQty = async (cdno, quantity) => {
+        try {
+            await onUpdate(cdno, quantity); // CartPage에서 전달받은 onDelete 함수 호출 (deleteCart API 포함)
         } catch (error) {
             console.error("Error deleting cart item:", error);
         }
