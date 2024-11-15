@@ -1,87 +1,92 @@
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { getProductList } from '../../api/productAPI';
-import { useInView } from 'react-intersection-observer';
-import PropTypes from 'prop-types';
-import './ProductListComponent.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getProductList } from "../../api/productAPI.js";
+import { useInView } from "react-intersection-observer";
 
 const ProductListComponent = () => {
-    const [products, setProducts] = useState([]);  // 제품 리스트 상태
-    const [loading, setLoading] = useState(false);  // 로딩 상태
-    const [error, setError] = useState(null);  // 에러 상태
-    const [page, setPage] = useState(1);  // 현재 페이지 상태
-    const [totalPages, setTotalPages] = useState(1);  // 전체 페이지 수 상태
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [queryValue, setQueryValue] = useState('');
 
-    const { search } = useLocation();  // 현재 URL의 쿼리 파라미터
 
-    // keyword 쿼리 파라미터를 읽어오기
-    const getKeywordFromURL = () => {
-        const urlParams = new URLSearchParams(search);
-        return urlParams.get('keyword') || '';  // 쿼리 파라미터에서 keyword 값을 가져옴
+    const handleInputChange = (e) => {
+        setQueryValue(e.target.value);
     };
 
-    // 데이터를 가져오는 함수
+    const { search } = useLocation();
+    const keyword = new URLSearchParams(search).get('keyword') || '';
+
     const fetchData = async () => {
-        setLoading(true); // 로딩 시작
+        setLoading(true);
         try {
-            const keyword = getKeywordFromURL();  // URL에서 가져온 keyword 값 사용
-            console.log("Calling getProductList with keyword:", keyword);
-            const data = await getProductList(page, 10, keyword);  // keyword 포함하여 요청
-            console.log("Data:", data);
-            setProducts((prevProducts) => [...prevProducts, ...data.dtoList]);  // 기존 제품 리스트에 새로운 데이터 추가
-            setTotalPages(data.totalPages);  // 전체 페이지 수 설정
+            const data = await getProductList(page, 10, keyword);
+            setProducts((prevProducts) => [...prevProducts, ...data.dtoList]);
+            setTotalPages(data.totalPages);
         } catch (error) {
-            setError('Failed to fetch products');  // 에러 처리
+            setError('Failed to fetch products');
         } finally {
-            setLoading(false);  // 로딩 완료
+            setLoading(false);
         }
     };
 
-    // 페이지가 변경될 때마다 데이터를 가져오는 useEffect
     useEffect(() => {
         if (page <= totalPages) {
-            fetchData();  // 페이지가 바뀔 때마다 데이터 호출
+            fetchData();
         }
     }, [page, totalPages]);
 
-    // 페이지가 뷰포트에 들어왔을 때, 다음 페이지로 이동하는 useInView 훅
     const { ref, inView } = useInView({
-        triggerOnce: false,  // 한 번만 트리거하지 않고 계속 트리거
-        threshold: 0,  // 요소가 보이면 즉시 트리거
+        triggerOnce: false,
+        threshold: 0,
     });
 
-    // 뷰포트에 들어왔을 때, 페이지를 증가시키는 useEffect
     useEffect(() => {
         if (inView && !loading && page < totalPages) {
-            setPage((prevPage) => prevPage + 1);  // 페이지를 증가시킴
+            setPage((prevPage) => prevPage + 1);
         }
     }, [inView, loading, page, totalPages]);
 
-    if (loading && products.length === 0) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
+    if (loading && products.length === 0) return <div className="text-center text-xl">Loading...</div>;
+    if (error) return <div className="text-center text-xl text-red-500">{error}</div>;
+    if (products.length === 0) return <div className="text-center text-xl">No products found</div>;
 
     return (
-        <div>
-            <ul className="product-list">
-                {products.map((product) => (
-                    <li className="product-item" key={product.pno}>
-                        <Link to={`/product/read/${product.pno}`} className="product-link">
+        <div className="container mx-auto px-4 py-6">
+            <div className="flex flex-col items-center">
+                <input
+                    type="text"
+                    onChange={handleInputChange}
+                    value={queryValue}
+                    placeholder="검색어를 입력하세요..."
+                    className="w-full p-3 mb-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+            </div>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {products.map((product, index) => (
+                    <li key={`${product.pno}--${index}`}
+                        className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
+                        <Link to={`/product/read/${product.pno}`} className="block">
                             <img
                                 src={product.fileName || '/images/star_1.svg'}
-                                className="product-thumbnail"
+
                                 alt={product.pname}
+                                className="w-full h-48 object-cover"
                             />
-                            <div className="product-info">
-                                <h2 className="product-name">{product.pname}</h2>
-                                <p className="product-price">{product.price}원</p>
+                            <div className="p-4">
+                                <h2 className="text-xl font-semibold text-gray-800 truncate">{product.pname}</h2>
+                                <p className="text-lg font-bold text-blue-500 mt-2">{product.price}원</p>
                             </div>
                         </Link>
                     </li>
                 ))}
             </ul>
+
+            {/* 로딩 상태 */}
             {products.length === 0 && !loading && <div ref={ref}></div>}
-            {loading && <div>Loading more...</div>}
+            {loading && <div className="text-center text-xl py-4">Loading more...</div>}
         </div>
     );
 };
