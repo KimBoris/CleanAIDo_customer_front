@@ -1,6 +1,8 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {addCart, getProductOne} from "../../api/productAPI.js";
+import CarouselComponent from "../common/CarouselComponent.jsx";
+import ReviewByProductComponent from "../review/ReviewByProductComponent.jsx";
 
 function ProductReadComponent() {
 
@@ -56,13 +58,14 @@ function ProductReadComponent() {
     if (loading) return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
     if (error) return <div className="text-red-500 text-center mt-4">{error}</div>;
 
+
     return (
         <>
             <div>
                 {products.map((product) => (
                     <div key={product.pno} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <Carousel images={product.fileName || ['/images/star_1.svg']}/>
+                            <CarouselComponent images={product.fileName || ['/images/star_1.svg']}/>
                         </div>
 
                         <div className="flex justify-between m-0">
@@ -86,6 +89,8 @@ function ProductReadComponent() {
                     </div>
                 ))}
             </div>
+
+            <ReviewByProductComponent pno={pno} />
 
             <div className="text-center mt-6">
                 <button

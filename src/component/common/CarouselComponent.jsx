@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-function CarouselComponent() {
+function CarouselComponent({images}) {
     if (!images || images.length === 0) {
         return null;
     }
