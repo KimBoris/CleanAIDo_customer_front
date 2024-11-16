@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductList } from "../../api/productAPI.js";
 import { useInView } from "react-intersection-observer";
@@ -11,13 +11,15 @@ const ProductListComponent = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [queryValue, setQueryValue] = useState('');
 
-
-    const handleInputChange = (e) => {
-        setQueryValue(e.target.value);
-    };
-
+    const navigate = useNavigate();
     const { search } = useLocation();
     const keyword = new URLSearchParams(search).get('keyword') || '';
+
+    useEffect(() => {
+        setProducts([]); // 검색어 변경 시 기존 제품 리스트 초기화
+        setPage(1);
+        fetchData();
+    }, [keyword]); // keyword가 변경될 때마다 실행
 
     const fetchData = async () => {
         setLoading(true);
@@ -32,11 +34,13 @@ const ProductListComponent = () => {
         }
     };
 
-    useEffect(() => {
-        if (page <= totalPages) {
-            fetchData();
-        }
-    }, [page, totalPages]);
+    const handleInputChange = (e) => {
+        setQueryValue(e.target.value);
+    };
+
+    const handleSearch = () => {
+        navigate(`/product/list?keyword=${queryValue}`);
+    };
 
     const { ref, inView } = useInView({
         triggerOnce: false,
@@ -55,15 +59,23 @@ const ProductListComponent = () => {
 
     return (
         <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-auto items-center">
                 <input
                     type="text"
-                    onChange={handleInputChange}
                     value={queryValue}
+                    onChange={handleInputChange}
                     placeholder="검색어를 입력하세요..."
-                    className="w-full p-3 mb-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="ml-3 mr-3 w-4/5 p-3 mb-0 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
+                <button
+                    onClick={handleSearch}
+                    className="text-center w-1/5 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600
+                    focus:outline-none focus:ring-2 focus:ring-blue-300"
+                >
+                    검색
+                </button>
             </div>
+            {/* 제품 리스트 렌더링 */}
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {products.map((product, index) => (
                     <li key={`${product.pno}--${index}`}
@@ -71,7 +83,6 @@ const ProductListComponent = () => {
                         <Link to={`/product/read/${product.pno}`} className="block">
                             <img
                                 src={product.fileName || '/images/star_1.svg'}
-
                                 alt={product.pname}
                                 className="w-full h-48 object-cover"
                             />
