@@ -2,9 +2,6 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const OrderCreateComponent = ({ onSubmit, customerInfo, productInfo }) => {
-    const [customerId, setCustomerId] = useState(customerInfo.customerId || '');
-    const [phoneNumber, setPhoneNumber] = useState(customerInfo.phoneNumber || '');
-    const [deliveryAddress, setDeliveryAddress] = useState(customerInfo.address || '');
     const [deliveryMessage, setDeliveryMessage] = useState('');
 
     // productInfo 배열의 상품 정보를 기반으로 총 가격 계산
@@ -20,27 +17,27 @@ const OrderCreateComponent = ({ onSubmit, customerInfo, productInfo }) => {
         }));
 
         const purchaseDTO = {
-            customerId,
-            phoneNumber,
-            deliveryAddress,
+            customerId: customerInfo.customerId,
+            phoneNumber: customerInfo.phoneNumber,
+            deliveryAddress: customerInfo.address,
             deliveryMessage,
             totalPrice,
             orderDetails
         };
 
-        onSubmit(purchaseDTO); // 전달된 onSubmit 함수 호출
+        onSubmit(purchaseDTO); // 상위 컴포넌트에 주문 정보를 전달
     };
 
     return (
         <form onSubmit={handleSubmit} className="order-form">
             <label>고객 ID:</label>
-            <input type="text" value={customerId} readOnly />
+            <input type="text" value={customerInfo.customerId} readOnly />
 
             <label>전화번호:</label>
-            <input type="text" value={phoneNumber} readOnly />
+            <input type="text" value={customerInfo.phoneNumber} readOnly />
 
             <label>주소:</label>
-            <input type="text" value={deliveryAddress} readOnly />
+            <input type="text" value={customerInfo.address} readOnly />
 
             <label>배송 메시지:</label>
             <input
@@ -53,7 +50,7 @@ const OrderCreateComponent = ({ onSubmit, customerInfo, productInfo }) => {
             <ul>
                 {productInfo.map((item, index) => (
                     <li key={index}>
-                        {item.productName} - {item.price.toLocaleString()}원 x {item.quantity}개
+                        {item.pname} - {item.price.toLocaleString()}원 x {item.quantity}개
                     </li>
                 ))}
             </ul>
@@ -69,14 +66,14 @@ const OrderCreateComponent = ({ onSubmit, customerInfo, productInfo }) => {
 OrderCreateComponent.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     customerInfo: PropTypes.shape({
-        customerId: PropTypes.string,
-        phoneNumber: PropTypes.string,
-        address: PropTypes.string
+        customerId: PropTypes.string.isRequired,
+        phoneNumber: PropTypes.string.isRequired,
+        address: PropTypes.string.isRequired
     }).isRequired,
     productInfo: PropTypes.arrayOf(
         PropTypes.shape({
             productId: PropTypes.number.isRequired,
-            productName: PropTypes.string.isRequired,
+            pname: PropTypes.string.isRequired,
             price: PropTypes.number.isRequired,
             quantity: PropTypes.number.isRequired
         })
