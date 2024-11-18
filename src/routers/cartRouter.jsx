@@ -8,7 +8,7 @@ const Cart = lazy(() => import("../pages/cart/CartPage.jsx"));
 
 const Loading = <LoadingPage />;
 
-const productRouter = {
+const cartRouter = {
     path: "/cart",
     element: <Suspense fallback={Loading}><ProductIndex /></Suspense>,
     children: [
@@ -23,4 +23,4 @@ const productRouter = {
     ]
 };
 
-export default productRouter;
+export default cartRouter;

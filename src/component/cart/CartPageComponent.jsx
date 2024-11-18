@@ -14,6 +14,7 @@ function CartPageComponent() {
 
         getCartList()
             .then(data => {
+                console.log(data)
                 setCart(data);
                 setLoading(false);
             })

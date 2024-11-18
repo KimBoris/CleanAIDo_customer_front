@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import './CartDetailListComponent.css';
 
-function CartDetailListComponent( cart, onDelete, onUpdate ) {
+function CartDetailListComponent( {cart, onDelete, onUpdate} ) {
     const navigate = useNavigate();
 
     // 선택된 상품들을 저장하는 상태
