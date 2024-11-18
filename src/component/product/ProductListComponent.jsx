@@ -16,6 +16,7 @@ const ProductListComponent = () => {
     const keyword = new URLSearchParams(search).get('keyword') || '';
 
     useEffect(() => {
+        setQueryValue(keyword)
         setProducts([]); // 검색어 변경 시 기존 제품 리스트 초기화
         setPage(1);
         fetchData();
@@ -27,6 +28,7 @@ const ProductListComponent = () => {
             const data = await getProductList(page, 10, keyword);
             setProducts((prevProducts) => [...prevProducts, ...data.dtoList]);
             setTotalPages(data.totalPages);
+            // eslint-disable-next-line no-unused-vars
         } catch (error) {
             setError('Failed to fetch products');
         } finally {
@@ -44,10 +46,14 @@ const ProductListComponent = () => {
 
     const { ref, inView } = useInView({
         triggerOnce: false,
-        threshold: 0,
+        threshold: 0.1,
     });
 
+    //inview = true
+    //loading = false
+    //page < totalPage = true
     useEffect(() => {
+        console.log('inView = ', inView);
         if (inView && !loading && page < totalPages) {
             setPage((prevPage) => prevPage + 1);
         }
@@ -58,37 +64,39 @@ const ProductListComponent = () => {
     if (products.length === 0) return <div className="text-center text-xl">No products found</div>;
 
     return (
-        <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-auto items-center">
+        <div className="container mx-auto pl-8 pr-8">
+            <div className="flex gap-4 items-center">
                 <input
                     type="text"
                     value={queryValue}
                     onChange={handleInputChange}
                     placeholder="검색어를 입력하세요..."
-                    className="ml-3 mr-3 w-4/5 p-3 mb-0 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-4/5 p-4 mb-0 border-2 py-4 border-gray-300 rounded-lg focus:outline-none focus:ring-2
+                    focus:ring-blue-500 "
                 />
                 <button
                     onClick={handleSearch}
-                    className="text-center w-1/5 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600
-                    focus:outline-none focus:ring-2 focus:ring-blue-300"
+                    className="text-center w-1/5 p-4 py-4 bg-bara_blue text-white rounded-lg hover:bg-bara_blue
+                    bg-bara_blue focus:outline-none focus:ring-2 focus:ring-blue-300"
                 >
                     검색
                 </button>
             </div>
             {/* 제품 리스트 렌더링 */}
-            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-4 gap-4"> {/* `gap-4` 추가 */}
                 {products.map((product, index) => (
                     <li key={`${product.pno}--${index}`}
-                        className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition duration-300">
-                        <Link to={`/product/read/${product.pno}`} className="block">
+                        className="border-2 bg-white shadow-md rounded-[0.5rem] overflow-hidden hover:shadow-xl transition duration-300 p-2 flex"
+                    >
+                        <Link to={`/product/read/${product.pno}`} className="flex w-full">
                             <img
                                 src={product.fileName || '/images/star_1.svg'}
                                 alt={product.pname}
-                                className="w-full h-48 object-cover"
+                                className="w-24 h-24 object-cover flex-shrink-0"
                             />
-                            <div className="p-4">
-                                <h2 className="text-xl font-semibold text-gray-800 truncate">{product.pname}</h2>
-                                <p className="text-lg font-bold text-blue-500 mt-2">{product.price}원</p>
+                            <div className="ml-4 flex flex-col justify-center">
+                                <h2 className="text-lg font-semibold text-bara_gray_5">{product.pname}</h2>
+                                <p className="text-md font-bold text-bara_blue mt-1">{product.price}원</p>
                             </div>
                         </Link>
                     </li>
@@ -96,7 +104,7 @@ const ProductListComponent = () => {
             </ul>
 
             {/* 로딩 상태 */}
-            {products.length === 0 && !loading && <div ref={ref}></div>}
+            {products.length === 0 && !loading && <div ref={ref} className="h-10 bg-transparent"></div>}
             {loading && <div className="text-center text-xl py-4">Loading more...</div>}
         </div>
     );
