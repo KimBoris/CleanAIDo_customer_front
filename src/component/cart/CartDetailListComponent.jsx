@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import './CartDetailListComponent.css';
 
 function CartDetailListComponent( {cart, onDelete, onUpdate} ) {
     const navigate = useNavigate();
@@ -56,11 +55,11 @@ function CartDetailListComponent( {cart, onDelete, onUpdate} ) {
     }
     const handleMinusQty = async (cdno, quantity) => {
         if (quantity > 1) {
-            await handleUpdateQty(cdno, quantity--)
+            await handleUpdateQty(cdno, --quantity)
         }
     }
     const handlePlusQty = async (cdno, quantity) => {
-        await handleUpdateQty(cdno, quantity++)
+        await handleUpdateQty(cdno, ++quantity)
     }
 
     return (
@@ -69,28 +68,43 @@ function CartDetailListComponent( {cart, onDelete, onUpdate} ) {
                 {cart.map((item) => (
                     <li key={item.cdno} className="cart-item">
                         <div className="cart-item-details">
-                            <input
-                                type="checkbox"
-                                className="cart-item-checkbox"
-                                onChange={() => handleCheckboxChange(item)}
-                                checked={checkedProducts.some(checkedItem => checkedItem.product === item.product)}
-                            />
-                            <div className="cart-item-image">
-                                <p>
-                                    {item.product.imageFiles && item.product.imageFiles.length > 0 && item.product.imageFiles[0].fileName
-                                        ? <img src={`path/to/images/${item.product.imageFiles[0].fileName}`}
-                                               alt={item.product.pname}/>
-                                        : <span className="no-image">No Image</span>}
-                                </p>
+                            <div className="flex items-center justify-between py-3">
+                                <div className="flex items-center space-x-4">
+                                    <input
+                                        type="checkbox"
+                                        className="cart-item-checkbox"
+                                        onChange={() => handleCheckboxChange(item)}
+                                        checked={checkedProducts.some(checkedItem => checkedItem.product === item.product)}
+                                    />
+                                    <h3 className="text-lg font-semibold truncate">{item.product.pname}</h3>
+                                </div>
+                                <button
+                                    className="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600"
+                                    onClick={() => handleDeleteCart(item.cdno)}
+                                >
+                                    X
+                                </button>
                             </div>
-                            <div className="cart-item-info">
-                                <h3 className="cart-item-name">{item.product.pname}</h3>
+                            <div className="flex items-center py-3">
+                                <div className="cart-item-image p-2">
+                                    <p>
+                                        {item.product.imageFiles && item.product.imageFiles.length > 0 && item.product.imageFiles[0].fileName
+                                            ? <img src={`path/to/images/${item.product.imageFiles[0].fileName}`}
+                                                   alt={item.product.pname}/>
+                                            : <span className="no-image">No Image</span>}
+                                    </p>
+                                </div>
                                 <p className="cart-item-price">Price: {item.product.price.toLocaleString()} 원</p>
-                                <button onClick={() => handleMinusQty(item.cdno, item.quantity)}>-</button>
-                                <p className="cart-item-quantity">{item.quantity}개</p>
-                                <button onClick={() => handlePlusQty(item.cdno, item.quantity)}>+</button>
                             </div>
-                            <button onClick={() => handleDeleteCart(item.cdno)}>X</button>
+                            <div className="flex items-center py-1 border-2 border-black-500 max-w-30">
+                                <button
+                                    className="w-6"
+                                    onClick={() => handleMinusQty(item.cdno, item.quantity)}>-</button>
+                                <p className="cart-item-quantity">{item.quantity}개</p>
+                                <button
+                                    className="w-6"
+                                    onClick={() => handlePlusQty(item.cdno, item.quantity)}>+</button>
+                            </div>
                         </div>
                     </li>
                 ))}
@@ -104,4 +118,5 @@ function CartDetailListComponent( {cart, onDelete, onUpdate} ) {
         </div>
     );
 }
+
 export default CartDetailListComponent;

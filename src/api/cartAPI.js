@@ -31,14 +31,18 @@ export const deleteCart = async (cdno) => {
 
 }
 
-export const updateQty = async (cdno, quantity) => {
+export const updateQty = async (id, quantity) => {
+    console.log("updateQty start");
 
-    console.log("uapteQty start");
-    const res = await  axios.put(`${host}`,{
-        params:{
-            cdno:cdno,
-            quantity:quantity
+    const formData = new FormData();
+    formData.append('cdno', id);
+    formData.append('quantity', quantity);
+
+    const res = await axios.put(`${host}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
         }
-    })
-    return res.data
+    });
+
+    return res.data;
 }
