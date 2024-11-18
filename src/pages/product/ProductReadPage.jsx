@@ -1,15 +1,12 @@
-import { useState, useEffect } from "react";
-import ProductReadComponent from "../../component/product/ProductReadComponent.jsx";
-import { useParams, useNavigate } from "react-router-dom";
+    import ProductReadComponent from "../../component/product/ProductReadComponent.jsx";
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
-import { addCart, getProductOne } from "../../api/productAPI.js";
 
 function ProductReadPage() {
 
     return (
         <>
             <NaviBarShop />
-            <div className="p-6 bg-gray-50 min-h-screen w-full h-full overflow-y-auto">
+            <div className="bg-bara_gray_1 min-h-screen w-full overflow-y-auto">
                 <ProductReadComponent />
             </div>
         </>
