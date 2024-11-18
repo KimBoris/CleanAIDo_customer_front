@@ -1,3 +1,5 @@
+import scrollbarHide from 'tailwind-scrollbar-hide';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -21,7 +23,7 @@ export default {
         bara_sky_blue: '#3EB2EA',
       },
       spacing: {
-        '27': '27rem'
+        '27': '27rem',
       },
       fontFamily: {
         sans: ['"Noto Sans KR"', 'sans-serif'],
@@ -32,5 +34,7 @@ export default {
       },
     },
   },
-  plugins: [],
-}
+  plugins: [
+    scrollbarHide, // 플러그인 추가
+  ],
+};
