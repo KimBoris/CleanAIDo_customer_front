@@ -12,7 +12,7 @@ function ProductReadComponent() {
     const [error, setError] = useState(null);
     const [showModal, setShowModal] = useState(false); // 모달 상태 추가
     const [selectQnt, setSelectQnt] = useState(false);
-    const [qnt, setQnt] = useState(1);
+    const [qty, setQty] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -64,16 +64,16 @@ function ProductReadComponent() {
 
     // 수량 증감
     const handleIncrease = () => {
-        setQnt(prevQnt => prevQnt + 1); // 수량 증가
+        setQty(prevQnt => prevQnt + 1); // 수량 증가
     };
 
     const handleDecrease = () => {
-        setQnt(prevQnt => (prevQnt > 1 ? prevQnt - 1 : 1)); // 수량 감소 (최소값 1 유지)
+        setQty(prevQnt => (prevQnt > 1 ? prevQnt - 1 : 1)); // 수량 감소 (최소값 1 유지)
     };
 
     const handleQntChange = (e) => {
         const value = Math.max(1, parseInt(e.target.value) || 1); // 최소값 1 유지
-        setQnt(value);
+        setQty(value);
     };
 
 
@@ -145,7 +145,7 @@ function ProductReadComponent() {
                                 <button onClick={handleDecrease} className="px-2 bg-bara_gray_2">-</button>
                                 <input
                                     onChange={handleQntChange}
-                                    value={qnt}
+                                    value={qty}
                                     type="number"
                                     className="w-8 text-center"
                                 />
@@ -154,8 +154,8 @@ function ProductReadComponent() {
                         </div>
                         <hr className="border-bara_gray_2 my-4" />
                         <div className="flex justify-between mb-4 font-bold">
-                            <span>총 {qnt}개</span>
-                            <span>{product.price * qnt}원</span>
+                            <span>총 {qty}개</span>
+                            <span>{product.price * qty}원</span>
                         </div>
                         <div>
 
