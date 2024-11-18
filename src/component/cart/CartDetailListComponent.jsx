@@ -56,11 +56,11 @@ function CartDetailListComponent( {cart, onDelete, onUpdate} ) {
     }
     const handleMinusQty = async (cdno, quantity) => {
         if (quantity > 1) {
-            await handleUpdateQty(cdno, quantity--)
+            await handleUpdateQty(cdno, --quantity)
         }
     }
     const handlePlusQty = async (cdno, quantity) => {
-        await handleUpdateQty(cdno, quantity++)
+        await handleUpdateQty(cdno, ++quantity)
     }
 
     return (

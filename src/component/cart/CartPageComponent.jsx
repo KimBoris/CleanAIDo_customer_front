@@ -46,8 +46,8 @@ function CartPageComponent() {
             const data = await getCartList();
             setCart(data); // 최신 데이터로 상태 업데이트
         } catch (error) {
-            console.error("Error deleting cart item:", error);
-            setError("Failed to delete item. Please try again.");
+            console.error("Error update quantity:", error);
+            setError("Failed to update item. Please try again.");
         }
     }
 
