@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import './CartDetailListComponent.css';
 
-function CartDetailListComponent({ cart, onDelete, onUpdate }) {
+function CartDetailListComponent( cart, onDelete, onUpdate ) {
     const navigate = useNavigate();
 
     // 선택된 상품들을 저장하는 상태
@@ -35,7 +35,7 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
             quantity: item.quantity
         }));
 
-        navigate("/order/create", { state: { products: productsToPurchase } });
+        navigate("/order/create", {state: {products: productsToPurchase}});
     };
 
     // 상품 삭제 처리 함수
@@ -49,10 +49,18 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
 
     const handleUpdateQty = async (cdno, quantity) => {
         try {
-            await onUpdate(cdno, quantity); // CartPage에서 전달받은 onDelete 함수 호출 (deleteCart API 포함)
+            await onUpdate(cdno, quantity); // CartPage에서 전달받은 onDelete 함수 호출
         } catch (error) {
             console.error("Error deleting cart item:", error);
         }
+    }
+    const handleMinusQty = async (cdno, quantity) => {
+        if (quantity > 1) {
+            await handleUpdateQty(cdno, quantity--)
+        }
+    }
+    const handlePlusQty = async (cdno, quantity) => {
+        await handleUpdateQty(cdno, quantity++)
     }
 
     return (
@@ -70,14 +78,17 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
                             <div className="cart-item-image">
                                 <p>
                                     {item.product.imageFiles && item.product.imageFiles.length > 0 && item.product.imageFiles[0].fileName
-                                        ? <img src={`path/to/images/${item.product.imageFiles[0].fileName}`} alt={item.product.pname} />
+                                        ? <img src={`path/to/images/${item.product.imageFiles[0].fileName}`}
+                                               alt={item.product.pname}/>
                                         : <span className="no-image">No Image</span>}
                                 </p>
                             </div>
                             <div className="cart-item-info">
                                 <h3 className="cart-item-name">{item.product.pname}</h3>
                                 <p className="cart-item-price">Price: {item.product.price.toLocaleString()} 원</p>
+                                <button onClick={() => handleMinusQty(item.cdno, item.quantity)}>-</button>
                                 <p className="cart-item-quantity">{item.quantity}개</p>
+                                <button onClick={() => handlePlusQty(item.cdno, item.quantity)}>+</button>
                             </div>
                             <button onClick={() => handleDeleteCart(item.cdno)}>X</button>
                         </div>
@@ -87,9 +98,10 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
             <div className="total-amount-container">
                 <h4 className="total-amount">총 합계: {totalAmount.toLocaleString()} 원</h4>
             </div>
-            <button className="purchase-button" onClick={handlePurchaseClick} disabled={checkedProducts.length === 0}>구매하기</button>
+            <button className="purchase-button" onClick={handlePurchaseClick}
+                    disabled={checkedProducts.length === 0}>구매하기
+            </button>
         </div>
     );
 }
-
 export default CartDetailListComponent;

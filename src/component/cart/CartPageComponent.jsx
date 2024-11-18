@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CartDetailListComponent from "./CartDetailListComponent.jsx";
-import { getCartList } from "../../api/cartAPI.js";
+import {getCartList, updateQty} from "../../api/cartAPI.js";
 import { deleteCart } from "../../api/cartAPI.js"; // deleteCart API import
 import NaviBarMain from "../layout/NaviBarMain.jsx";
 
@@ -40,9 +40,7 @@ function CartPageComponent() {
 
     const handleCartQtyUpdate = async (cdno, quantity) => {
         try {
-            // 서버에서 해당 카트 항목 삭제
             await updateQty(cdno, quantity);
-
             // 삭제 후 최신 장바구니 목록을 서버에서 다시 가져오기
             const data = await getCartList();
             setCart(data); // 최신 데이터로 상태 업데이트

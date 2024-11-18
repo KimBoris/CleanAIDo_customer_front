@@ -30,3 +30,15 @@ export const deleteCart = async (cdno) => {
     return res.data
 
 }
+
+export const updateQty = async (cdno, quantity) => {
+
+    console.log("uapteQty start");
+    const res = await  axios.put(`${host}`,{
+        params:{
+            cdno:cdno,
+            quantity:quantity
+        }
+    })
+    return res.data
+}
