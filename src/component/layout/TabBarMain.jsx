@@ -3,7 +3,9 @@ function TabBarMain() {
     return (
         <div className="
                 fixed bottom-0 left-0 w-full h-[6.25rem] bg-white text-bara_sodomy flex justify-around items-start
-                ">
+                "
+             style={{ boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)' }}
+        >
             <button className="flex-1 flex justify-center pt-[1.1rem]">
                 <img src="/images/list.png" alt="카테고리"/>
             </button>
