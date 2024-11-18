@@ -26,6 +26,7 @@ export const getProductList = async (page, size, keyword = '') => {
 
 
 export const getProductOne = async (pno) => {
+    console.log(axios.get(`${host}/read/${pno}`));
     try {
         const response = await axios.get(`${host}/read/${pno}`);
         console.log("=========getProductOne=========")
