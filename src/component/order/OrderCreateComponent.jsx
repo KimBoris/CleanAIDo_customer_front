@@ -9,9 +9,9 @@ const OrderCreateComponent = () => {
     // 상품 정보 초기화
     const products = state?.products || [];
     const productInfo = products.map((item) => ({
-        productId: item.pno || item.product?.pno,
-        pname: item.pname || item.product?.pname,
-        price: item.price || item.product?.price,
+        productId: item.productId || 0,
+        pname: item.pname || "Unknown",
+        price: item.price || 0,
         quantity: item.quantity || 1,
     }));
 

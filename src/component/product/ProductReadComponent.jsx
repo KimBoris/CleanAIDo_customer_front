@@ -37,7 +37,20 @@ function ProductReadComponent() {
 
 
     const handlePurchaseClick = (product) => {
-        navigate("/order/create", { state: { products: [product] } });
+        if (!product.pno) {
+            console.error("Invalid product data:", product);
+            alert("상품 데이터가 유효하지 않습니다.");
+            return;
+        }
+
+        const productToPurchase = {
+            productId: product.pno,
+            pname: product.pname,
+            price: product.price,
+            quantity: 1, // 기본 수량 1
+        };
+
+        navigate("/order/create", { state: { products: [productToPurchase] } });
     };
 
     const handleAddCartClick = (pno) => {
