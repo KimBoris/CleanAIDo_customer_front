@@ -27,15 +27,28 @@ function CartDetailListComponent( {cart, onDelete, onUpdate} ) {
 
     // '구매하기' 버튼 클릭 시 선택된 상품 정보와 함께 이동
     const handlePurchaseClick = () => {
-        const productsToPurchase = checkedProducts.map(item => ({
-            productId: item.product.pno,
-            pname: item.product.pname,
-            price: item.product.price,
-            quantity: item.quantity
-        }));
+        const productsToPurchase = checkedProducts.map(item => {
+            if (!item.product || !item.product.pno) {
+                console.error("Invalid product in cart:", item);
+                alert("유효하지 않은 상품이 선택되었습니다.");
+                return null;
+            }
+            return {
+                productId: item.product.pno,
+                pname: item.product.pname,
+                price: item.product.price,
+                quantity: item.quantity,
+            };
+        }).filter(product => product !== null); // 유효하지 않은 상품 제거
 
-        navigate("/order/create", {state: {products: productsToPurchase}});
+        if (productsToPurchase.length === 0) {
+            alert("선택된 상품이 유효하지 않습니다.");
+            return;
+        }
+
+        navigate("/order/create", { state: { products: productsToPurchase } });
     };
+
 
     // 상품 삭제 처리 함수
     const handleDeleteCart = async (cdno) => {
