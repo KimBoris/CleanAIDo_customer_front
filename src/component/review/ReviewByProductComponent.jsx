@@ -15,18 +15,7 @@ function ReviewByProductComponent({pno}) {
     }, []);
     if (loading) return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
 
-    /*
-
-    .reviewNumber(r.getReviewNumber())
-                        .reviewContent(r.getReviewContent())
-                        .createDate(r.getCreateDate())
-                        .score(r.getScore())
-                        .customerName(r.getCustomer().getCustomerName())
-                        .fileNames(r.getReviewImages().stream()
-                                .map(image -> image.getFileName())
-                                .collect(Collectors.toList()))
-     */
-
+    // 리뷰 이미지
     const reviewImages = (images) => {
         if (!images || images.length === 0) {
             return <div></div>;
@@ -57,7 +46,14 @@ function ReviewByProductComponent({pno}) {
             {reviews.map((review) => (
                 <div key={review.reviewNumber}>
                     <div className="flex">
-                        <div className="bg-bara_light_blue rounded-[50%] w-12 h-12 mb-4 mr-2"></div>
+                        <div className="bg-bara_light_blue rounded-[50%] w-12 h-12 mb-4 mr-2 overflow-hidden">
+                            {review.customerProfileImg == null ?
+                                <img src="/images/customer_profile.png" />
+                                :
+                                // 변수 앞 경로 추가 필요함
+                                <img src={`${review.customerProfileImg}`} />
+                            }
+                        </div>
                         <div>
                             <span className="text-bara_sodomy">{review.customerName}</span>
                             <div className="flex">
