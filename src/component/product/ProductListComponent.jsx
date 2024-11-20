@@ -10,6 +10,7 @@ const ProductListComponent = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [queryValue, setQueryValue] = useState('');
+    // const [reviewCount, setReviewCount] = useState();
 
     const navigate = useNavigate();
     const { search } = useLocation();
@@ -28,6 +29,8 @@ const ProductListComponent = () => {
             const data = await getProductList(page, 10, keyword);
             setProducts((prevProducts) => [...prevProducts, ...data.dtoList]);
             setTotalPages(data.totalPages);
+            // setReviewCount(data.reviewCount)
+
             // eslint-disable-next-line no-unused-vars
         } catch (error) {
             setError('Failed to fetch products');
@@ -97,9 +100,15 @@ const ProductListComponent = () => {
                             <div className="ml-4 flex flex-col justify-center">
                                 <h2 className="text-lg font-semibold text-bara_gray_5">{product.pname}</h2>
                                 <p className="text-md font-bold text-bara_blue mt-1">{product.price}원</p>
+                                <div className="flex items-center mt-0">
+                                    <img src={`/images/star_${products.score}`} className="w-4 h-4 object-cover flex-shrink-0"/>
+                                    {/*<span className="ml-1 text-md text-bara_gray_5">({product.reviewCount})</span>*/}
+                                    <span className="ml-1 text-md text-bara_gray_4">({product.reviewCount})</span>
+                                </div>
                             </div>
                         </Link>
                     </li>
+
                 ))}
             </ul>
 
