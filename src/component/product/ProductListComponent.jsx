@@ -67,48 +67,44 @@ const ProductListComponent = () => {
     if (products.length === 0) return <div className="text-center text-xl">No products found</div>;
 
     return (
-        <div className="container mx-auto pl-8 pr-8">
-            <div className="flex gap-4 items-center">
+        <div className="container bg-bara_gray_1 min-h-screen pb-40">
+            <div className="flex gap-4 items-center justify-between w-full px-8 pb-4 bg-white">
                 <input
                     type="text"
                     value={queryValue}
                     onChange={handleInputChange}
                     placeholder="검색어를 입력하세요..."
-                    className="w-4/5 p-4 mb-0 border-2 py-4 border-gray-300 rounded-lg focus:outline-none focus:ring-2
+                    className="w-full px-4 mb-0 border-2 py-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2
                     focus:ring-blue-500 "
                 />
-                <button
+                <img
+                    src="/images/search.png"
                     onClick={handleSearch}
-                    className="text-center w-1/5 p-4 py-4 bg-bara_blue text-white rounded-lg hover:bg-bara_blue
-                    bg-bara_blue focus:outline-none focus:ring-2 focus:ring-blue-300"
-                >
-                    검색
-                </button>
+                />
             </div>
             {/* 제품 리스트 렌더링 */}
-            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-4 gap-4"> {/* `gap-4` 추가 */}
+            <ul className="bg-white px-8 py-4 mt-4">
                 {products.map((product, index) => (
-                    <li key={`${product.pno}--${index}`}
-                        className="border-2 bg-white shadow-md rounded-[0.5rem] overflow-hidden hover:shadow-xl transition duration-300 p-2 flex"
-                    >
+                    <li key={`${product.pno}--${index}`}>
                         <Link to={`/product/read/${product.pno}`} className="flex w-full">
                             <img
                                 src={product.fileName || '/images/star_1.svg'}
                                 alt={product.pname}
                                 className="w-24 h-24 object-cover flex-shrink-0"
                             />
-                            <div className="ml-4 flex flex-col justify-center">
-                                <h2 className="text-lg font-semibold text-bara_gray_5">{product.pname}</h2>
-                                <p className="text-md font-bold text-bara_blue mt-1">{product.price}원</p>
-                                <div className="flex items-center mt-0">
-                                    <img src={`/images/star_${products.score}`} className="w-4 h-4 object-cover flex-shrink-0"/>
-                                    {/*<span className="ml-1 text-md text-bara_gray_5">({product.reviewCount})</span>*/}
-                                    <span className="ml-1 text-md text-bara_gray_4">({product.reviewCount})</span>
-                                </div>
+                            <div className="ml-4">
+                                <h2 className="text-bara_sodomy line-clamp-3">{product.pname}</h2>
+                                <p className="font-bold text-[1.2rem] text-bara_blue mt-1">{product.price}원</p>
+                                {product.reviewCount > 0 && (
+                                    <div className="flex items-center -mt-0">
+                                        <img src={`/images/star_${product.score}.svg`} />
+                                        <span className="ml-1 text-md text-bara_gray_4">({product.reviewCount})</span>
+                                    </div>
+                                )}
                             </div>
                         </Link>
+                        <hr className="my-4" />
                     </li>
-
                 ))}
             </ul>
 
