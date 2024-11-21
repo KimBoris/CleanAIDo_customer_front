@@ -1,10 +1,10 @@
-import NaviBarMain from "../../component/layout/NaviBarMain.jsx";
 import CartPageComponent from "../../component/cart/CartPageComponent.jsx";
+import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
 
 function CartPage(){
     return (
-        <div className="bg-gray-100 min-h-screen flex flex-col">
-            <NaviBarMain />
+        <div className="min-h-screen flex flex-col">
+            <NaviBarShop />
             <CartPageComponent></CartPageComponent>
         </div>
     );

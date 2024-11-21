@@ -15,7 +15,7 @@ function TabBarMain() {
             <button className="w-16 h-16 flex justify-center items-center bg-bara_blue rounded-full">
                 <img src="/images/bara-tab.svg" alt="메인"/>
             </button>
-            <button className="flex-1 flex justify-center pt-4">
+            <button className="flex-1 flex justify-center pt-4"z>
                 <img src="/images/cart-dash.png" alt="장바구니"/>
             </button>
             <button className="flex-1 flex justify-center pt-[1.1rem]">

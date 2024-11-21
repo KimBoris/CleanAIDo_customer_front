@@ -1,5 +1,7 @@
+import {Link} from "react-router-dom";
 
 function TabBarMain() {
+
     return (
         <div className="
                 fixed bottom-0 left-0 w-full h-[6.25rem] bg-white text-bara_sodomy flex justify-around items-start
@@ -16,7 +18,9 @@ function TabBarMain() {
                 <img src="/images/shop-window.png" alt="쇼핑몰"/>
             </button>
             <button className="flex-1 flex justify-center pt-4">
-                <img src="/images/cart-dash.png" alt="장바구니"/>
+                <Link to={"/cart"}>
+                    <img src="/images/cart-dash.png" alt="장바구니"/>
+                </Link>
             </button>
             <button className="flex-1 flex justify-center pt-[1.1rem]">
                 <img src="/images/person.png" alt="마이페이지"/>
