@@ -4,6 +4,9 @@ import {RouterProvider} from "react-router-dom";
 import mainRouter from "./routers/mainRouter.jsx";
 
 createRoot(document.getElementById('root')).render(
-    <RouterProvider router={mainRouter}></RouterProvider>
+    <div className="font-sans">
+        <RouterProvider router={mainRouter}></RouterProvider>
+    </div>
+
 
 )
