@@ -25,11 +25,13 @@ function TextModalComponent({handleShotClick, encodedImg, formData, url, callbac
 
 
         try {
-            const solution = await getSolution(formData, question);
+            const res = await getSolution(formData, question);
+            console.log("Category:", res.extractedCategory);
+            console.log("Solution:", res.solution);
             const object = {
                 keyword: "세면대",
-                solution: solution.replace(/^\s+/gm, ''),
-                product: "구연산,베이킹소다",
+                solution: res.solution.replace(/^\s+/gm, ''),
+                product: res.extractedCategory,
                 question: question
             }
             // 서버에서 수량 업데이트
