@@ -34,7 +34,7 @@ const useImageUpload = (fileInputRef, cameraInputRef) => {
             // 서버 전송용 파일 데이터
             const updatedFormData = new FormData();
             updatedFormData.append("image", file);
-            setFormData(updatedFormData);
+            setFormData(updatedFormData.get('image'));
 
             // 이미지 파일 Base64 인코딩
             const reader = new FileReader();
