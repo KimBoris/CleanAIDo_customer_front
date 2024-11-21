@@ -158,7 +158,7 @@ const OrderCreateComponent = () => {
                         <p className="text-bara_gray-5 font-medium mb-4">주문이 성공적으로 완료되었습니다!</p>
                         <div className="flex space-x-4">
                             <button
-                                onClick={() => navigate('/order/list')}
+                                onClick={() => navigate('/mypage/order/list')}
                                 className="w-full py-4 bg-bara_light_blue text-white rounded-[0.5rem] text-sm font-medium"
                             >
                                 주문 내역 보러가기

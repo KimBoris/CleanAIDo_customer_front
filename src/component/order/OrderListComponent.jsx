@@ -59,12 +59,12 @@ const OrderListComponent = () => {
     if (orders.length === 0) return <div className="text-center text-xl">No orders found</div>;
 
     return (
-        <div className="bg-bara_gray_1 min-h-screen px-1 py-6 mt-[9rem]">
+        <div className="bg-bara_gray_1 min-h-screen pt-4 pb-40 mt-[9rem]">
             <ul className="space-y-4">
                 {orders.map((order) => (
                     <li
                         key={order.orderNumber}
-                        className="bg-white shadow-md rounded-[0.5rem] px-8 py-6"
+                        className="bg-white px-8 py-6"
                     >
                         {/* 주문 상태 및 날짜 */}
                         <div className="flex justify-between items-center mb-4">
@@ -76,7 +76,7 @@ const OrderListComponent = () => {
                         {order.orderDetails.map((detail, index) => (
                             <div key={index} className="flex items-center mb-4">
                                 {/* 상품 이미지 */}
-                                <div className="w-20 h-20 flex-shrink-0 mr-4">
+                                <div className="w-20 h-20 flex-shrink-0 mr-4 bg-bara_gray_4">
                                     <img
                                         src={detail.productImage}
                                         alt={detail.productName || "상품 이미지"}
@@ -97,19 +97,19 @@ const OrderListComponent = () => {
                         <div className="flex space-x-2">
                             <button
                                 onClick={() => handleStatusChange(order.orderNumber, "교환")}
-                                className="w-full px-4 py-2 bg-bara_light_blue text-white text-sm rounded-[0.5rem]"
+                                className="w-full px-4 py-4 bg-bara_light_blue text-white text-sm rounded-[0.5rem]"
                             >
                                 교환
                             </button>
                             <button
                                 onClick={() => handleStatusChange(order.orderNumber, "환불")}
-                                className="w-full px-4 py-2 bg-bara_pink text-white text-sm rounded-[0.5rem]"
+                                className="w-full px-4 py-4 bg-bara_pink text-white text-sm rounded-[0.5rem]"
                             >
                                 환불
                             </button>
                             <button
                                 onClick={() => handleStatusChange(order.orderNumber, "취소")}
-                                className="w-full px-4 py-2 bg-bara_sky_blue text-white text-sm rounded-[0.5rem]"
+                                className="w-full px-4 py-4 bg-bara_sky_blue text-white text-sm rounded-[0.5rem]"
                             >
                                 취소
                             </button>

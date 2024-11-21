@@ -50,7 +50,7 @@ function ProductReadComponent() {
             quantity: 1, // 기본 수량 1
         };
 
-        navigate("/order/create", { state: { products: [productToPurchase] } });
+        navigate("/mypage/order/create", { state: { products: [productToPurchase] } });
     };
 
     const handleAddCartClick = (pno) => {
