@@ -1,11 +1,13 @@
 import {useCallback, useState} from "react";
 import ChatModalComponent from "./ChatModalComponent.jsx";
 import {saveImage} from "../../hooks/useIndexedDB.js";
+import {getSolution} from "../../api/aiAPI.js";
 
 function TextModalComponent({handleShotClick, encodedImg, formData, url, callback}) {
 
     const [isChatModalOpen, setIsChatModalOpen] = useState(false); // 모달 사용 유무
     const [question, setQuestion] = useState("");
+    const [error, setError] = useState(null);
 
     console.log(formData);
 
@@ -21,31 +23,30 @@ function TextModalComponent({handleShotClick, encodedImg, formData, url, callbac
         // 키워드와 상품, 질문 합쳐서 지피티에 전송하고 답변 받기
         // 키워드와 상품, 답변 로컬스토리지에 저장
 
-        // 테스트용 객체
-        const object = {
-            keyword: "세면대",
-            solution: `
-        세면대 청소를 위한 방법을 알려드릴게요.
-        1. 세면대 준비: 먼저 세면대의 물기를 제거하고, 배수구 주변에 있는 머리카락이나 이물질을 제거합니다.
-        2. 세정제 도포: 세면대 표면에 세정제를 골고루 뿌려주세요. 배수구 주변과 세면대 안쪽, 특히 물때가 잘 낄 수 있는 모서리 부분에 집중적으로 분사합니다.
-        3. 부드러운 솔로 문지르기: 칫솔이나 부드러운 스펀지를 사용해 세면대를 문질러 주세요. 세정제가 충분히 스며들어 오염이 쉽게 제거되도록 합니다. 특히 세면대 가장자리나 수전 주변은 꼼꼼하게 닦아줍니다.
-        4. 헹구기: 세정제를 모두 닦아낸 후, 물을 사용해 세면대를 깨끗이 헹굽니다. 남은 세정제가 남지 않도록 여러 번 헹구는 것이 좋습니다.
-        5. 물기 제거: 헹군 후에는 마른 수건이나 천으로 세면대 표면의 물기를 닦아줍니다. 이렇게 하면 물 얼룩이 생기는 것을 방지할 수 있어요.
-        세면대 청소는 주기적으로 관리해주면 물때와 세균 번식을 막아 깨끗하게 유지할 수 있습니다.
-        `.replace(/^\s+/gm, ''),
-            product: "구연산,베이킹소다",
-            question: question
+
+        try {
+            const solution = await getSolution(formData, question);
+            const object = {
+                keyword: "세면대",
+                solution: solution.replace(/^\s+/gm, ''),
+                product: "구연산,베이킹소다",
+                question: question
+            }
+            // 서버에서 수량 업데이트
+            // 로컬스토리지에 객체로 저장
+            localStorage.setItem("bara", JSON.stringify(object));
+
+            // indexed db에 이미지 저장
+            if (encodedImg) {
+                await saveImage("imgKey", encodedImg);
+            }
+
+            setIsChatModalOpen(true);
+
+        } catch (error) {
+            console.error("Error update quantity:", error);
+            setError("Failed to update item. Please try again.");
         }
-
-        // 로컬스토리지에 객체로 저장
-        localStorage.setItem("bara", JSON.stringify(object));
-
-        // indexed db에 이미지 저장
-        if (encodedImg) {
-            await saveImage("imgKey", encodedImg);
-        }
-
-        setIsChatModalOpen(true);
 
     }
 
@@ -84,6 +85,7 @@ function TextModalComponent({handleShotClick, encodedImg, formData, url, callbac
 
     }
 
+    if (error) return <div>{error}</div>;
 
     return (
         <>
