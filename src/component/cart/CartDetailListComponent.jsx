@@ -77,41 +77,42 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
             return;
         }
 
-        navigate("/order/create", { state: { products: productsToPurchase } });
+        navigate("/mypage/order/create", { state: { products: productsToPurchase } });
     };
     return (
         <div className="cart-container">
-            <ul className="cart-list bg-bara_gray_1 ">
+            <ul className="cart-list bg-white  ">
                 {cart.map((item) => (
-                    <li key={item.cdno} className="bg-white cart-item px-8">
+                    <li key={item.cdno} className="cart-item px-8">
                         <div className="cart-item-details">
                             <div className="flex items-center justify-between py-1">
                                 <div className="flex items-center space-x-4">
                                     <input
                                         type="checkbox"
-                                        className="cart-item-checkbox"
+                                        className="w-6 h-6"
                                         onChange={() => handleCheckboxChange(item)}
                                         checked={checkedProducts.some(checkedItem => checkedItem.cdno === item.cdno)}
                                     />
-                                    <h3 className="text-lg font-semibold truncate">{item.product.pname}</h3>
+                                    <h3 className="text-lg font-semibold w-64 overflow-hidden line-clamp-3">{item.product.pname}</h3>
                                 </div>
                                 <button
                                     className="text-gray-500 w-10 h-10 flex items-center justify-center hover:bg-gray-600"
                                     onClick={() => handleDeleteCart(item.cdno)}
                                 >
-                                    X
+                                    <img className="w-4 h-4" src="/images/close.svg"/>
                                 </button>
                             </div>
                             <div className="flex items-center pb-6">
                                 <div className="cart-item-image p-2 w-28 h-28 bg-bara_gray_4">
                                     {item.product.imageFiles && item.product.imageFiles.length > 0 ? (
-                                        <img src={`path/to/images/${item.product.imageFiles[0].fileName}`} alt="상품 이미지" />
+                                        <img src={`path/to/images/${item.product.imageFiles[0].fileName}`}
+                                             alt="상품 이미지"/>
                                     ) : (
                                         <span className="no-image">No Image</span>
                                     )}
                                 </div>
-                                <div className="p-3">
-                                    <p className="cart-item-price py-3">Price: {item.product.price.toLocaleString()} 원</p>
+                                <div className="px-3">
+                                <p className="cart-item-price py-6">Price: {item.product.price.toLocaleString()} 원</p>
                                     <div
                                         className="flex items-center justify-between border-2 border-black-500 w-28 py-1">
                                         <button
@@ -127,6 +128,7 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
                                 </div>
                             </div>
                         </div>
+                        <hr className="border-bara_gray_2 mb-4"/>
                     </li>
                 ))}
             </ul>
