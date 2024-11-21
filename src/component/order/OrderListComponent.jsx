@@ -59,7 +59,7 @@ const OrderListComponent = () => {
     if (orders.length === 0) return <div className="text-center text-xl">No orders found</div>;
 
     return (
-        <div className="bg-bara_gray_1 min-h-screen px-1 py-6">
+        <div className="bg-bara_gray_1 min-h-screen px-1 py-6 mt-[9rem]">
             <ul className="space-y-4">
                 {orders.map((order) => (
                     <li

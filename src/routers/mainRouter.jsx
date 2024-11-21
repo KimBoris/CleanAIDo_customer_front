@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import {lazy, startTransition, Suspense} from "react";
+import {lazy, Suspense} from "react";
 import productRouter from "./productRouter.jsx";
 import LoadingPage from "../pages/LoadingPage.jsx";
 import myPageRouter from "./myPageRouter.jsx";
@@ -21,8 +21,8 @@ const mainRouter = createBrowserRouter([
         element: <Suspense fallback={Loading}><SearchIndex></SearchIndex></Suspense>
     },
     productRouter,
+    cartRouter,
     myPageRouter,
-    cartRouter
 ]);
 
 export default mainRouter;
