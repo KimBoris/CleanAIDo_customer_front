@@ -6,7 +6,8 @@ function NaviBarTitle({title, path}) {
 
     return (
         <div
-            className="fixed top-0 left-0 right-0 min-h-16 px-8 py-4 bg-white shadow-md z-50"
+            className="fixed top-0 left-0 right-0 min-h-16 px-8 py-4 bg-white z-50"
+            style={{ boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}
         >
             <div className="h-[7rem] pt-12 flex items-center justify-center box-border relative">
                 <img
