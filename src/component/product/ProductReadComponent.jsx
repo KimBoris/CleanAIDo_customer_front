@@ -36,7 +36,7 @@ function ProductReadComponent() {
     }, [pno]);
 
 
-    const handlePurchaseClick = (product) => {
+    const handlePurchaseClick = (product, qty) => {
         if (!product.pno) {
             console.error("Invalid product data:", product);
             alert("상품 데이터가 유효하지 않습니다.");
@@ -47,15 +47,15 @@ function ProductReadComponent() {
             productId: product.pno,
             pname: product.pname,
             price: product.price,
-            quantity: 1, // 기본 수량 1
+            quantity: qty, // 기본 수량 1
         };
 
         navigate("/mypage/order/create", { state: { products: [productToPurchase] } });
     };
 
-    const handleAddCartClick = (pno) => {
+    const handleAddCartClick = (pno, qty) => {
         setLoading(true);
-        addCart(pno)
+        addCart(pno, qty)
             .then(data => {
                 console.log(data);
                 setLoading(false);
@@ -181,13 +181,13 @@ function ProductReadComponent() {
                     </div>
                     <div className="flex gap-4 mb-12">
                         <button
-                            onClick={() => handleAddCartClick(product.pno)}
+                            onClick={() => handleAddCartClick(product.pno, qty)}
                             className="w-full bg-bara_sky_blue py-4 text-white rounded-[0.5rem]"
                         >
                             장바구니에 담기
                         </button>
                         <button
-                            onClick={() => handlePurchaseClick(product)}
+                            onClick={() => handlePurchaseClick(product, qty)}
                             className="w-full bg-bara_blue py-4 text-white rounded-[0.5rem]"
                         >
                             구매하기
