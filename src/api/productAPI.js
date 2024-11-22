@@ -38,9 +38,10 @@ export const getProductOne = async (pno) => {
     }
 };
 
-export const addCart = async (pno) => {
+export const addCart = async (pno, qty) => {
     const formData = new FormData();
     formData.append('pno', pno);
+    formData.append('qty', qty);
 
     const res = await axios.post(`${host}`, formData, {
         headers: {
