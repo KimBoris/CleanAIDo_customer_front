@@ -23,8 +23,6 @@ function ProductReadComponent() {
                     setProduct(result);
                     setLoading(false);
                 })
-                console.log("====================Product List ==================")
-                console.log(product);
             } catch (err) {
                 console.error('Error fetching product:', err);
                 setError('Failed to fetch product');
@@ -32,7 +30,7 @@ function ProductReadComponent() {
             }
         };
 
-        loadProduct();
+        loadProduct()
     }, [pno]);
 
 
@@ -48,6 +46,7 @@ function ProductReadComponent() {
             pname: product.pname,
             price: product.price,
             quantity: qty, // 기본 수량 1
+            thumFileNames: product.thumFileNames,
         };
 
         navigate("/mypage/order/create", { state: { products: [productToPurchase] } });
