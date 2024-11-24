@@ -68,8 +68,8 @@ const OrderListComponent = () => {
                     >
                         {/* 주문 상태 및 날짜 */}
                         <div className="flex justify-between items-center mb-4">
-                            <p className="text-bara_sodomy text-sm">{order.orderDate || "날짜 없음"}</p>
-                            <p className="text-bara_gray-5 text-sm">{order.orderStatus || "상태 없음"}</p>
+                            <p className="text-bara_gray_4 text-[0.8rem]">{order.orderDate || "날짜 없음"}</p>
+                            <p className="text-bara_sodomy text-[0.8rem]">{order.orderStatus || "상태 없음"}</p>
                         </div>
 
                         {/* 주문 세부사항 */}
@@ -86,34 +86,35 @@ const OrderListComponent = () => {
 
                                 {/* 상품 정보 */}
                                 <div className="flex-grow">
-                                    <h3 className="text-lg font-semibold text-bara_sodomy mb-1">{detail.productName || "상품명 없음"}</h3>
-                                    <p className="text-bara_gray-5 mb-1">수량: {detail.quantity || 0}개</p>
-                                    <p className="text-bara_gray-5 mb-1">가격: {(detail.price || 0).toLocaleString()}원</p>
+                                    <h3 className="text-bara_sodomy mb-1">{detail.productName || "상품명 없음"}</h3>
+                                    <p className="text-bara_gray_5 mb-1 text-[0.8rem]">수량: {detail.quantity || 0}개</p>
+                                    <p className="text-bara_blue font-bold mb-1">{(detail.price || 0).toLocaleString()}원</p>
                                 </div>
                             </div>
                         ))}
 
                         {/* 상태 변경 버튼 */}
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-2 mb-2">
                             <button
                                 onClick={() => handleStatusChange(order.orderNumber, "교환")}
-                                className="w-full px-4 py-4 bg-bara_light_blue text-white text-sm rounded-[0.5rem]"
+                                className="w-full px-4 py-2 bg-white border-bara_blue border text-bara_sodomy rounded-[0.5rem]"
                             >
                                 교환
                             </button>
                             <button
                                 onClick={() => handleStatusChange(order.orderNumber, "환불")}
-                                className="w-full px-4 py-4 bg-bara_pink text-white text-sm rounded-[0.5rem]"
+                                className="w-full px-4 py-2 bg-white border-bara_blue border text-bara_sodomy rounded-[0.5rem]"
                             >
                                 환불
                             </button>
                             <button
                                 onClick={() => handleStatusChange(order.orderNumber, "취소")}
-                                className="w-full px-4 py-4 bg-bara_sky_blue text-white text-sm rounded-[0.5rem]"
+                                className="w-full px-4 py-2s bg-white border-bara_blue border text-bara_sodomy rounded-[0.5rem]"
                             >
                                 취소
                             </button>
                         </div>
+                        <button className="bg-bara_blue text-white w-full py-4 rounded-[0.5rem]">리뷰 작성</button>
                     </li>
                 ))}
             </ul>

@@ -94,8 +94,8 @@ function ProductReadComponent() {
         <div className="pb-40 text-bara_sodomy">
             <div>
                 <div key={product.pno} className="grid grid-cols-1 md:grid-cols-2 mb-4">
-                    <div className="w-full aspect-square bg-bara_gray_3">
-                            <CarouselComponent images={product.fileName}/>
+                    <div className="w-full aspect-square bg-bara_gray_3 overflow-hidden">
+                            <CarouselComponent images={product.thumFileNames}/>
                     </div>
 
                     {/* 별점, 상품명, 가격 */}
@@ -116,12 +116,13 @@ function ProductReadComponent() {
                     <div className="bg-white px-8 py-8 mb-4">
                         <h3 className="text-[1.2rem] font-bold">상품 정보</h3>
                         <hr className="my-4 border-bara_gray_3"/>
-                        <img src={product.fileName || "/images/M1.png"} className="w-full h-auto"
-                             alt="Detail Image 1"/>
-                        <img src={product.fileName || "/images/M1.png"} className="w-full h-auto"
-                             alt="Detail Image 2"/>
-                        <img src={product.fileName || "/images/M1.png"} className="w-full h-auto"
-                             alt="Detail Image 3"/>
+                          {/*상세 이미지*/}
+                        <div>
+                            {product.detailFileNames.map((fileName, index) => (
+                                <img key={index} src={fileName} />
+                            ))}
+                        </div>
+
                     </div>
 
                     {/* 리뷰 */}

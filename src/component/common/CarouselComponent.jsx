@@ -17,10 +17,9 @@ function CarouselComponent({images}) {
 
     return (
         <div>
-            <div className="relative">
                 <img
                     src={images}
-                    className="w-full h-64"
+                    className="object-cover object-center"
                     alt={`Product Image ${currentIndex + 1}`}
                 />
                 {images.length > 1 && (
@@ -38,7 +37,6 @@ function CarouselComponent({images}) {
                         &gt;
                     </button>
                 )}
-            </div>
         </div>
     );
 }
