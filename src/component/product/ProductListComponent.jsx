@@ -87,9 +87,9 @@ const ProductListComponent = () => {
                 {products.map((product, index) => (
                     <li key={`${product.pno}--${index}`}>
                         <Link to={`/product/read/${product.pno}`} className="flex w-full">
+
                             <img
-                                src={product.fileName || '/images/star_1.svg'}
-                                alt={product.pname}
+                                src={`/images/${product.fileName}`}
                                 className="w-24 h-24 object-cover flex-shrink-0"
                             />
                             <div className="ml-4">

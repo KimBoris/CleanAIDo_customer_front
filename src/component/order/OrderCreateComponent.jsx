@@ -16,11 +16,11 @@ const OrderCreateComponent = () => {
     }));
 
     // 사용자 입력 상태
-    const [customerId, setCustomerId] = useState(''); // 고객 ID 추가
-    const [customerName, setCustomerName] = useState(''); // 고객 이름
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [deliveryAddress, setDeliveryAddress] = useState('');
-    const [deliveryMessage, setDeliveryMessage] = useState('');
+    const [customerId, setCustomerId] = useState('customer0@aaa.com'); // 고객 ID 추가
+    const [customerName, setCustomerName] = useState('customer0'); // 고객 이름
+    const [phoneNumber, setPhoneNumber] = useState('010-3267-2442');
+    const [deliveryAddress, setDeliveryAddress] = useState('부산광역시 부산진구 양정동');
+    const [deliveryMessage, setDeliveryMessage] = useState('아이가 친절해');
     const [orderCompleted, setOrderCompleted] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -63,23 +63,7 @@ const OrderCreateComponent = () => {
     return (
         <div className="bg-bara_gray_1 min-h-screen px-1 py-6 flex justify-center">
             <div className="w-full max-w-lg bg-white rounded-[0.5rem] shadow-md px-8 py-6">
-                <h2 className="text-xl font-medium text-bara_sodomy mb-4">주문 정보를 입력해주세요</h2>
 
-                {/* 상품 정보 표시 */}
-                <div className="mb-4">
-                    <p className="text-lg font-medium text-bara_sodomy mb-2">선택한 상품:</p>
-                    <ul className="list-disc list-inside text-bara_gray-5">
-                        {productInfo.map((item, index) => (
-                            <li key={index}>
-                                {item.pname || '상품명 없음'} - {item.price?.toLocaleString() || 0}원 x{' '}
-                                {item.quantity || 0}개
-                            </li>
-                        ))}
-                    </ul>
-                    <p className="text-lg font-medium text-bara_sodomy mt-4">
-                        총 가격: {totalPrice.toLocaleString()}원
-                    </p>
-                </div>
 
                 {!orderCompleted && (
                     <form onSubmit={handleSubmit} className="space-y-4">
@@ -150,6 +134,23 @@ const OrderCreateComponent = () => {
                         >
                             주문하기
                         </button>
+                        <h2 className="text-xl font-medium text-bara_sodomy mb-4">주문 정보를 입력해주세요</h2>
+
+                        {/* 상품 정보 표시 */}
+                        <div className="mb-4">
+                            <p className="text-lg font-medium text-bara_sodomy mb-2">선택한 상품:</p>
+                            <ul className="list-disc list-inside text-bara_gray-5">
+                                {productInfo.map((item, index) => (
+                                    <li key={index}>
+                                        {item.pname || '상품명 없음'} - {item.price?.toLocaleString() || 0}원 x{' '}
+                                        {item.quantity || 0}개
+                                    </li>
+                                ))}
+                            </ul>
+                            <p className="text-lg font-medium text-bara_sodomy mt-4">
+                                총 가격: {totalPrice.toLocaleString()}원
+                            </p>
+                        </div>
                     </form>
                 )}
 
