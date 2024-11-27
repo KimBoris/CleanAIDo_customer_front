@@ -1,5 +1,4 @@
 import axios from "axios";
-import {data} from "autoprefixer";
 import error from "eslint-plugin-react/lib/util/error.js";
 
 const host = "http://localhost:8080/api/v1/product";
