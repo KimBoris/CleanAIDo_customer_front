@@ -21,7 +21,7 @@ export const getReviewsByProduct  = async (page, size, pno) => {
 
 }
 
-export const postReview = async (formData) => {
+export const registReview = async (formData) => {
     const res = await axios.post(`${host}`, formData, header);
 
     return Number(res.data.result);
