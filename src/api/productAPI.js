@@ -1,5 +1,4 @@
 import axios from "axios";
-import {data} from "autoprefixer";
 import error from "eslint-plugin-react/lib/util/error.js";
 
 const host = "http://localhost:8080/api/v1/product";
@@ -38,9 +37,10 @@ export const getProductOne = async (pno) => {
     }
 };
 
-export const addCart = async (pno) => {
+export const addCart = async (pno, qty) => {
     const formData = new FormData();
     formData.append('pno', pno);
+    formData.append('qty', qty);
 
     const res = await axios.post(`${host}`, formData, {
         headers: {

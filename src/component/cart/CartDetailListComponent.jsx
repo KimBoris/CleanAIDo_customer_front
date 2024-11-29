@@ -80,30 +80,30 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
         navigate("/mypage/order/create", { state: { products: productsToPurchase } });
     };
     return (
-        <div className="cart-container">
-            <ul className="cart-list bg-white  ">
+        <div className="container bg-bara_gray_1 min-h-screen pb-48 mt-[10rem]">
+            <ul className="mt-4 bg-white py-4">
                 {cart.map((item) => (
-                    <li key={item.cdno} className="cart-item px-8">
-                        <div className="cart-item-details">
-                            <div className="flex items-center justify-between py-1">
-                                <div className="flex items-center space-x-4">
+                    <li key={item.cdno} className="px-8">
+                        <div>
+                            <div className="flex justify-between py-1">
+                                <div className="flex items-start space-x-2">
                                     <input
                                         type="checkbox"
-                                        className="w-6 h-6"
+                                        className="w-5 h-5"
                                         onChange={() => handleCheckboxChange(item)}
                                         checked={checkedProducts.some(checkedItem => checkedItem.cdno === item.cdno)}
                                     />
-                                    <h3 className="text-lg font-semibold w-64 overflow-hidden line-clamp-3">{item.product.pname}</h3>
+                                    <h3 className="w-64 overflow-hidden line-clamp-2 mt-[-0.2rem]">{item.product.pname}</h3>
                                 </div>
                                 <button
-                                    className="text-gray-500 w-10 h-10 flex items-center justify-center hover:bg-gray-600"
+                                    className="w-10 h-10 flex items-center justify-center"
                                     onClick={() => handleDeleteCart(item.cdno)}
                                 >
                                     <img className="w-4 h-4" src="/images/close.svg"/>
                                 </button>
                             </div>
-                            <div className="flex items-center pb-6">
-                                <div className="cart-item-image p-2 w-28 h-28 bg-bara_gray_4">
+                            <div className="flex pb-6">
+                                <div className="flex-shrink-0 p-2 w-28 h-28 bg-bara_gray_4">
                                     {item.product.imageFiles && item.product.imageFiles.length > 0 ? (
                                         <img src={`path/to/images/${item.product.imageFiles[0].fileName}`}
                                              alt="상품 이미지"/>
@@ -111,19 +111,24 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
                                         <span className="no-image">No Image</span>
                                     )}
                                 </div>
-                                <div className="px-3">
-                                <p className="cart-item-price py-6">Price: {item.product.price.toLocaleString()} 원</p>
-                                    <div
-                                        className="flex items-center justify-between border-2 border-black-500 w-28 py-1">
-                                        <button
-                                            className="w-6"
-                                            onClick={() => handleMinusQty(item.cdno, item.quantity)}>-
-                                        </button>
-                                        <p className="cart-item-quantity">{item.quantity}개</p>
-                                        <button
-                                            className="w-6"
-                                            onClick={() => handlePlusQty(item.cdno, item.quantity)}>+
-                                        </button>
+                                <div className="px-3 flex flex-col justify-between items-start w-full">
+                                <p className="text-[1.2rem] font-bold text-bara_blue">{item.product.price.toLocaleString()} 원</p>
+
+                                    <div className="bg-bara_gray_1 w-full flex p-4 mt-4 justify-between">
+                                        <span>수량</span>
+                                        <div>
+                                            <button
+                                                onClick={() => handleMinusQty(item.cdno, item.quantity)}
+                                                className="px-2 bg-bara_gray_2">-</button>
+                                            <input
+                                                value={item.quantity}
+                                                type="number"
+                                                className="w-16 text-center"
+                                            />
+                                            <button
+                                                onClick={() => handlePlusQty(item.cdno, item.quantity)}
+                                                className="px-2 bg-bara_gray_2">+</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -132,17 +137,17 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
                     </li>
                 ))}
             </ul>
-            <div className="h-16"></div>
             <div
-                className="p-3 flex items-center justify-between h-16 fixed bottom-0 left-0 w-full bg-white shadow-md z-50"
+                className="fixed bottom-0 left-0 w-full bg-white text-bara_sodomy px-8 pt-4 pb-12"
+                style={{boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)'}}
             >
-                <h4 className="p-2">총 합계: {totalAmount.toLocaleString()} 원</h4>
                 <button
-                    className="w-28 h-8 bg-bara_light_sky_blue rounded"
+                    className="w-full py-4 bg-bara_blue text-white rounded"
                     onClick={handlePurchaseClick}
                     disabled={checkedProducts.length === 0}
                 >
-                    구매하기
+                    {totalAmount > 0 ?
+                        <span>{totalAmount.toLocaleString()}원</span> : <span></span>} 구매하기
                 </button>
             </div>
         </div>

@@ -51,13 +51,11 @@ function CartPageComponent() {
 
     return (
         <div>
-            <div className="flex-grow">
-                <CartDetailListComponent
-                    cart={cart}
-                    onDelete={handleCartItemDelete}
-                    onUpdate={handleCartQtyUpdate}
-                />
-            </div>
+            <CartDetailListComponent
+                cart={cart}
+                onDelete={handleCartItemDelete}
+                onUpdate={handleCartQtyUpdate}
+            />
         </div>
     );
 }

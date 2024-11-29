@@ -1,12 +1,17 @@
 import CartPageComponent from "../../component/cart/CartPageComponent.jsx";
 import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
+import NaviBarTitle from "../../component/layout/NaviBarTitle.jsx";
 
 function CartPage(){
     return (
-        <div className="min-h-screen flex flex-col">
-            <NaviBarShop />
-            <CartPageComponent></CartPageComponent>
-        </div>
+        <>
+            {/* path를 쇼핑몰 메인으로 넘겨줘야 함 */}
+            <NaviBarTitle title="장바구니" path="" />
+            <div className="bg-bara_gray_1 min-h-screen w-full overflow-y-auto">
+                <CartPageComponent></CartPageComponent>
+            </div>
+        </>
+
     );
 }
 

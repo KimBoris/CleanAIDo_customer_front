@@ -23,8 +23,6 @@ function ProductReadComponent() {
                     setProduct(result);
                     setLoading(false);
                 })
-                console.log("====================Product List ==================")
-                console.log(product);
             } catch (err) {
                 console.error('Error fetching product:', err);
                 setError('Failed to fetch product');
@@ -32,11 +30,11 @@ function ProductReadComponent() {
             }
         };
 
-        loadProduct();
+        loadProduct()
     }, [pno]);
 
 
-    const handlePurchaseClick = (product) => {
+    const handlePurchaseClick = (product, qty) => {
         if (!product.pno) {
             console.error("Invalid product data:", product);
             alert("상품 데이터가 유효하지 않습니다.");
@@ -47,15 +45,16 @@ function ProductReadComponent() {
             productId: product.pno,
             pname: product.pname,
             price: product.price,
-            quantity: 1, // 기본 수량 1
+            quantity: qty, // 기본 수량 1
+            thumFileNames: product.thumFileNames,
         };
 
         navigate("/mypage/order/create", { state: { products: [productToPurchase] } });
     };
 
-    const handleAddCartClick = (pno) => {
+    const handleAddCartClick = (pno, qty) => {
         setLoading(true);
-        addCart(pno)
+        addCart(pno, qty)
             .then(data => {
                 console.log(data);
                 setLoading(false);
@@ -94,8 +93,8 @@ function ProductReadComponent() {
         <div className="pb-40 text-bara_sodomy">
             <div>
                 <div key={product.pno} className="grid grid-cols-1 md:grid-cols-2 mb-4">
-                    <div className="w-full aspect-square bg-bara_gray_3">
-                            <CarouselComponent images={product.fileName}/>
+                    <div className="w-full aspect-square bg-bara_gray_3 overflow-hidden">
+                            <CarouselComponent images={product.thumFileNames}/>
                     </div>
 
                     {/* 별점, 상품명, 가격 */}
@@ -116,12 +115,13 @@ function ProductReadComponent() {
                     <div className="bg-white px-8 py-8 mb-4">
                         <h3 className="text-[1.2rem] font-bold">상품 정보</h3>
                         <hr className="my-4 border-bara_gray_3"/>
-                        <img src={product.fileName || "/images/M1.png"} className="w-full h-auto"
-                             alt="Detail Image 1"/>
-                        <img src={product.fileName || "/images/M1.png"} className="w-full h-auto"
-                             alt="Detail Image 2"/>
-                        <img src={product.fileName || "/images/M1.png"} className="w-full h-auto"
-                             alt="Detail Image 3"/>
+                          {/*상세 이미지*/}
+                        <div>
+                            {product.detailFileNames.map((fileName, index) => (
+                                <img key={index} src={fileName} />
+                            ))}
+                        </div>
+
                     </div>
 
                     {/* 리뷰 */}
@@ -181,13 +181,13 @@ function ProductReadComponent() {
                     </div>
                     <div className="flex gap-4 mb-12">
                         <button
-                            onClick={() => handleAddCartClick(product.pno)}
+                            onClick={() => handleAddCartClick(product.pno, qty)}
                             className="w-full bg-bara_sky_blue py-4 text-white rounded-[0.5rem]"
                         >
                             장바구니에 담기
                         </button>
                         <button
-                            onClick={() => handlePurchaseClick(product)}
+                            onClick={() => handlePurchaseClick(product, qty)}
                             className="w-full bg-bara_blue py-4 text-white rounded-[0.5rem]"
                         >
                             구매하기
