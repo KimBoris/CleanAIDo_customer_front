@@ -5,6 +5,7 @@ import LoadingPage from "../../pages/LoadingPage.jsx";
 const OrderIndex = lazy(() => import("../../pages/order/OrderIndexPage.jsx"));
 const OrderList = lazy(() => import("../../pages/order/OrderListPage.jsx"));
 const OrderCreate = lazy(() => import("../../pages/order/OrderCreatePage.jsx"));
+const OrderPay = lazy(()=>import("../../pages/order/KakaoPayPage.jsx"))
 
 const Loading = <LoadingPage />;
 
@@ -19,6 +20,10 @@ const OrderRouter = {
         {
             path: "create",
             element: <Suspense fallback={Loading}><OrderCreate /></Suspense>
+        },
+        {
+            path: "pay",
+            element: <Suspense fallback={Loading}><OrderPay /></Suspense>
         },
         {
             path: "",
