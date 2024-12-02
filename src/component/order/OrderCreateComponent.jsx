@@ -1,9 +1,9 @@
 import {useState} from 'react';
-import {useNavigate, useLocation} from 'react-router-dom';
-import {createOrder} from '../../api/orderAPI.js';
+import {useLocation} from 'react-router-dom';
+import {preParePayment} from '../../api/orderAPI.js';
+import useOrderStore from "../../store/useOrderStore.js";
 
 const OrderCreateComponent = () => {
-    const navigate = useNavigate();
     const {state} = useLocation();
 
     // 상품 정보 초기화
@@ -22,7 +22,6 @@ const OrderCreateComponent = () => {
     const [phoneNumber, setPhoneNumber] = useState('010-3267-2442');
     const [deliveryAddress, setDeliveryAddress] = useState('부산광역시 부산진구 양정동');
     const [deliveryMessage, setDeliveryMessage] = useState('아이가 친절해');
-    const [orderCompleted, setOrderCompleted] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     // 총 가격 계산
@@ -54,18 +53,35 @@ const OrderCreateComponent = () => {
         };
 
         try {
-            await createOrder(purchaseDTO);
-            setOrderCompleted(true);
+            // 올바른 Zustand 상태 업데이트 방법
+            useOrderStore.getState().setPurchaseDTO(purchaseDTO);
+
+            // 콘솔로 상태 확인
+            console.log('현재 스토어 상태:', useOrderStore.getState());
+            console.dir(useOrderStore.getState())
+            alert("잠깐 정지")
+
+            await handlePayReady(totalPrice);
         } catch (error) {
             const errorMsg = error.response?.data?.message || '주문 생성에 실패했습니다. 다시 시도해주세요.';
             setErrorMessage(errorMsg);
         }
     };
 
+    const handlePayReady = async (price) => {
+        try {
+            const res = await preParePayment(price); // 비동기 호출 처리
+            console.log(res);
+            const redirectUrl = res.data.next_redirect_mobile_url; // 모바일 결제 URL
+            window.location.href = redirectUrl; // 외부 URL로 리디렉션
+        } catch (error) {
+            console.error("결제 준비 중 오류:", error);
+        }
+    };
+
     return (
         <div className="bg-bara_gray_1 min-h-screen px-1 py-6 flex justify-center">
             <div className="w-full max-w-lg bg-white  shadow-md px-8 py-6">
-                {!orderCompleted && (
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <h2 className="text-2xl font-semibold text-bara_sodomy mb-6 text-center">주문 정보를 입력해주세요</h2>
 
@@ -165,36 +181,14 @@ const OrderCreateComponent = () => {
                             </div>
 
                         </div>
-
                         <button
                             type="submit"
                             className="w-full bg-bara_blue text-white py-4 rounded-[0.5rem] text-sm font-medium mt-4"
                         >
-                            주문하기
+                            결제하기
                         </button>
 
                     </form>
-                )}
-
-                {orderCompleted && (
-                    <div className="text-center mt-6">
-                        <p className="text-bara_gray-5 font-medium mb-4">주문이 성공적으로 완료되었습니다!</p>
-                        <div className="flex space-x-4">
-                            <button
-                                onClick={() => navigate('/mypage/order/list')}
-                                className="w-full py-4 bg-bara_light_blue text-white rounded-[0.5rem] text-sm font-medium"
-                            >
-                                주문 내역 보러가기
-                            </button>
-                            <button
-                                onClick={() => navigate('/product/list')}
-                                className="w-full py-4 bg-bara_sky_blue text-white rounded-[0.5rem] text-sm font-medium"
-                            >
-                                상품 보러가기
-                            </button>
-                        </div>
-                    </div>
-                )}
 
                 {errorMessage && (
                     <div className="text-center mt-4 text-bara_pink">{errorMessage}</div>

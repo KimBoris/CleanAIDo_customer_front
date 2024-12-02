@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const host = 'http://10.10.10.157:8080/api/v1/mypage/order';
+const host = 'http://10.10.10.148:8080/api/v1/mypage/order';
 
 // 고객 주문 목록 조회 API
 export const fetchOrders = (customerId) => {

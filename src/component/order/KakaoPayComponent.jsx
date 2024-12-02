@@ -1,6 +1,8 @@
 import { preParePayment } from "../../api/OrderAPI.js";
+// import {useNavigate} from "react-router-dom";
 
 function KakaoPayComponent() {
+    // const navigate = useNavigate();
 
     const handlePayReady = async (price) => {
         try {
