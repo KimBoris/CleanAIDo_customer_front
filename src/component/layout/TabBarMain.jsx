@@ -11,13 +11,13 @@ function TabBarMain() {
             <button className="flex-1 flex justify-center pt-[1.1rem]">
                 <img src="/images/list.png" alt="카테고리"/>
             </button>
-            <button className="flex-1 flex justify-center pt-4 ">
+            <button className="flex-1 flex justify-center pt-4 pr-4">
                 <img src="/images/search.png" alt="검색"/>
             </button>
             <button className="w-16 h-16 flex justify-center items-center bg-bara_blue rounded-full">
                 <img src="/images/shop-window.png" alt="쇼핑몰"/>
             </button>
-            <button className="flex-1 flex justify-center pt-4">
+            <button className="flex-1 flex justify-center pt-4 pl-4">
                 <Link to={"/cart"}>
                     <img src="/images/cart-dash.png" alt="장바구니"/>
                 </Link>
