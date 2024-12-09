@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const host = 'http://localhost:8080/api/v1/mypage/order';
+const host = 'http://10.10.10.148:8080/api/v1/mypage/order';
 
 // 고객 주문 목록 조회 API
 export const fetchOrders = (customerId) => {
@@ -20,3 +20,11 @@ export const updateOrderStatus = (orderNumber, status) => {
 export const createOrder = (orderData) => {
     return axios.post(`${host}/create`, orderData);
 };
+
+export const preParePayment = (totalPrice) => {
+    return axios.post(`${host}/pay/ready`, null, {
+        params: { totalPrice } // `params`를 사용하여 쿼리 문자열로 전달
+    });
+};
+
+

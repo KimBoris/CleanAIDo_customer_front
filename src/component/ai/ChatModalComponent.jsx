@@ -1,11 +1,13 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {loadImage} from "../../hooks/useIndexedDB.js";
+import {useNavigate} from "react-router-dom";
 
 function ChatModalComponent({handleShotClick, callback}) {
 
+    const navigate = useNavigate();
+
     // 로컬스토리지 데이터
     const baraData = JSON.parse(localStorage.getItem("bara"));
-    const keyword = baraData.keyword;
     const solution = baraData.solution;
     const products = baraData.product.split(',');
     const question = baraData.question;
@@ -34,7 +36,7 @@ function ChatModalComponent({handleShotClick, callback}) {
                 <div className="flex items-center justify-between mb-4">
                     <span className="text-4 text-bara_sodomy font-bold">{product} 검색</span>
                     <div className="flex items-center justify-between gap-1">
-                        <span>바로가기</span>
+                        <span onClick={() => navigate(`/product/list?keyword=${product}`)}>바로가기</span>
                         <img src="/images/arrow-right-short-link.png" />
                     </div>
                 </div>
@@ -93,7 +95,6 @@ function ChatModalComponent({handleShotClick, callback}) {
                     <img src="/images/bara_profile.png" className="mb-4"/>
                     <div className="w-full bg-white p-4 text-bara_sodomy rounded-[0.5rem]">
                         <p>안녕하세요. AI 싹싹바라 입니다.</p>
-                        <p><strong>{keyword}</strong> 청소방법에 대해 알려드리겠습니다.</p>
                         <pre className="whitespace-pre-wrap break-words font-sans">{solution}</pre>
                         <hr className="border-bara_gray_3 my-4"/>
 

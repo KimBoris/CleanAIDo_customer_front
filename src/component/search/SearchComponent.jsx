@@ -10,8 +10,7 @@ const SearchComponent = () => {
     };
 
     return (
-        <div className="flex flex-col p-4 p-4y pr-8 pl-8 ">
-            <h1 className="text-2xl font-bold text-center mb-4">상품 검색</h1>
+        <div className="flex flex-col p-4 p-4y pr-8 pl-8 mt-[10rem]">
             <div className="flex flex-col items-center">
                 <input
                     type="text"

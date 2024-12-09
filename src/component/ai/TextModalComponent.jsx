@@ -25,11 +25,11 @@ function TextModalComponent({handleShotClick, encodedImg, formData, url, callbac
 
 
         try {
+            const startTime = new Date().getTime();
             const res = await getSolution(formData, question);
             console.log("Category:", res.extractedCategory);
             console.log("Solution:", res.solution);
             const object = {
-                keyword: "세면대",
                 solution: res.solution.replace(/^\s+/gm, ''),
                 product: res.extractedCategory,
                 question: question
@@ -42,7 +42,10 @@ function TextModalComponent({handleShotClick, encodedImg, formData, url, callbac
             if (encodedImg) {
                 await saveImage("imgKey", encodedImg);
             }
-
+            const endTime = new Date().getTime();
+            // 경과 시간 계산
+            const elapsedTime = endTime - startTime; // 밀리초 단위
+            console.log(`Elapsed time: ${elapsedTime} ms`);
             setIsChatModalOpen(true);
 
         } catch (error) {
