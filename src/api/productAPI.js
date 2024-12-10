@@ -49,3 +49,20 @@ export const addCart = async (pno, qty) => {
     });
     return res.data;
 };
+
+// 랜덤으로 가져오는 추천상품
+export const getProductSuggestList = async () => {
+
+    try {
+
+        const res = await axios.get(`${host}/suggest`);
+
+        return res;
+
+    } catch (error) {
+
+        console.error("추천상품 호출 실패", error.response?.data || error.message);
+        throw error;
+
+    }
+}

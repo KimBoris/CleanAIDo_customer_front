@@ -121,7 +121,8 @@ function MainPage() {
                     </div>
 
                     <div
-                        className="w-full h-24 bg-bara_light_blue rounded-[0.5rem] shadow-lg p-4 text-bara_sodomy mt-4">
+                        className="w-full h-24 bg-bara_light_blue rounded-[0.5rem] shadow-lg text-bara_sodomy mt-4 overflow-hidden">
+                        <img src="/images/ad/청소업체%20광고.png" className="object-cover" />
                     </div>
                 </div>
 
