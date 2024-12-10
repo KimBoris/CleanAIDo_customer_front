@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { kakaoLogin } from "../../api/authApi";
-import useAuthStore from "../../store/authStore"; // Zustand 스토어 가져오기
+import useAuthStore from "../../store/authStore";
 
 const KakaoCallbackComponent = () => {
     const navigate = useNavigate();

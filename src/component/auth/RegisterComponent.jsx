@@ -93,13 +93,13 @@ const RegisterComponent = ({ kakaoUser, onRegister }) => {
                         className="w-full px-4 py-3 border-2 border-bara_gray_2 rounded-lg focus:outline-none focus:ring-2 focus:ring-bara_blue"
                         required
                     />
-                    <input
-                        name="profileImageUrl"
-                        value={formData.profileImageUrl}
-                        onChange={handleChange}
-                        placeholder="프로필 이미지 URL (선택)"
-                        className="w-full px-4 py-3 border-2 border-bara_gray_2 rounded-lg focus:outline-none focus:ring-2 focus:ring-bara_blue"
-                    />
+                    {/*<input*/}
+                    {/*    name="profileImageUrl"*/}
+                    {/*    value={formData.profileImageUrl}*/}
+                    {/*    onChange={handleChange}*/}
+                    {/*    placeholder="프로필 이미지 URL (선택)"*/}
+                    {/*    className="w-full px-4 py-3 border-2 border-bara_gray_2 rounded-lg focus:outline-none focus:ring-2 focus:ring-bara_blue"*/}
+                    {/*/>*/}
 
                     {/* 버튼 */}
                     <button
