@@ -1,10 +1,11 @@
-import scrollbarHide from 'tailwind-scrollbar-hide';
+const withMT = require("@material-tailwind/react/utils/withMT");
+const scrollbarHide = require("tailwind-scrollbar-hide"); // 플러그인 import
 
-/** @type {import('tailwindcss').Config} */
-export default {
+module.exports = withMT({
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@material-tailwind/react/**/*.{js,jsx,ts,tsx}", // Material Tailwind 경로 추가
   ],
   theme: {
     extend: {
@@ -35,6 +36,6 @@ export default {
     },
   },
   plugins: [
-    scrollbarHide, // 플러그인 추가
+    scrollbarHide, // 기존 플러그인 유지
   ],
-};
+});

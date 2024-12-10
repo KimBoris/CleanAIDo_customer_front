@@ -7,6 +7,7 @@ import cartRouter from "./cartRouter.jsx";
 import SearchIndex from "../pages/SearchIndexPage.jsx";
 
 const MainPage = lazy(() => import("../pages/MainPage"));
+const ShopMain = lazy(() => import("../pages/ShopMainPage.jsx"));
 
 const Loading = <LoadingPage />;
 
@@ -19,6 +20,10 @@ const mainRouter = createBrowserRouter([
     {
         path: "/search",
         element: <Suspense fallback={Loading}><SearchIndex></SearchIndex></Suspense>
+    },
+    {
+        path: "/shop",
+        element: <Suspense fallback={Loading}><ShopMain></ShopMain></Suspense>
     },
     productRouter,
     cartRouter,
