@@ -7,7 +7,7 @@
 // // Your web app's Firebase configuration
 // // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 // const firebaseConfig = {
-//     apiKey: "AIzaSyByYdhr-z0TPtJmBQCpuR3jlY7785LW96o",
+//     apiKey: import.meta.env.VITE_FCM_API_KEY,
 //     authDomain: "cleanaido-29788.firebaseapp.com",
 //     projectId: "cleanaido-29788",
 //     storageBucket: "cleanaido-29788.firebasestorage.app",
