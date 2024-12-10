@@ -80,7 +80,7 @@ const OrderCreateComponent = () => {
     };
 
     return (
-        <div className="bg-bara_gray_1 min-h-screen px-1 py-6 flex justify-center">
+        <div className="bg-bara_gray_1 min-h-screen pt-4 pb-40 mt-[9rem]">
             <div className="w-full max-w-lg bg-white  shadow-md px-8 py-6">
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <h2 className="text-2xl font-semibold text-bara_sodomy mb-6 text-center">주문 정보를 입력해주세요</h2>
