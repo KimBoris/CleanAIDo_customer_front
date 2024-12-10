@@ -18,7 +18,6 @@ const mainRouter = createBrowserRouter([
     // 인증 필요 없는 경로
     authRouter,
 
-    // 메인페이지 및 검색페이지는 보호된 라우터로 감싸줍니다
     {
         element: <ProtectedRoute />, // ProtectedRoute 적용
         children: [
