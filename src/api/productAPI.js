@@ -1,5 +1,4 @@
 import axios from "axios";
-import error from "eslint-plugin-react/lib/util/error.js";
 import useAuthStore from "../store/authStore.js";
 
 const host = "http://localhost:8080/api/v1/product";
@@ -67,10 +66,15 @@ export const addCart = async (pno, qty) => {
 
 // 랜덤으로 가져오는 추천상품
 export const getProductSuggestList = async () => {
-
+    const { accessToken } = useAuthStore.getState();
     try {
 
-        const res = await axios.get(`${host}/suggest`);
+        const res = await axios.get(`${host}/suggest`, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: accessToken ? `Bearer ${accessToken}` : "", // accessToken 추가
+            },
+        });
 
         return res;
 

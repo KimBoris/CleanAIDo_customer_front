@@ -108,7 +108,7 @@ function ProductReadComponent() {
                         )}
                         <h2 className="text-[1.2rem]">{product.pname}</h2>
                         <hr className="my-4 border-bara_gray_3"/>
-                        <p className="text-2xl font-semibold text-bara_blue">{product.price} 원</p>
+                        <p className="text-2xl font-semibold text-bara_blue">{product.price.toLocaleString()} 원</p>
                     </div>
 
                     {/* 상세 이미지 */}
