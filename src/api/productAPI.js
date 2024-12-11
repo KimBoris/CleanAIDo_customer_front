@@ -1,7 +1,7 @@
 import axios from "axios";
 import useAuthStore from "../store/authStore.js";
 
-const host = "http://localhost:8080/api/v1/product";
+const host = "http://3.38.149.56:8080/api/v1/product";
 
 export const getProductList = async (page, size, keyword = '') => {
     try {
