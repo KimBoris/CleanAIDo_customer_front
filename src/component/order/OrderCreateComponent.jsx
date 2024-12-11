@@ -17,7 +17,7 @@ const OrderCreateComponent = () => {
     }));
 
     // 사용자 입력 상태
-    const [customerId, setCustomerId] = useState('customer0@aaa.com'); // 고객 ID 추가
+    const [customerId] = useState('customer0@aaa.com'); // 고객 ID 추가
     const [customerName, setCustomerName] = useState('customer0'); // 고객 이름
     const [phoneNumber, setPhoneNumber] = useState('010-3267-2442');
     const [deliveryAddress, setDeliveryAddress] = useState('부산광역시 부산진구 양정동');
@@ -31,8 +31,7 @@ const OrderCreateComponent = () => {
     );
 
     // 주문 처리
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleClickPay = async () => {
 
         const orderDetails = productInfo.map((item) => ({
             productId: item.productId || 0,
@@ -59,7 +58,6 @@ const OrderCreateComponent = () => {
             // 콘솔로 상태 확인
             console.log('현재 스토어 상태:', useOrderStore.getState());
             console.dir(useOrderStore.getState())
-            alert("잠깐 정지")
 
             await handlePayReady(totalPrice);
         } catch (error) {
@@ -80,121 +78,126 @@ const OrderCreateComponent = () => {
     };
 
     return (
-        <div className="bg-bara_gray_1 min-h-screen px-1 py-6 flex justify-center">
-            <div className="w-full max-w-lg bg-white  shadow-md px-8 py-6">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <h2 className="text-2xl font-semibold text-bara_sodomy mb-6 text-center">주문 정보를 입력해주세요</h2>
 
-                        {/* 상품 정보 표시 */}
+        <div className="bg-bara_gray_1 min-h-screen pt-4 pb-40 mt-[9rem]">
+            <div className="bg-white px-8 py-6 text-bara_sodomy mb-4">
+                <h3 className="text-[1.2rem] font-bold">배송지</h3>
+                <hr className="my-4 border-bara_gray_3"/>
 
-                        {/* 고객 정보 입력 */}
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-bara_sodomy font-medium mb-2">고객 ID</label>
-                                <input
-                                    type="text"
-                                    name="customerId"
-                                    value={customerId}
-                                    onChange={(e) => setCustomerId(e.target.value)}
-                                    className="w-full border border-bara_gray-3 rounded-[0.5rem] p-4 text-bara_sodomy"
-                                    placeholder="고객 ID를 입력하세요"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-bara_sodomy font-medium mb-2">고객 이름</label>
-                                <input
-                                    type="text"
-                                    name="customerName"
-                                    value={customerName}
-                                    onChange={(e) => setCustomerName(e.target.value)}
-                                    className="w-full border border-bara_gray-3 rounded-[0.5rem] p-4 text-bara_sodomy"
-                                    placeholder="고객 이름을 입력하세요"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-bara_sodomy font-medium mb-2">전화번호</label>
-                                <input
-                                    type="text"
-                                    name="phoneNumber"
-                                    value={phoneNumber}
-                                    onChange={(e) => setPhoneNumber(e.target.value)}
-                                    className="w-full border border-bara_gray-3 rounded-[0.5rem] p-4 text-bara_sodomy"
-                                    placeholder="전화번호를 입력하세요"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-bara_sodomy font-medium mb-2">주소</label>
-                                <input
-                                    type="text"
-                                    name="deliveryAddress"
-                                    value={deliveryAddress}
-                                    onChange={(e) => setDeliveryAddress(e.target.value)}
-                                    className="w-full border border-bara_gray-3 rounded-[0.5rem] p-4 text-bara_sodomy"
-                                    placeholder="주소를 입력하세요"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-bara_sodomy font-medium mb-2">배송 메시지</label>
-                                <input
-                                    type="text"
-                                    name="deliveryMessage"
-                                    value={deliveryMessage}
-                                    onChange={(e) => setDeliveryMessage(e.target.value)}
-                                    className="w-full border border-bara_gray-3 rounded-[0.5rem] p-4 text-bara_sodomy"
-                                    placeholder="배송 메시지를 입력하세요"
-                                />
-                            </div>
-
-                            <div className="mb-6 ">
-                                <h3 className="text-lg font-medium text-bara_sodomy mb-4">선택한 상품</h3>
-                                <div className="space-y-4">
-                                    {productInfo.map((item, index) => (
-                                        <div
-                                            key={index}
-                                            className="flex items-center border border-bara_gray-3 rounded-[0.5rem] p-4 py-4 shadow-sm"
-                                        >
-
-                                            <img
-                                                src={`/images/${item.thumFileNames[0]}`} // 상품 이미지
-                                                alt={item.thumFileNames[0] || '상품 이미지'}
-                                                className="w-16 h-16 object-cover rounded-md mr-4"
-                                            />
-                                            <div className="flex flex-col flex-1">
-                                                <p className="text-sm font-medium text-bara_sodomy line-clamp-2">{item.pname || '상품명 없음'}</p>
-                                                <p className="text-sm text-bara_gray-5">
-                                                    {item.price?.toLocaleString() || 0}원 x {item.quantity || 0}개
-                                                </p>
-                                            </div>
-                                            <p className="text-sm font-medium text-bara_sodomy">
-                                                {(item.price * item.quantity).toLocaleString()}원
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                                <p className="text-lg font-medium text-bara_sodomy mt-6">
-                                    총 가격: <span className="text-bara_blue">{totalPrice.toLocaleString()}원</span>
-                                </p>
-                            </div>
-
-                        </div>
-                        <button
-                            type="submit"
-                            className="w-full bg-bara_blue text-white py-4 rounded-[0.5rem] text-sm font-medium mt-4"
-                        >
-                            결제하기
-                        </button>
-
-                    </form>
+                {/* 고객 정보 입력 */}
+                <div className="space-y-4">
+                    <div>
+                        <label className="block text-bara_sodomy font-medium mb-2">수령인</label>
+                        <input
+                            type="text"
+                            name="customerName"
+                            value={customerName}
+                            onChange={(e) => setCustomerName(e.target.value)}
+                            className="w-full border border-bara_gray-3 rounded-[0.5rem] p-4 text-bara_sodomy"
+                            placeholder="고객 이름을 입력하세요"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-bara_sodomy font-medium mb-2">휴대폰</label>
+                        <input
+                            type="text"
+                            name="phoneNumber"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            className="w-full border border-bara_gray-3 rounded-[0.5rem] p-4 text-bara_sodomy"
+                            placeholder="전화번호를 입력하세요"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-bara_sodomy font-medium mb-2">주소지</label>
+                        <input
+                            type="text"
+                            name="deliveryAddress"
+                            value={deliveryAddress}
+                            onChange={(e) => setDeliveryAddress(e.target.value)}
+                            className="w-full border border-bara_gray-3 rounded-[0.5rem] p-4 text-bara_sodomy"
+                            placeholder="주소를 입력하세요"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-bara_sodomy font-medium mb-2">배송 메시지</label>
+                        <input
+                            type="text"
+                            name="deliveryMessage"
+                            value={deliveryMessage}
+                            onChange={(e) => setDeliveryMessage(e.target.value)}
+                            className="w-full border border-bara_gray-3 rounded-[0.5rem] p-4 text-bara_sodomy"
+                            placeholder="배송 메시지를 입력하세요"
+                        />
+                    </div>
+                </div>
 
                 {errorMessage && (
                     <div className="text-center mt-4 text-bara_pink">{errorMessage}</div>
                 )}
             </div>
+            <div className="bg-white px-8 py-6 text-bara_sodomy mb-4">
+                <h3 className="text-[1.2rem] font-bold">주문 상품</h3>
+                <hr className="my-4 border-bara_gray_3"/>
+                <div className="space-y-4">
+                    {productInfo.map((item, index) => (
+                        <div
+                            key={index}
+                            className="flex items-center shadow-sm"
+                        >
+                            <div className="bg-bara_gray_4 w-20 h-20 overflow-hidden mr-4">
+                                <img
+                                    src={`/images/${item.thumFileNames[0]}`} // 상품 이미지
+                                    alt={item.thumFileNames[0] || '상품 이미지'}
+                                    className="object-cover rounded-md"
+                                />
+                            </div>
+
+                            <div className="flex flex-col flex-1">
+                                <p className="text-sm font-medium line-clamp-1">{item.pname || '상품명 없음'}</p>
+                                <p className="text-sm text-bara_gray-5">
+                                    {item.price?.toLocaleString() || 0}원 &nbsp;| &nbsp;{item.quantity || 0}개
+                                </p>
+                                <p className="text-sm font-bold">
+                                    {(item.price * item.quantity).toLocaleString()}원
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="bg-white px-8 py-6 text-bara_sodomy">
+            <div className="flex justify-between">
+                    <h3 className="text-[1.2rem] font-bold">결제 금액</h3>
+                    <div className="text-bara_blue text-[1.2rem] font-bold">{totalPrice.toLocaleString()}원</div>
+                </div>
+                <hr className="my-4 border-bara_gray_3"/>
+                <div className="flex justify-between mb-2">
+                    <div>상품 금액</div>
+                    <div>{totalPrice.toLocaleString()}원</div>
+                </div>
+                <div className="flex justify-between">
+                    <div>배송비</div>
+                    <div>무료 배송</div>
+                </div>
+            </div>
+
+            <div
+                className="fixed bottom-0 left-0 w-full bg-white text-bara_sodomy px-8"
+                style={{boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)'}}
+            >
+                <button
+                    onClick={handleClickPay}
+                    className="w-full bg-bara_blue text-white py-4 rounded-[0.5rem] mt-4 mb-12"
+                >
+                    {totalPrice.toLocaleString()}원 결제하기
+                </button>
+            </div>
         </div>
+
     );
 };
 

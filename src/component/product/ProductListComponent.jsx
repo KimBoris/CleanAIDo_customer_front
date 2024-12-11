@@ -94,7 +94,7 @@ const ProductListComponent = () => {
                             />
                             <div className="ml-4">
                                 <h2 className="text-bara_sodomy line-clamp-3">{product.pname}</h2>
-                                <p className="font-bold text-[1.2rem] text-bara_blue mt-1">{product.price}원</p>
+                                <p className="font-bold text-[1.2rem] text-bara_blue mt-1">{product.price.toLocaleString()}원</p>
                                 {product.reviewCount > 0 && (
                                     <div className="flex items-center -mt-0">
                                         <img src={`/images/star_${product.score}.svg`} />
