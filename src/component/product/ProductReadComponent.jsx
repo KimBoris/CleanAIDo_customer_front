@@ -90,7 +90,7 @@ function ProductReadComponent() {
 
 
     return (
-        <div className="pb-40 text-bara_sodomy">
+        <div className="pb-40 text-bara_sodomy mt-[9rem]">
             <div>
                 <div key={product.pno} className="grid grid-cols-1 md:grid-cols-2 mb-4">
                     <div className="w-full aspect-square bg-bara_gray_3 overflow-hidden">

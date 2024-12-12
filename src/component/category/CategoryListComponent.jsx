@@ -38,21 +38,24 @@ const CategoryListComponent = () => {
     };
 
     return (
-        <div className="flex h-screen w-full p-4 py-4 mt-[9rem]">
+        <div className="flex w-full mt-[9rem] mb-40">
             {/* 1차 카테고리 */}
-            <div className="w-1/3 bg-gray-100 p-4 flex flex-col items-stretch h-full">
-                <h2 className="font-semibold text-lg mb-4">1차 카테고리</h2>
+            <div className="w-1/3 bg-bara_gray_1 flex flex-col items-stretch relative">
                 {categories
                     .filter((category) => category.parent === null)
-                    .map((category) => (
+                    .map((category, index) => (
                         <button
                             key={category.cno}
-                            className={`p-2 mb-2 text-left w-full rounded-md h-10 flex items-center justify-start ${
-                                activeCno === category.cno
-                                    ? 'bg-blue-200 font-semibold'
-                                    : 'hover:bg-gray-200'
+                            className={`relative px-4 py-6 w-full flex items-center justify-center 
+                        ${
+                                activeCno !== category.cno && activeCno !== categories[index + 1]?.cno
+                                    ? "after:absolute after:bottom-0 after:left-1/2 after:w-[50%] after:h-[1px] " +
+                                    "after:bg-bara_gray_2 after:transform after:-translate-x-1/2"
+                                    : ""
+                            } last:after:content-none ${
+                                activeCno === category.cno && "bg-white font-bold"
                             }`}
-                            style={{transition: 'none', minWidth: '100px',}} // 크기 변경 방지
+                            style={{transition: "none", minWidth: "100px"}}
                             onClick={() => handleCategoryClick(category.cno)}
                         >
                             {category.cname}
@@ -62,32 +65,31 @@ const CategoryListComponent = () => {
 
             {/* 2차 카테고리 */}
             <div className="w-2/3 bg-white p-4">
-                <h2 className="font-semibold text-lg mb-4 overflow-x-auto">2차 카테고리</h2>
                 {subCategories.length > 0 ? (
-
-                    subCategories.map((subCategory) => (
-                        <Link
-                            to={`/product/list?type=category&keyword=${subCategory.cname}`}
-                            key={subCategory.cno}
-                            className={`p-3 mb-2 border rounded-md cursor-pointer flex items-center ${
-                                activeSubCno === subCategory.cno
-                                    ? 'bg-blue-200 font-semibold'
-                                    : 'hover:bg-gray-200'
-                            }`}
-                            style={{
-                                transition: 'none', // 크기 변경 방지
-                                minWidth: '230px', // 가로 길이 늘림
-                            }}
-                            onClick={() => handleSubCategoryClick(subCategory.cno)}
-                        >
-                            {subCategory.cname}
-                            {subCategory.parent}
-                        </Link>
-                    ))
+                    <div className="grid grid-cols-2 gap-4 max-w-full w-full">
+                        {subCategories.map((subCategory) => (
+                            <Link
+                                to={`/product/list?type=category&keyword=${subCategory.cname}`}
+                                key={subCategory.cno}
+                                className={`relative p-3 cursor-pointer flex items-center justify-center 
+                        after:absolute after:bottom-0 after:left-1/2 after:w-[90%] after:h-[1px] after:bg-bara_gray_2 after:transform after:-translate-x-1/2
+                    `}
+                                style={{
+                                    transition: "none",
+                                    minWidth: "0", // 요소 크기 강제 제한
+                                    width: "100%", // 부모 그리드에 맞게 너비 설정
+                                }}
+                                onClick={() => handleSubCategoryClick(subCategory.cno)}
+                            >
+                                {subCategory.cname}
+                            </Link>
+                        ))}
+                    </div>
                 ) : (
-                    <p className="text-gray-500">1차 카테고리를 선택해 주세요.</p>
+                    <p className="text-gray-500">카테고리를 선택해 주세요.</p>
                 )}
             </div>
+
         </div>
     );
 };
