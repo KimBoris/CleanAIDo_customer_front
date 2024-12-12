@@ -33,6 +33,7 @@ export const getProductList = async (page, size, keyword = '') => {
 
 export const getProductOne = async (pno) => {
     const { accessToken } = useAuthStore.getState();
+    console.log(axios.get(`${host}/read/${pno}`));
     try {
         const response = await axios.get(`${host}/read/${pno}`,{
             headers: {

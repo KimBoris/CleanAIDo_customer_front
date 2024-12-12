@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { kakaoLogin } from "../../api/authApi";
+import { kakaoLogin } from "../../api/authAPI.js";
 import useAuthStore from "../../store/authStore";
 
 function KakaoCallbackPage() {
