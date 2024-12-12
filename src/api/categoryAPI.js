@@ -1,11 +1,17 @@
 import axios from "axios";
+import useAuthStore from "../store/authStore.js";
 
 const host = "http://localhost:8080/api/v1/category";
 
 // 1차 카테고리 목록을 가져오는 함수
 export const getCategoryList = async () => {
+
     try {
-        const res = await axios.get(`${host}/list`);
+        const {accessToken} = useAuthStore.getState();
+        const res = await axios.get(`${host}/list`,
+            {
+                Authorization: accessToken ? `Bearer ${accessToken}` : "",
+            });
 
         return res.data || [];
     } catch (error) {

@@ -1,5 +1,6 @@
 import  { useState } from "react";
-import CategoryList from "../../component/category/CategoryListComponent.jsx"
+
+import CategoryListPage from "./CategoryListPage.jsx";
 
 const CategoryIndexPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -7,7 +8,7 @@ const CategoryIndexPage = () => {
     return (
         <div className="flex">
 
-            <CategoryList onCategorySelect={setSelectedCategory} />
+            <CategoryListPage onCategorySelect={setSelectedCategory} />
 
         </div>
     );
