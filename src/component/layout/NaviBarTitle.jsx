@@ -13,10 +13,10 @@ function NaviBarTitle({title, path}) {
                 <img
                     onClick={() => navigate(path)}
                     src="/images/chevron-left.svg"
-                    alt="logo"
-                    className="absolute left-0 mt-1 w-8"
+                    alt="go back"
+                    className="absolute left-0 mt-1 h-6"
                 />
-                <div>
+            <div>
             <span className="text-bara_sodomy text-[1.5rem] font-bold text-center">
                 {title}
             </span>
