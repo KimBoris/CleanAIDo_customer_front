@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const host = 'http://10.10.10.148:8080/api/v1/cart'
+const host = 'http://localhost:8080/api/v1/cart'
 
 export const getCartList = async () => {
 

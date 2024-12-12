@@ -29,7 +29,33 @@ export const getProductList = async (page, size, keyword = '') => {
         throw new Error('Failed to fetch product list');
     }
 }
+export const getCategoryProductList = async (page, size, keyword = '', type='category') => {
+    try {
+        const { accessToken } = useAuthStore.getState(); // accessToken 가져오기
+        const params = {
+            page: page || 1,
+            size: size || 10,
+            type: "category",
+            ...(keyword && {keyword}),
+        };
 
+        const res = await axios.get(`${host}/list`, {
+            params,
+            headers: {
+                Authorization: accessToken ? `Bearer ${accessToken}` : "", // accessToken 추가
+            },
+        });
+
+        console.log("====================");
+        console.log("Params"+params.page, params.size, params.keyword);
+
+        console.log("Data:", res.data)
+        return res.data;
+    } catch(error) {
+        console.error("Failed to fetch product list:", error);
+        throw new Error('Failed to fetch product list');
+    }
+}
 
 export const getProductOne = async (pno) => {
     const { accessToken } = useAuthStore.getState();
