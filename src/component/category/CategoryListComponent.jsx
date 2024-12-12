@@ -37,7 +37,7 @@ const CategoryListComponent = () => {
     };
 
     return (
-        <div className="flex h-screen w-full p-4 py-4">
+        <div className="flex h-screen w-full p-4 py-4 mt-[9rem]">
             {/* 1차 카테고리 */}
             <div className="w-2/5 bg-gray-100 p-4 overflow-y-auto flex flex-col">
                 <h2 className="font-semibold text-lg mb-4">1차 카테고리</h2>

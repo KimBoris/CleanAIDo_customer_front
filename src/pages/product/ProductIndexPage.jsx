@@ -6,9 +6,9 @@ function ProductIndexPage() {
         <>
             <div></div>
 
-            <div className='flex items-center justify-center gap-3 border-2 rounded-2xl h-1/4 bg-blue-500'>
+            {/*<div className='flex items-center justify-center gap-3 border-2 rounded-2xl h-1/4 bg-blue-500'>*/}
 
-            </div>
+            {/*</div>*/}
 
             <div>
                 <Outlet></Outlet>
