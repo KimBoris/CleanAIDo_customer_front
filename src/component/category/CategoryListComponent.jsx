@@ -64,6 +64,7 @@ const CategoryListComponent = () => {
             <div className="w-2/3 bg-white p-4">
                 <h2 className="font-semibold text-lg mb-4 overflow-x-auto">2차 카테고리</h2>
                 {subCategories.length > 0 ? (
+
                     subCategories.map((subCategory) => (
                         <Link
                             to={`/product/list?type=category&keyword=${subCategory.cname}`}
@@ -80,6 +81,7 @@ const CategoryListComponent = () => {
                             onClick={() => handleSubCategoryClick(subCategory.cno)}
                         >
                             {subCategory.cname}
+                            {subCategory.parent}
                         </Link>
                     ))
                 ) : (

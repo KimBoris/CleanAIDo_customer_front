@@ -3,15 +3,15 @@ import useAuthStore from "../store/authStore.js";
 
 const host = "http://localhost:8080/api/v1/product";
 
-export const getProductList = async (page, size, keyword = '') => {
+export const getProductList = async (page, size, keyword = '', type='') => {
     try {
         const { accessToken } = useAuthStore.getState(); // accessToken 가져오기
         const params = {
             page: page || 1,
             size: size || 10,
             ...(keyword && {keyword}),
+            ...(type &&{type})
         };
-
         const res = await axios.get(`${host}/list`, {
             params,
             headers: {
@@ -20,41 +20,12 @@ export const getProductList = async (page, size, keyword = '') => {
         });
 
         console.log("====================");
-        console.log("Params"+params.page, params.size, params.keyword);
-
-        console.log("Data:", res.data)
         return res.data;
     } catch(error) {
         console.error("Failed to fetch product list:", error);
         throw new Error('Failed to fetch product list');
     }
-}
-export const getCategoryProductList = async (page, size, keyword = '', type='category') => {
-    try {
-        const { accessToken } = useAuthStore.getState(); // accessToken 가져오기
-        const params = {
-            page: page || 1,
-            size: size || 10,
-            type: "category",
-            ...(keyword && {keyword}),
-        };
 
-        const res = await axios.get(`${host}/list`, {
-            params,
-            headers: {
-                Authorization: accessToken ? `Bearer ${accessToken}` : "", // accessToken 추가
-            },
-        });
-
-        console.log("====================");
-        console.log("Params"+params.page, params.size, params.keyword);
-
-        console.log("Data:", res.data)
-        return res.data;
-    } catch(error) {
-        console.error("Failed to fetch product list:", error);
-        throw new Error('Failed to fetch product list');
-    }
 }
 
 export const getProductOne = async (pno) => {
