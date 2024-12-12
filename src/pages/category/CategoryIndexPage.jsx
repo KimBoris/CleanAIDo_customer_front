@@ -1,15 +1,16 @@
 import  { useState } from "react";
-
-import CategoryListPage from "./CategoryListPage.jsx";
+import CategoryList from "../../component/category/CategoryListComponent.jsx"
+import NaviBarTitle from "../../component/layout/NaviBarTitle.jsx";
+import TabBarShop from "../../component/layout/TabBarShop.jsx";
 
 const CategoryIndexPage = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     return (
-        <div className="flex">
-
-            <CategoryListPage onCategorySelect={setSelectedCategory} />
-
+        <div>
+            <NaviBarTitle title={"카테고리"} path={"/shop"} />
+            <CategoryList onCategorySelect={setSelectedCategory} />
+            <TabBarShop />
         </div>
     );
 };

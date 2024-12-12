@@ -6,7 +6,7 @@ function CartPage(){
     return (
         <>
             {/* path를 쇼핑몰 메인으로 넘겨줘야 함 */}
-            <NaviBarTitle title="장바구니" path="" />
+            <NaviBarTitle title="장바구니" path={"/shop"} />
             <div className="bg-bara_gray_1 min-h-screen w-full overflow-y-auto">
                 <CartPageComponent></CartPageComponent>
             </div>
