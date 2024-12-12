@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "api/auth";
+const host = "/api/auth";
 
 // 카카오 로그인
 export const kakaoLogin = async (code) => {
