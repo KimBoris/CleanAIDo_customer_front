@@ -1,7 +1,7 @@
 import axios from "axios";
 import useAuthStore from "../store/authStore.js";
 
-const host = "api/v1/product";
+const host = "http://localhost:8080/api/v1/product";
 
 export const getProductList = async (page, size, keyword = '') => {
     try {
@@ -33,7 +33,6 @@ export const getProductList = async (page, size, keyword = '') => {
 
 export const getProductOne = async (pno) => {
     const { accessToken } = useAuthStore.getState();
-    console.log(axios.get(`${host}/read/${pno}`));
     try {
         const response = await axios.get(`${host}/read/${pno}`,{
             headers: {

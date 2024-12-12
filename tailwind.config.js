@@ -22,6 +22,7 @@ module.exports = withMT({
         bara_pink: '#D68FF2',
         bara_blue: '#3F5FEC',
         bara_sky_blue: '#3EB2EA',
+        bara_yellow: '#FFC400',
       },
       spacing: {
         '27': '27rem',
