@@ -5,7 +5,7 @@ import NaviBarTitle from "../component/layout/NaviBarTitle.jsx";
 function SearchIndexPage() {
     return (
         <>
-            <NaviBarTitle/>
+            <NaviBarTitle title={"상품검색"} path={"/shop"}/>
             <div className="bg-bara_gray_1 min-h-screen w-full overflow-y-auto">
                 <SearchComponent></SearchComponent>
             </div>

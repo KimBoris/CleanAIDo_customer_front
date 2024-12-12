@@ -67,8 +67,8 @@ const ProductListComponent = () => {
     if (products.length === 0) return <div className="text-center text-xl">No products found</div>;
 
     return (
-        <div className="container bg-bara_gray_1 min-h-screen pb-40">
-            <div className="flex gap-4 items-center justify-between w-full px-8 pb-4 bg-white">
+        <div className="pt-[10rem] container bg-bara_gray_1 min-h-screen pb-40">
+            <div className="flex gap-4 items-center justify-between w-full px-8 py-4 bg-white">
                 <input
                     type="text"
                     value={queryValue}
@@ -83,7 +83,7 @@ const ProductListComponent = () => {
                 />
             </div>
             {/* 제품 리스트 렌더링 */}
-            <ul className="bg-white px-8 py-4 mt-4">
+            <ul className="bg-white px-8 py-4">
                 {products.map((product, index) => (
                     <li key={`${product.pno}--${index}`}>
                         <Link to={`/product/read/${product.pno}`} className="flex w-full">

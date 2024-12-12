@@ -1,11 +1,11 @@
-    import ProductReadComponent from "../../component/product/ProductReadComponent.jsx";
-import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
+import ProductReadComponent from "../../component/product/ProductReadComponent.jsx";
+import NaviBarTitle from "../../component/layout/NaviBarTitle.jsx";
 
 function ProductReadPage() {
 
     return (
         <>
-            <NaviBarShop />
+            <NaviBarTitle title={"상품 조회"} path={-1} />
             <div className="bg-bara_gray_1 min-h-screen w-full overflow-y-auto">
                 <ProductReadComponent />
             </div>
