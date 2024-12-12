@@ -15,6 +15,7 @@ const ProductListComponent = () => {
     const navigate = useNavigate();
     const { search } = useLocation();
     const keyword = new URLSearchParams(search).get('keyword') || '';
+    const type = new URLSearchParams(search).get('type') || '';
 
     useEffect(() => {
         setQueryValue(keyword)
@@ -26,7 +27,7 @@ const ProductListComponent = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const data = await getProductList(page, 10, keyword);
+            const data = await getProductList(page, 10, keyword, type);
             setProducts((prevProducts) => [...prevProducts, ...data.dtoList]);
             setTotalPages(data.totalPages);
             // setReviewCount(data.reviewCount)
