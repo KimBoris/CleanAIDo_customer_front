@@ -10,11 +10,35 @@ function MyPageComponent() {
                 </div>
                 <div className="bg-white py-4 px-8">
                     {/* 대시보드 */}
-                    <div className="bg-bara_gray_1 rounded-[0.5rem] w-full h-28">
-                        총구매
+                    <div
+                        className="bg-bara_gray_1 rounded-[0.5rem] w-full h-28 flex justify-between items-center p-8 relative">
+                        <div className="flex flex-col items-center">
+                            <p className="font-bold text-[1.5rem]">2.3m</p>
+                            <p>총결제액</p>
+                        </div>
+
+                        {/* 세로선 */}
+                        <div
+                            className="absolute left-1/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-[1px] bg-bara_gray_3"></div>
+
+                        <div className="flex flex-col items-center">
+                            <p className="font-bold text-[1.5rem]">42</p>
+                            <p>총구매수</p>
+                        </div>
+
+                        {/* 세로선 */}
+                        <div
+                            className="absolute left-2/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-[1px] bg-bara_gray_3"></div>
+
+                        <div className="flex flex-col items-center">
+                            <p className="font-bold text-[1.5rem]">21</p>
+                            <p>후기작성</p>
+                        </div>
                     </div>
+
+
                     {/* 메뉴 */}
-                    <div className="flex justify-between mt-4">
+                    <div className="flex justify-between mt-8">
                         <Link to="order/list">
                             <div className="flex flex-col gap-2 items-center justify-center">
                                 <img src="/images/my_order_list.svg" className="w-[2.25rem]"/>
