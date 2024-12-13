@@ -5,7 +5,7 @@ import NaviBarTitle from "../../component/layout/NaviBarTitle.jsx";
 const ProductListPage = () => {
     return (
         <div>
-            <NaviBarTitle title={""} path={"/shop"}  />
+            <NaviBarTitle title={""} path={-1}  />
             <ProductListComponent />
             <TabBarShop></TabBarShop>
 
