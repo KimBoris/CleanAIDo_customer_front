@@ -93,7 +93,7 @@ function ReviewMyListComponent() {
                     </div>
                 ))}
             </div>
-            {isModal && <ModalComponent title="삭제 완료" onClose={closeModal}></ModalComponent>}
+            {isModal && <ModalComponent title="삭제가 완료되었습니다!" onClose={closeModal}></ModalComponent>}
         </div>
     );
 }

@@ -3,6 +3,7 @@ import TabBarShop from "../component/layout/TabBarShop.jsx";
 import { Carousel } from "@material-tailwind/react";
 import {useEffect, useState} from "react";
 import {getProductSuggestList} from "../api/productAPI.js";
+import {Link} from "react-router-dom";
 
 function ShopMainPage() {
     const [products, setProducts] = useState([]);
@@ -53,29 +54,33 @@ function ShopMainPage() {
                             {/* 첫 번째 행 */}
                             <div className="flex gap-4">
                                 {products.slice(0, 5).map((product) => (
-                                    <div key={product.pno} className="w-40 flex-shrink-0 flex flex-col">
-                                        <div className="w-40 h-40 bg-bara_gray_3 flex-shrink-0">
-                                            <img src={product.fileName} alt={product.pname}
-                                                 className="w-full h-full object-cover"/>
-                                        </div>
-                                        <div className="mt-2">
-                                            <h4 className="">{product.pname}</h4>
-                                            <p className="text-bara_blue text-[1.2rem] font-bold">{product.price}원</p>
-                                            {product.reviewCount > 0 && (
-                                                <div className="flex items-center -mt-0">
-                                                    <img src={`/images/star_${product.score}.svg`} />
-                                                    <span className="ml-1 text-md text-bara_gray_4">({product.reviewCount})</span>
+                                    <>
+                                        <Link to={`/product/read/${product.pno}`} className="flex w-full">
+                                            <div key={product.pno} className="w-40 flex-shrink-0 flex flex-col">
+                                                <div className="w-40 h-40 bg-bara_gray_3 flex-shrink-0">
+                                                    <img src={product.fileName} alt={product.pname}
+                                                         className="w-full h-full object-cover"/>
                                                 </div>
-                                            )}
-                                        </div>
-                                    </div>
-
+                                                <div className="mt-2">
+                                                    <h4 className="">{product.pname}</h4>
+                                                    <p className="text-bara_blue text-[1.2rem] font-bold">{product.price}원</p>
+                                                    {product.reviewCount > 0 && (
+                                                        <div className="flex items-center -mt-0">
+                                                            <img src={`/images/star_${product.score}.svg`}/>
+                                                            <span
+                                                                className="ml-1 text-md text-bara_gray_4">({product.reviewCount})</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </>
                                 ))}
                             </div>
 
                             {/* 두 번째 행 */}
                             <div className="flex gap-4">
-                            {products.slice(5).map((product) => (
+                                {products.slice(5).map((product) => (
                                     <div key={product.pno} className="w-40 flex-shrink-0 flex flex-col">
                                         <div className="w-40 h-40 bg-bara_gray_3 flex-shrink-0">
                                             <img src={product.fileName} alt={product.pname}
@@ -86,7 +91,7 @@ function ShopMainPage() {
                                             <p className="text-bara_blue text-[1.2rem] font-bold">{product.price}원</p>
                                             {product.reviewCount > 0 && (
                                                 <div className="flex items-center -mt-0">
-                                                    <img src={`/images/star_${product.score}.svg`} />
+                                                    <img src={`/images/star_${product.score}.svg`}/>
                                                     <span className="ml-1 text-md text-bara_gray_4">({product.reviewCount})</span>
                                                 </div>
                                             )}
