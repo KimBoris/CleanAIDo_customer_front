@@ -1,6 +1,46 @@
 import {Link} from "react-router-dom";
+import {getReviewsByCustomer} from "../../api/reviewAPI.js";
+import {useEffect, useState} from "react";
+import {getFreqProductList} from "../../api/productAPI.js";
+import {fetchOrders} from "../../api/OrderAPI.js";
 
 function MyPageComponent() {
+
+    const [reviewCount, setReviewCount] = useState([]);
+    const [freqProduct, setFreqProduct] = useState([]);
+    const [orderCount, setOrderCount] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    const fetchReviewCount = async () => {
+        getReviewsByCustomer().then((res) => {
+            console.log(res);
+            setReviewCount(res.totalCount);
+        });
+    }
+
+    const fetchListFreqProdcut = async () => {
+        getFreqProductList(1, 5).then((res) => {
+            console.log(res);
+            setFreqProduct(res.dtoList);
+        });
+    }
+    
+    const fetchOrderCount = async () => {
+        fetchOrders("shongdesign@kakao.com").then((res) => {
+            console.log(res.data);
+            setOrderCount(res.data.length);
+
+            const total = res.data.reduce((acc, item) => acc + item.totalPrice, 0);
+            setTotalPrice(total); // 상태 업데이트
+        });
+    }
+
+    useEffect(() => {
+        fetchReviewCount();
+        fetchListFreqProdcut();
+        fetchOrderCount();
+    }, []);
+
     return (
         <div>
             <div className="pb-40 text-bara_sodomy mt-[9rem] bg-bara_gray_1">
@@ -8,12 +48,19 @@ function MyPageComponent() {
                     {/* 사용자 이름 데이터 넣어야 함!!!! */}
                     <b>박소영</b>님, 반갑습니다!
                 </div>
-                <div className="bg-white py-4 px-8">
+                <div className="bg-white py-4 px-8 mb-4">
                     {/* 대시보드 */}
                     <div
                         className="bg-bara_gray_1 rounded-[0.5rem] w-full h-28 flex justify-between items-center p-8 relative">
                         <div className="flex flex-col items-center">
-                            <p className="font-bold text-[1.5rem]">2.3m</p>
+                            <p className="font-bold text-[1.5rem]">
+                                {
+                                    totalPrice >= 10000?
+                                        <span>{Math.floor(totalPrice/10000)}만원</span>
+                                        :
+                                        <span>{totalPrice}원</span>
+                                }
+                            </p>
                             <p>총결제액</p>
                         </div>
 
@@ -22,7 +69,7 @@ function MyPageComponent() {
                             className="absolute left-1/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-[1px] bg-bara_gray_3"></div>
 
                         <div className="flex flex-col items-center">
-                            <p className="font-bold text-[1.5rem]">42</p>
+                            <p className="font-bold text-[1.5rem]">{orderCount}</p>
                             <p>총구매수</p>
                         </div>
 
@@ -31,7 +78,7 @@ function MyPageComponent() {
                             className="absolute left-2/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-[1px] bg-bara_gray_3"></div>
 
                         <div className="flex flex-col items-center">
-                            <p className="font-bold text-[1.5rem]">21</p>
+                            <p className="font-bold text-[1.5rem]">{reviewCount}</p>
                             <p>후기작성</p>
                         </div>
                     </div>
@@ -63,6 +110,38 @@ function MyPageComponent() {
                                 <span>정보수정</span>
                             </div>
                         </Link>
+                    </div>
+                </div>
+                <div className="bg-white p-8">
+                    <h3 className="text-[1.2rem] font-bold">자주 구매한 상품</h3>
+                    <hr className="my-4 border-bara_gray_3"/>
+                    <div className="flex flex-wrap max-w-full overflow-x-auto">
+                        <div className="flex flex-col gap-4">
+                            <div className="flex gap-4">
+                                {freqProduct.map((product) => (
+                                    <>
+                                        <Link to={`/product/read/${product.pno}`} className="flex w-full">
+                                            <div key={product.pno} className="w-40 flex-shrink-0 flex flex-col">
+                                                <div className="w-40 h-40 bg-bara_gray_3 flex-shrink-0">
+                                                    <img src={product.fileName} alt={product.pname}
+                                                         className="w-full h-full object-cover"/>
+                                                </div>
+                                                <div className="mt-2">
+                                                    <h4 className="">{product.pname}</h4>
+                                                    <p className="text-bara_blue text-[1.2rem] font-bold">{product.price.toLocaleString()}원</p>
+                                                    {product.reviewCount > 0 && (
+                                                        <div className="flex items-center -mt-0">
+                                                            <img src={`/images/star_${product.score}.svg`} />
+                                                            <span className="ml-1 text-md text-bara_gray_4">({product.reviewCount})</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
