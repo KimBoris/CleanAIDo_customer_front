@@ -1,11 +1,11 @@
 import ProductListComponent from '../../component/product/ProductListComponent.jsx';
-import NaviBarShop from "../../component/layout/NaviBarShop.jsx";
 import TabBarShop from "../../component/layout/TabBarShop.jsx";
+import NaviBarTitle from "../../component/layout/NaviBarTitle.jsx";
 
 const ProductListPage = () => {
     return (
         <div>
-            <NaviBarShop></NaviBarShop>
+            <NaviBarTitle title={""} path={-1}  />
             <ProductListComponent />
             <TabBarShop></TabBarShop>
 

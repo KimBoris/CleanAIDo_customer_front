@@ -1,4 +1,5 @@
 import './App.css'
+import ChatButton from "./component/common/ChatButton.jsx";
 // import { getToken, onMessage } from "firebase/messaging";
 // import { messaging } from "./firebase/firebaseConfige.js";
 // import {useEffect} from "react";
@@ -35,6 +36,8 @@ function App() {
 
     return (
         <>
+            {/*  AI 채팅 버튼  */}
+            <ChatButton />
         </>
     )
 }

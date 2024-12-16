@@ -15,6 +15,7 @@ const ProductListComponent = () => {
     const navigate = useNavigate();
     const { search } = useLocation();
     const keyword = new URLSearchParams(search).get('keyword') || '';
+    const type = new URLSearchParams(search).get('type') || '';
 
     useEffect(() => {
         setQueryValue(keyword)
@@ -26,7 +27,7 @@ const ProductListComponent = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const data = await getProductList(page, 10, keyword);
+            const data = await getProductList(page, 10, keyword, type);
             setProducts((prevProducts) => [...prevProducts, ...data.dtoList]);
             setTotalPages(data.totalPages);
             // setReviewCount(data.reviewCount)
@@ -67,8 +68,8 @@ const ProductListComponent = () => {
     if (products.length === 0) return <div className="text-center text-xl">No products found</div>;
 
     return (
-        <div className="container bg-bara_gray_1 min-h-screen pb-40">
-            <div className="flex gap-4 items-center justify-between w-full px-8 pb-4 bg-white">
+        <div className="pt-[10rem] container bg-bara_gray_1 min-h-screen pb-40">
+            <div className="flex gap-4 items-center justify-between w-full px-8 py-4 bg-white">
                 <input
                     type="text"
                     value={queryValue}
@@ -83,7 +84,7 @@ const ProductListComponent = () => {
                 />
             </div>
             {/* 제품 리스트 렌더링 */}
-            <ul className="bg-white px-8 py-4 mt-4">
+            <ul className="bg-white px-8 py-4">
                 {products.map((product, index) => (
                     <li key={`${product.pno}--${index}`}>
                         <Link to={`/product/read/${product.pno}`} className="flex w-full">

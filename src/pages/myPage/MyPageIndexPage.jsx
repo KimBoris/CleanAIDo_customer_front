@@ -1,6 +1,6 @@
 import {Outlet} from "react-router-dom";
 
-function MyPage() {
+function MyPageIndexPage() {
     return (
         <div>
             <Outlet />
@@ -8,4 +8,4 @@ function MyPage() {
     );
 }
 
-export default MyPage;
+export default MyPageIndexPage;
