@@ -26,7 +26,7 @@ function MyPageComponent() {
     }
     
     const fetchOrderCount = async () => {
-        fetchOrders("shongdesign@kakao.com").then((res) => {
+        fetchOrders().then((res) => {
             console.log(res.data);
             setOrderCount(res.data.length);
 
@@ -69,7 +69,7 @@ function MyPageComponent() {
                             className="absolute left-1/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-[1px] bg-bara_gray_3"></div>
 
                         <div className="flex flex-col items-center">
-                            <p className="font-bold text-[1.5rem]">{orderCount}</p>
+                            <p className="font-bold text-[1.5rem]">{orderCount}건</p>
                             <p>총구매수</p>
                         </div>
 
@@ -78,7 +78,7 @@ function MyPageComponent() {
                             className="absolute left-2/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-[1px] bg-bara_gray_3"></div>
 
                         <div className="flex flex-col items-center">
-                            <p className="font-bold text-[1.5rem]">{reviewCount}</p>
+                            <p className="font-bold text-[1.5rem]">{reviewCount}건</p>
                             <p>후기작성</p>
                         </div>
                     </div>

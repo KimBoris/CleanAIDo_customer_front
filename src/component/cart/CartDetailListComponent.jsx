@@ -73,7 +73,7 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
 
                         {/* 상품 이미지 및 수량 */}
                         <div className="flex">
-                            <div className="p-2 w-28 h-28 bg-gray-200 flex-shrink-0">
+                            <div className="p-2 w-28 h-28 bg-bara_gray_4 flex-shrink-0">
                                 {item.product?.imageFiles?.length > 0 ? (
                                     <img
                                         src={`/path/to/images/${item.product.imageFiles[0].fileName}`}
@@ -130,14 +130,14 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
             {/* 결제 버튼 및 합계 */}
             {cart.length > 0 && (
                 <div
-                    className="fixed bottom-0 left-0 w-full bg-white px-8 py-4 shadow-md"
+                    className="fixed bottom-0 left-0 w-full bg-white px-8 py-4 pb-12 shadow-md"
                     style={{ zIndex: 100 }}
                 >
                     <button
                         onClick={handlePurchaseClick}
                         disabled={checkedProducts.length === 0}
                         className={`w-full py-4 text-white rounded ${
-                            checkedProducts.length === 0 ? "bg-gray-400" : "bg-blue-500"
+                            checkedProducts.length === 0 ? "bg-bara_gray_3" : "bg-bara_blue"
                         }`}
                     >
                         {totalAmount > 0

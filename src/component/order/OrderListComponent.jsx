@@ -7,34 +7,14 @@ const OrderListComponent = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [customerId, setCustomerId] = useState(""); // 동적으로 고객 ID 상태를 저장
     const navigate = useNavigate();
 
-    // 고객 정보 가져오기
-    const fetchCustomerInfo = async () => {
-        try {
-            const response = await axios.get(
-                "http://10.10.10.151:8080/api/v1/customer/info",
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                    },
-                }
-            );
-
-            const { customerId } = response.data;
-            setCustomerId(customerId);
-        } catch (error) {
-            console.error("Error fetching customer info:", error);
-            setError("고객 정보를 불러오는 데 실패했습니다.");
-        }
-    };
 
     // 주문 목록 불러오기
-    const loadOrders = async (customerId) => {
+    const loadOrders = async () => {
         setLoading(true);
         try {
-            const response = await fetchOrders(customerId);
+            const response = await fetchOrders();
             setOrders(
                 response.data.map((order) => ({
                     orderNumber: order.orderNumber,
@@ -85,17 +65,10 @@ const OrderListComponent = () => {
     // 고객 정보 가져오고 주문 목록 불러오기
     useEffect(() => {
         const initializeData = async () => {
-            await fetchCustomerInfo(); // 고객 정보 가져오기
+            await loadOrders(); // 고객 정보 가져오기
         };
         initializeData();
     }, []);
-
-    // 고객 ID가 설정되면 주문 목록 불러오기
-    useEffect(() => {
-        if (customerId) {
-            loadOrders(customerId);
-        }
-    }, [customerId]);
 
     if (loading) return <div className="text-center text-xl">Loading...</div>;
     if (error) return <div className="text-center text-xl text-red-500">{error}</div>;
