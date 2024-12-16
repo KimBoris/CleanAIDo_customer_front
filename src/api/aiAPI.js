@@ -1,4 +1,5 @@
 import axios from 'axios';
+import useAuthStore from "../store/authStore.js";
 
 const host = 'http://localhost:8080/api/v1/ai'
 
@@ -15,10 +16,16 @@ export const getSolution = async(img, question) =>{
     console.log("getSolution Start!!")
 
     try {
+        const { accessToken } = useAuthStore.getState();
+        console.log("accessToken ; "+accessToken)
 
         console.log(`${host}/solution`)
 
-        const res = await axios.post(`${host}/solution`,formData);
+        const res = await axios.post(`${host}/solution`,formData,{
+            headers: {
+                Authorization: accessToken ? `Bearer ${accessToken}` : "", // accessToken 추가
+            },
+        });
 
         console.log(res)
 

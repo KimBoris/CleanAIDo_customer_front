@@ -6,7 +6,8 @@ const LoginComponent = () => {
 
     const handleKakaoLogin = () => {
         const clientId = "bd7725f821010811fbfbb131b8f9985d"; // REST API 키
-        const redirectUri = "http://www.cleanaido.shop/oauth/kakao/callback"; // Redirect URI
+        // const redirectUri = "http://www.cleanaido.shop/oauth/kakao/callback"; // Redirect URI
+        const redirectUri = "http://localhost:5173/oauth/kakao/callback";
         const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
         window.location.href = kakaoAuthUrl; // 카카오 로그인 페이지로 이동
     };
