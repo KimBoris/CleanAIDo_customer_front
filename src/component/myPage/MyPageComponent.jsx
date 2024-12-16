@@ -2,29 +2,43 @@ import {Link} from "react-router-dom";
 import {getReviewsByCustomer} from "../../api/reviewAPI.js";
 import {useEffect, useState} from "react";
 import {getFreqProductList} from "../../api/productAPI.js";
+import {fetchOrders} from "../../api/OrderAPI.js";
 
 function MyPageComponent() {
 
     const [reviewCount, setReviewCount] = useState([]);
     const [freqProduct, setFreqProduct] = useState([]);
+    const [orderCount, setOrderCount] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
 
     const fetchReviewCount = async () => {
         getReviewsByCustomer().then((res) => {
             console.log(res);
             setReviewCount(res.totalCount);
-        })
+        });
     }
 
     const fetchListFreqProdcut = async () => {
         getFreqProductList(1, 5).then((res) => {
             console.log(res);
             setFreqProduct(res.dtoList);
-        })
+        });
+    }
+    
+    const fetchOrderCount = async () => {
+        fetchOrders("shongdesign@kakao.com").then((res) => {
+            console.log(res.data);
+            setOrderCount(res.data.length);
+
+            const total = res.data.reduce((acc, item) => acc + item.totalPrice, 0);
+            setTotalPrice(total); // 상태 업데이트
+        });
     }
 
     useEffect(() => {
         fetchReviewCount();
         fetchListFreqProdcut();
+        fetchOrderCount();
     }, []);
 
     return (
@@ -39,7 +53,14 @@ function MyPageComponent() {
                     <div
                         className="bg-bara_gray_1 rounded-[0.5rem] w-full h-28 flex justify-between items-center p-8 relative">
                         <div className="flex flex-col items-center">
-                            <p className="font-bold text-[1.5rem]">2.3m</p>
+                            <p className="font-bold text-[1.5rem]">
+                                {
+                                    totalPrice >= 10000?
+                                        <span>{Math.floor(totalPrice/10000)}만원</span>
+                                        :
+                                        <span>{totalPrice}원</span>
+                                }
+                            </p>
                             <p>총결제액</p>
                         </div>
 
@@ -48,7 +69,7 @@ function MyPageComponent() {
                             className="absolute left-1/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-[1px] bg-bara_gray_3"></div>
 
                         <div className="flex flex-col items-center">
-                            <p className="font-bold text-[1.5rem]">42</p>
+                            <p className="font-bold text-[1.5rem]">{orderCount}</p>
                             <p>총구매수</p>
                         </div>
 
@@ -107,7 +128,7 @@ function MyPageComponent() {
                                                 </div>
                                                 <div className="mt-2">
                                                     <h4 className="">{product.pname}</h4>
-                                                    <p className="text-bara_blue text-[1.2rem] font-bold">{product.price}원</p>
+                                                    <p className="text-bara_blue text-[1.2rem] font-bold">{product.price.toLocaleString()}원</p>
                                                     {product.reviewCount > 0 && (
                                                         <div className="flex items-center -mt-0">
                                                             <img src={`/images/star_${product.score}.svg`} />

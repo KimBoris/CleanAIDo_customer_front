@@ -63,7 +63,7 @@ function ShopMainPage() {
                                                 </div>
                                                 <div className="mt-2">
                                                     <h4 className="">{product.pname}</h4>
-                                                    <p className="text-bara_blue text-[1.2rem] font-bold">{product.price}원</p>
+                                                    <p className="text-bara_blue text-[1.2rem] font-bold">{product.price.toLocaleString()}원</p>
                                                     {product.reviewCount > 0 && (
                                                         <div className="flex items-center -mt-0">
                                                             <img src={`/images/star_${product.score}.svg`}/>
@@ -88,7 +88,7 @@ function ShopMainPage() {
                                         </div>
                                         <div className="mt-2">
                                             <h4 className="">{product.pname}</h4>
-                                            <p className="text-bara_blue text-[1.2rem] font-bold">{product.price}원</p>
+                                            <p className="text-bara_blue text-[1.2rem] font-bold">{product.price.toLocaleString()}원</p>
                                             {product.reviewCount > 0 && (
                                                 <div className="flex items-center -mt-0">
                                                     <img src={`/images/star_${product.score}.svg`}/>

@@ -17,6 +17,13 @@ const ProductListComponent = () => {
     const keyword = new URLSearchParams(search).get('keyword') || '';
     const type = new URLSearchParams(search).get('type') || '';
 
+    const [hasMore, setHasMore] = useState(true); // (스크롤) 더 가져올 데이터 여부
+
+    // 무한 스크롤링
+    const { ref, inView } = useInView({
+        threshold: 0,
+    });
+
     useEffect(() => {
         setQueryValue(keyword)
         setProducts([]); // 검색어 변경 시 기존 제품 리스트 초기화
@@ -48,24 +55,19 @@ const ProductListComponent = () => {
         navigate(`/product/list?keyword=${queryValue}`);
     };
 
-    const { ref, inView } = useInView({
-        triggerOnce: false,
-        threshold: 0.1,
-    });
+    // 페이지 변경 시 데이터 로드
+        useEffect(() => {
+            if (inView && hasMore && !loading) {
+                setPage((prevPage) => prevPage + 1);
+            }
+        }, [inView]);
 
-    //inview = true
-    //loading = false
-    //page < totalPage = true
-    useEffect(() => {
-        console.log('inView = ', inView);
-        if (inView && !loading && page < totalPages) {
-            setPage((prevPage) => prevPage + 1);
-        }
-    }, [inView, loading, page, totalPages]);
-
-    if (loading && products.length === 0) return <div className="text-center text-xl">Loading...</div>;
-    if (error) return <div className="text-center text-xl text-red-500">{error}</div>;
-    if (products.length === 0) return <div className="text-center text-xl">No products found</div>;
+        // 페이지가 변경될 때 새로운 데이터를 가져옴
+        useEffect(() => {
+            if (page > 1) {
+                fetchData(page);
+            }
+        }, [page]);
 
     return (
         <div className="pt-[10rem] container bg-bara_gray_1 min-h-screen pb-40">
@@ -98,20 +100,20 @@ const ProductListComponent = () => {
                                 <p className="font-bold text-[1.2rem] text-bara_blue mt-1">{product.price.toLocaleString()}원</p>
                                 {product.reviewCount > 0 && (
                                     <div className="flex items-center -mt-0">
-                                        <img src={`/images/star_${product.score}.svg`} />
+                                        <img src={`/images/star_${product.score}.svg`}/>
                                         <span className="ml-1 text-md text-bara_gray_4">({product.reviewCount})</span>
                                     </div>
                                 )}
                             </div>
                         </Link>
-                        <hr className="my-4" />
+                        <hr className="my-4"/>
                     </li>
                 ))}
             </ul>
 
             {/* 로딩 상태 */}
-            {products.length === 0 && !loading && <div ref={ref} className="h-10 bg-transparent"></div>}
             {loading && <div className="text-center text-xl py-4">Loading more...</div>}
+            <div ref={ref} style={{height: "1px", backgroundColor: "transparent"}}/>
         </div>
     );
 };
