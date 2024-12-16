@@ -6,7 +6,7 @@ import myPageRouter from "./myPageRouter.jsx";
 import cartRouter from "./cartRouter.jsx";
 import SearchIndex from "../pages/SearchIndexPage.jsx";
 import authRouter from "./authRouter.jsx";
-import ProtectedRoute from "../component/ProtectedRoute.jsx"
+import ProtectedRoute from "../component/util/ProtectedRoute.jsx"
 
 const MainPage = lazy(() => import("../pages/MainPage"));
 const ShopMain = lazy(() => import("../pages/ShopMainPage.jsx"));

@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const LoginComponent = () => {
@@ -6,48 +5,50 @@ const LoginComponent = () => {
 
     const handleKakaoLogin = () => {
         const clientId = "bd7725f821010811fbfbb131b8f9985d"; // REST API 키
-        const redirectUri = "http://localhost:5173/oauth/kakao/callback"; // Redirect URI
+        const redirectUri = "http://10.10.10.151:5173/oauth/kakao/callback"; // Redirect URI
         const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
         window.location.href = kakaoAuthUrl; // 카카오 로그인 페이지로 이동
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-bara_gray_1">
-            {/* 로그인 박스 */}
-            <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md text-center">
-                {/* 로고 */}
-                <div className="flex justify-center mb-6">
+        <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-bara_gray_1 via-white to-bara_gray_2">
+            {/* 메인 컨테이너 */}
+            <div className="flex flex-col items-center w-full max-w-md p-8 space-y-8">
+                {/* 타이틀 로고 */}
+                <div className="flex items-center justify-center">
                     <img
                         src="/images/cleanaido_logo_sm.svg"
-                        alt="CleanAI하니 로고"
+                        alt="청소 AI 하니 로고"
                         className="w-40"
                     />
                 </div>
 
-                {/* 제목 */}
-                <h2 className="text-bara_sodomy text-2xl font-medium mb-4">
-                    청소AI하니에 오신 것을 환영합니다!
-                </h2>
-
                 {/* 설명 */}
-                <p className="text-bara_gray_5 mb-8 text-sm">
-                    로그인 후 맞춤형 청소 솔루션을 받아보세요.
+                <p className="text-bara_gray_5 text-sm leading-6 text-center">
+                    <span className="font-bold">AI 싹싹바라</span>가<br />
+                    적재적소에 추천해주는 청소용품
                 </p>
+
+                {/* 메인 이미지 */}
+                <div className="flex items-center justify-center">
+                    <img
+                        src="/images/baras.png"
+                        alt="청소 AI 하니 캐릭터"
+                        className="w-48"
+                    />
+                </div>
 
                 {/* 카카오 로그인 버튼 */}
                 <button
                     onClick={handleKakaoLogin}
-                    className="w-full py-3 bg-yellow-400 text-white font-medium rounded-lg shadow hover:bg-yellow-500 transition duration-300"
+                    className="w-full flex items-center justify-center py-3 text-bara_sodomy font-medium rounded-lg bg-yellow-400 hover:bg-yellow-500 transition duration-300"
                 >
-                    카카오로 로그인하기
-                </button>
-
-                {/* 회원가입 버튼 */}
-                <button
-                    onClick={handleKakaoLogin}
-                    className="w-full py-3 mt-4 bg-bara_blue text-white font-medium rounded-lg shadow hover:bg-bara_sky_blue transition duration-300"
-                >
-                    카카오로 회원가입하기
+                    <img
+                        src="/images/kakao_icon.png"
+                        alt="카카오 아이콘"
+                        className="w-5 h-5 mr-2"
+                    />
+                    카카오 계정으로 로그인
                 </button>
             </div>
         </div>

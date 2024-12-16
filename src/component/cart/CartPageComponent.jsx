@@ -1,48 +1,51 @@
 import { useEffect, useState } from "react";
 import CartDetailListComponent from "./CartDetailListComponent.jsx";
-import { getCartList, updateQty } from "../../api/cartAPI.js";
-import { deleteCart } from "../../api/cartAPI.js"; // deleteCart API import
+import { getCartList, deleteCart, updateQty, addCartItem } from "../../api/cartAPI.js";
 
 function CartPageComponent() {
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+    // 장바구니 목록 조회
+    const fetchCartList = async () => {
         setLoading(true);
-
-        getCartList()
-            .then(data => {
-                console.log(data);
-                setCart(data); // 장바구니 상태 업데이트
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching orders:', error);
-                setError('Failed to fetch orders. Please try again later.');
-                setLoading(false);
-            });
-    }, []);
-
-    const handleCartItemDelete = async (cdno) => {
         try {
-            await deleteCart(cdno);  // 서버에서 장바구니 항목 삭제
-            const data = await getCartList(); // 삭제 후 최신 장바구니 목록을 가져오기
-            setCart(data);  // 상태 업데이트
+            const data = await getCartList();
+            setCart(data);
         } catch (error) {
-            console.error("Error deleting cart item:", error);
-            setError("Failed to delete item. Please try again.");
+            console.error("Error fetching cart list:", error);
+            setError("장바구니를 불러오는 데 실패했습니다.");
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleCartQtyUpdate = async (cdno, quantity) => {
+    useEffect(() => {
+        fetchCartList();
+    }, []);
+
+    // 장바구니 항목 삭제
+    const handleDelete = async (cdno) => {
         try {
-            await updateQty(cdno, quantity);  // 서버에서 수량 업데이트
-            const data = await getCartList(); // 수량 업데이트 후 최신 장바구니 목록 가져오기
-            setCart(data);  // 상태 업데이트
+            await deleteCart(cdno);
+            setCart((prev) => prev.filter((item) => item.cdno !== cdno));
         } catch (error) {
-            console.error("Error update quantity:", error);
-            setError("Failed to update item. Please try again.");
+            console.error("Error deleting item:", error);
+            setError("상품 삭제에 실패했습니다.");
+        }
+    };
+
+    // 수량 업데이트
+    const handleUpdateQty = async (cdno, quantity) => {
+        try {
+            await updateQty(cdno, quantity);
+            setCart((prev) =>
+                prev.map((item) => (item.cdno === cdno ? { ...item, quantity } : item))
+            );
+        } catch (error) {
+            console.error("Error updating quantity:", error);
+            setError("수량 업데이트에 실패했습니다.");
         }
     };
 
@@ -50,11 +53,11 @@ function CartPageComponent() {
     if (error) return <div>{error}</div>;
 
     return (
-        <div>
+        <div className="p-4">
             <CartDetailListComponent
                 cart={cart}
-                onDelete={handleCartItemDelete}
-                onUpdate={handleCartQtyUpdate}
+                onDelete={handleDelete}
+                onUpdate={handleUpdateQty}
             />
         </div>
     );

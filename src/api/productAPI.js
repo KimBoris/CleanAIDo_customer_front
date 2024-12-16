@@ -1,12 +1,13 @@
 import axios from "axios";
 import useAuthStore from "../store/authStore.js";
 
-const host = "api/v1/product";
+const host = "http://10.10.10.151:8080/api/v1/product";
 
 export const getProductList = async (page, size, keyword = '') => {
     try {
         const { accessToken } = useAuthStore.getState(); // accessToken 가져오기
-        const params = {
+        const params
+            = {
             page: page || 1,
             size: size || 10,
             ...(keyword && {keyword}),

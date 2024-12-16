@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const host = 'http://localhost:8080/api/v1/ai'
+const host = 'http://10.10.10.151:8080/api/v1/ai'
 
 export const getSolution = async(img, question) =>{
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "api/auth";
+const host = "http://10.10.10.151:8080/api/auth";
 
 // 카카오 로그인
 export const kakaoLogin = async (code) => {
