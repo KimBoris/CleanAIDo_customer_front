@@ -101,36 +101,72 @@ function ProductReadComponent() {
                 </button>
             </div>
 
-            {/* 수량 선택 및 장바구니 추가 */}
+            {/* 수량 체크 및 장바구니 추가, 구매하기 */}
             {selectQnt && (
-                <div className="fixed bottom-0 left-0 w-full bg-white px-8">
-                    <div className="flex justify-between p-4">
-                        <span>수량</span>
-                        <div>
-                            <button onClick={() => setQty(qty - 1)} disabled={qty <= 1}>
-                                -
-                            </button>
-                            <input value={qty} readOnly className="w-12 text-center" />
-                            <button onClick={() => setQty(qty + 1)}>+</button>
+                <div
+                    className="fixed bottom-0 left-0 w-full bg-white text-bara_sodomy px-8"
+                    style={{ boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)' }}
+                >
+                    {/* 닫기 버튼 */}
+                    <img
+                        src="/images/close.svg"
+                        className="ml-auto w-4 mt-8 cursor-pointer"
+                        onClick={() => setSelectQnt(false)}
+                        alt="close"
+                    />
+
+                    {/* 수량 선택 */}
+                    <div>
+                        <div className="bg-bara_gray_1 flex p-4 mt-4 justify-between">
+                            <span>수량</span>
+                            <div>
+                                <button
+                                    onClick={() => setQty(Math.max(1, qty - 1))}
+                                    className="px-2 bg-bara_gray_2"
+                                >
+                                    -
+                                </button>
+                                <input
+                                    type="number"
+                                    value={qty}
+                                    onChange={(e) => setQty(Math.max(1, parseInt(e.target.value || 1)))}
+                                    className="w-8 text-center"
+                                />
+                                <button
+                                    onClick={() => setQty(qty + 1)}
+                                    className="px-2 bg-bara_gray_2"
+                                >
+                                    +
+                                </button>
+                            </div>
+                        </div>
+                        <hr className="border-bara_gray_2 my-4" />
+
+                        {/* 총 수량 및 가격 */}
+                        <div className="flex justify-between mb-4 font-bold">
+                            <span>총 {qty}개</span>
+                            <span>{product.price * qty}원</span>
                         </div>
                     </div>
 
-                    <div className="flex gap-4">
+                    {/* 버튼 영역 */}
+                    <div className="flex gap-4 mb-12">
                         <button
-                            onClick={handleAddCartClick}
-                            className="w-full bg-bara_sky_blue py-4 text-white rounded"
+                            onClick={() => handleAddCartClick(product.pno, qty)}
+                            className="w-full bg-bara_sky_blue py-4 text-white rounded-[0.5rem]"
                         >
                             장바구니에 담기
                         </button>
                         <button
-                            onClick={handlePurchaseClick}
-                            className="w-full bg-bara_blue py-4 text-white rounded"
+                            onClick={() => handlePurchaseClick(product, qty)}
+                            className="w-full bg-bara_blue py-4 text-white rounded-[0.5rem]"
                         >
                             구매하기
                         </button>
                     </div>
                 </div>
             )}
+
 
             {/* 모달 디자인 */}
             {showModal && (
