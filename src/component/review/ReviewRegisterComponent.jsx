@@ -1,8 +1,8 @@
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useRef, useState} from "react";
 import {getProductOne} from "../../api/productAPI.js";
 import {registReview} from "../../api/reviewAPI.js";
-import useImageUpload from "../../hooks/useImageUpload.js";
+import ModalComponent from "../common/ModalComponent.jsx";
 
 function ReviewRegisterComponent() {
     const { state } = useLocation();
@@ -13,6 +13,9 @@ function ReviewRegisterComponent() {
     const totalStars = 5; // 총 별 개수
     const [files, setFiles] = useState({});
     const [previews, setPreviews] = useState({}); // 상품별 미리보기 URL 리스트
+    const [isModal, setIsModal] = useState(false);
+
+    const navigate = useNavigate();
 
     const fileInputRefs = useRef({}); // 파일첨부 참조
 
@@ -120,7 +123,13 @@ function ReviewRegisterComponent() {
 
             await registReview(formData);
         }
+        setIsModal(true);
     }
+
+    const closeModal = () => {
+        setIsModal(false);
+        navigate("/mypage/review/list")
+    };
 
 
     useEffect(() => {
@@ -225,6 +234,7 @@ function ReviewRegisterComponent() {
                     리뷰 작성 완료
                 </button>
             </div>
+            {isModal && <ModalComponent title="등록이 완료었습니다!" onClose={closeModal}></ModalComponent>}
         </div>
 
     );
