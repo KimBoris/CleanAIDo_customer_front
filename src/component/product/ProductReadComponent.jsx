@@ -59,7 +59,7 @@ function ProductReadComponent() {
     if (error) return <div>{error}</div>;
 
     return (
-        <div className="pb-40 text-bara_sodomy">
+        <div className="pb-40 text-bara_sodomy mt-[9rem]">
             <div>
                 <div key={product.pno} className="grid grid-cols-1 md:grid-cols-2 mb-4">
                     {/* 이미지 캐러셀 */}

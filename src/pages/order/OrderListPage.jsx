@@ -5,7 +5,7 @@ import TabBarShop from "../../component/layout/TabBarShop.jsx";
 const OrderListPage = () => {
     return (
         <div>
-            <NaviBarTitle title={"주문 목록"} />
+            <NaviBarTitle title={"주문 목록"} path={-1} />
             <OrderListComponent />
             <TabBarShop />
         </div>
