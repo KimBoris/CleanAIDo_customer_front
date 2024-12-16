@@ -1,7 +1,7 @@
 import useOrderStore from '../../store/useOrderStore.js';
 import { createOrder } from '../../api/OrderAPI.js';
 import { useNavigate } from 'react-router-dom';
-import React from "react";
+import {useEffect} from "react";
 
 const OrderCompleteComponent = () => {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ const OrderCompleteComponent = () => {
         }
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         console.log("completepage에 들어왔습니다.");
         console.log('초기 purchasedDTO:', purchasedDTO);
 

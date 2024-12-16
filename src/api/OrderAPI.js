@@ -37,13 +37,15 @@ export const createOrder = (orderData) => {
 
 export const preParePayment = (totalPrice) => {
     const { accessToken } = useAuthStore.getState();
+    console.log("Access Token:", accessToken); // 토큰 확인
 
     return axios.post(`${host}/pay/ready`, null, {
-        params: { totalPrice }, // `params`를 사용하여 쿼리 문자열로 전달
+        params: { totalPrice },
         headers: {
             Authorization: accessToken ? `Bearer ${accessToken}` : "", // accessToken 추가
         },
     });
 };
+
 
 
