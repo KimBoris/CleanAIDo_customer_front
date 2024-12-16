@@ -82,3 +82,29 @@ export const getProductSuggestList = async () => {
 
     }
 }
+
+// 자주 구매한 상품
+export const getFreqProductList = async (page, size) => {
+    const { accessToken } = useAuthStore.getState(); // accessToken 가져오기
+
+    const params = {
+        page: page || 1,
+        size: size || 5,
+    };
+
+    try {
+
+        const res = await axios.get(`${host}/freq`, {
+            params,
+            headers: {
+                Authorization: accessToken ? `Bearer ${accessToken}` : "", // accessToken 추가
+            },
+        })
+
+        return res.data;
+
+    } catch (error) {
+        console.error("자주 구매한 상품 호출 실패", error.response?.data || error.message);
+        throw error;
+    }
+}

@@ -36,7 +36,7 @@ const OrderCreateComponent = () => {
         const fetchCustomerInfo = async () => {
             try {
                 const response = await axios.get(
-                    'http://10.10.10.151:8080/api/v1/customer/info',
+                    'http://localhost:8080/api/v1/customer/info',
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,

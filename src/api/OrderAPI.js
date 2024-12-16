@@ -4,10 +4,9 @@ import useAuthStore from "../store/authStore.js";
 const host = 'http://localhost:8080/api/v1/mypage/order';
 
 // 고객 주문 목록 조회 API
-export const fetchOrders = (customerId) => {
+export const fetchOrders = () => {
     const { accessToken } = useAuthStore.getState();
     return axios.get(`${host}/list`, {
-        params: { customerId },
         headers: {
             Authorization: accessToken ? `Bearer ${accessToken}` : "", // accessToken 추가
         },
