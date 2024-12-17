@@ -111,7 +111,8 @@ function TextModalComponent({handleShotClick, encodedImg, formData, url, callbac
                     )}
                     <div className="px-8 w-full min-h-screen fixed bg-bara_gray_1 z-10">
                         {/* 닫기 버튼 */}
-                        <div className="min-h-16 mb-12">
+                        <div className="fixed top-0 left-0 right-0 min-h-16 px-8 py-4 bg-white z-50"
+                             style={{ boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}>
                             <div className="h-[7rem] pt-12 flex items-center justify-between box-border">
                                 <img
                                     src="/images/close.svg"

@@ -59,10 +59,11 @@ function ChatModalComponent({handleShotClick, callback}) {
     });
 
     return (
-        <>
+        <div>
             <div className="px-8 w-full min-h-screen bg-bara_gray_1 z-50">
                 {/* 닫기 버튼 */}
-                <div className="min-h-16 mb-12">
+                <div className="fixed top-0 left-0 right-0 min-h-16 px-8 py-4 bg-white z-50"
+                     style={{ boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}>
                     <div className="h-[7rem] pt-12 flex items-center justify-between box-border">
                         <img
                             src="/images/close.svg"
@@ -74,7 +75,7 @@ function ChatModalComponent({handleShotClick, callback}) {
                 </div>
                 
                 {/*  컨텐츠  */}
-                <div className="text-[0.875rem] mb-4">
+                <div className="text-[0.875rem] mb-4 pt-[10rem]">
                     {/* 고객 질문 */}
                     <div
                         className="
@@ -114,7 +115,7 @@ function ChatModalComponent({handleShotClick, callback}) {
                     다른 질문 하기
                 </button>
             </div>
-        </>
+        </div>
     );
 }
 

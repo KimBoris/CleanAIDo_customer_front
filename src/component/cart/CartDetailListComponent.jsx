@@ -1,71 +1,40 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function CartDetailListComponent({ cart, onDelete, onUpdate }) {
     const navigate = useNavigate();
-
-    // 선택된 상품들을 저장하는 상태
     const [checkedProducts, setCheckedProducts] = useState([]);
 
-    // 체크박스 변경 처리 함수
+    // 체크박스 상태 토글
     const handleCheckboxChange = (item) => {
-        setCheckedProducts((prevCheckedProducts) => {
-            if (prevCheckedProducts.some(checkedItem => checkedItem.cdno === item.cdno)) {
-                // 이미 선택된 경우 배열에서 제거
-                return prevCheckedProducts.filter(checkedItem => checkedItem.cdno !== item.cdno);
-            } else {
-                // 선택되지 않은 경우 배열에 추가
-                return [...prevCheckedProducts, item];
-            }
-        });
+        setCheckedProducts((prev) =>
+            prev.some((p) => p.cdno === item.cdno)
+                ? prev.filter((p) => p.cdno !== item.cdno)
+                : [...prev, item]
+        );
     };
 
     // 선택된 상품들의 총 합계 계산
-    const totalAmount = checkedProducts.reduce((total, item) => {
-        return total + item.product.price * item.quantity;
-    }, 0);
+    const totalAmount = checkedProducts.reduce(
+        (total, item) => total + (item.product?.price || 0) * item.quantity,
+        0
+    );
 
-    // 상품 삭제 처리 함수
+    // 상품 삭제 처리
     const handleDeleteCart = async (cdno) => {
-        try {
-            await onDelete(cdno);  // 부모에서 전달된 onDelete 호출
-            setCheckedProducts((prevCheckedProducts) =>
-                prevCheckedProducts.filter((item) => item.cdno !== cdno)
-            );  // 삭제된 상품은 체크박스에서 제거
-        } catch (error) {
-            console.error("Error deleting cart item:", error);
-        }
+        await onDelete(cdno);
+        setCheckedProducts((prev) => prev.filter((item) => item.cdno !== cdno));
     };
 
-    // 수량 업데이트 처리 함수
+    // 수량 업데이트
     const handleUpdateQty = async (cdno, newQuantity) => {
-        try {
-            await onUpdate(cdno, newQuantity);  // 부모에서 전달된 onUpdate 호출
-            setCheckedProducts((prevCheckedProducts) =>
-                prevCheckedProducts.map((item) =>
-                    item.cdno === cdno ? { ...item, quantity: newQuantity } : item
-                )
-            );  // 수량 업데이트
-        } catch (error) {
-            console.error("Error updating cart item quantity:", error);
-        }
+        if (newQuantity < 1) return; // 수량이 1 미만으로 내려가는 것 방지
+        await onUpdate(cdno, newQuantity);
     };
 
-    // 수량 감소 처리 함수
-    const handleMinusQty = async (cdno, quantity) => {
-        if (quantity > 1) {
-            await handleUpdateQty(cdno, quantity - 1);
-        }
-    };
-
-    // 수량 증가 처리 함수
-    const handlePlusQty = async (cdno, quantity) => {
-        await handleUpdateQty(cdno, quantity + 1);
-    };
-
-    // '구매하기' 버튼 클릭 처리 함수
+    // 구매하기 버튼 클릭
     const handlePurchaseClick = () => {
-        const productsToPurchase = checkedProducts.map(item => ({
+        const productsToPurchase = checkedProducts.map((item) => ({
             productId: item.product.pno,
             pname: item.product.pname,
             price: item.product.price,
@@ -73,83 +42,110 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
         }));
 
         if (productsToPurchase.length === 0) {
-            alert("선택된 상품이 유효하지 않습니다.");
+            alert("선택된 상품이 없습니다.");
             return;
         }
 
         navigate("/mypage/order/create", { state: { products: productsToPurchase } });
     };
+
     return (
         <div className="container bg-bara_gray_1 min-h-screen pb-48 mt-[10rem]">
             <ul className="mt-4 bg-white py-4">
                 {cart.map((item) => (
                     <li key={item.cdno} className="px-8">
-                        <div>
-                            <div className="flex justify-between py-1">
-                                <div className="flex items-start space-x-2">
-                                    <input
-                                        type="checkbox"
-                                        className="w-5 h-5"
-                                        onChange={() => handleCheckboxChange(item)}
-                                        checked={checkedProducts.some(checkedItem => checkedItem.cdno === item.cdno)}
-                                    />
-                                    <h3 className="w-64 overflow-hidden line-clamp-2 mt-[-0.2rem]">{item.product.pname}</h3>
-                                </div>
-                                <button
-                                    className="w-10 h-10 flex items-center justify-center"
-                                    onClick={() => handleDeleteCart(item.cdno)}
-                                >
-                                    <img className="w-4 h-4" src="/images/close.svg"/>
-                                </button>
+                        <div className="flex justify-between py-2">
+                            {/* 체크박스와 상품명 */}
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    className="w-5 h-5"
+                                    onChange={() => handleCheckboxChange(item)}
+                                    checked={checkedProducts.some((p) => p.cdno === item.cdno)}
+                                />
+                                <h3 className="line-clamp-1 w-64">{item.product.pname}</h3>
                             </div>
-                            <div className="flex pb-6">
-                                <div className="flex-shrink-0 p-2 w-28 h-28 bg-bara_gray_4">
-                                    {item.product.imageFiles && item.product.imageFiles.length > 0 ? (
-                                        <img src={`path/to/images/${item.product.imageFiles[0].fileName}`}
-                                             alt="상품 이미지"/>
-                                    ) : (
-                                        <span className="no-image">No Image</span>
-                                    )}
-                                </div>
-                                <div className="px-3 flex flex-col justify-between items-start w-full">
-                                <p className="text-[1.2rem] font-bold text-bara_blue">{item.product.price.toLocaleString()} 원</p>
+                            {/* 삭제 버튼 */}
+                            <button onClick={() => handleDeleteCart(item.cdno)}>
+                                <img src="/images/close.svg" alt="삭제" className="w-4 h-4" />
+                            </button>
+                        </div>
 
-                                    <div className="bg-bara_gray_1 w-full flex p-4 mt-4 justify-between">
-                                        <span>수량</span>
-                                        <div>
-                                            <button
-                                                onClick={() => handleMinusQty(item.cdno, item.quantity)}
-                                                className="px-2 bg-bara_gray_2">-</button>
-                                            <input
-                                                value={item.quantity}
-                                                type="number"
-                                                className="w-16 text-center"
-                                            />
-                                            <button
-                                                onClick={() => handlePlusQty(item.cdno, item.quantity)}
-                                                className="px-2 bg-bara_gray_2">+</button>
-                                        </div>
+                        {/* 상품 이미지 및 수량 */}
+                        <div className="flex">
+                            <div className="p-2 w-28 h-28 bg-bara_gray_4 flex-shrink-0">
+                                {item.product?.imageFiles?.length > 0 ? (
+                                    <img
+                                        src={`/path/to/images/${item.product.imageFiles[0].fileName}`}
+                                        alt="상품 이미지"
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <span>No Image</span>
+                                )}
+                            </div>
+
+                            {/* 상품 가격 및 수량 조작 */}
+                            <div className="flex flex-col justify-between px-4 w-full">
+                                <p className="text-lg font-bold">{item.product.price.toLocaleString()} 원</p>
+                                <p className="text-sm text-gray-500">
+                                    총 가격:{" "}
+                                    <span className="font-semibold">
+                                        {(item.product.price * item.quantity).toLocaleString()} 원
+                                    </span>
+                                </p>
+                                <div className="flex items-center space-x-4 mt-2">
+                                    <span>수량</span>
+                                    <div className="flex items-center">
+                                        <button
+                                            onClick={() => handleUpdateQty(item.cdno, item.quantity - 1)}
+                                            className="px-2 bg-gray-300 rounded"
+                                        >
+                                            -
+                                        </button>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            value={item.quantity}
+                                            onChange={(e) =>
+                                                handleUpdateQty(item.cdno, parseInt(e.target.value, 10) || 1)
+                                            }
+                                            className="w-16 text-center border rounded"
+                                        />
+                                        <button
+                                            onClick={() => handleUpdateQty(item.cdno, item.quantity + 1)}
+                                            className="px-2 bg-gray-300 rounded"
+                                        >
+                                            +
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <hr className="border-bara_gray_2 mb-4"/>
+                        <hr className="my-4 border-gray-300" />
                     </li>
                 ))}
             </ul>
-            <div
-                className="fixed bottom-0 left-0 w-full bg-white text-bara_sodomy px-8 pt-4 pb-12"
-                style={{boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.1)'}}
-            >
-                <button
-                    className="w-full py-4 bg-bara_blue text-white rounded"
-                    onClick={handlePurchaseClick}
-                    disabled={checkedProducts.length === 0}
+
+            {/* 결제 버튼 및 합계 */}
+            {cart.length > 0 && (
+                <div
+                    className="fixed bottom-0 left-0 w-full bg-white px-8 py-4 pb-12 shadow-md"
+                    style={{ zIndex: 100 }}
                 >
-                    {totalAmount > 0 ?
-                        <span>{totalAmount.toLocaleString()}원</span> : <span></span>} 구매하기
-                </button>
-            </div>
+                    <button
+                        onClick={handlePurchaseClick}
+                        disabled={checkedProducts.length === 0}
+                        className={`w-full py-4 text-white rounded ${
+                            checkedProducts.length === 0 ? "bg-bara_gray_3" : "bg-bara_blue"
+                        }`}
+                    >
+                        {totalAmount > 0
+                            ? `${totalAmount.toLocaleString()}원 구매하기`
+                            : "구매하기"}
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

@@ -6,14 +6,17 @@ import myPageRouter from "./myPageRouter.jsx";
 import cartRouter from "./cartRouter.jsx";
 import SearchIndex from "../pages/SearchIndexPage.jsx";
 import authRouter from "./authRouter.jsx";
-import ProtectedRoute from "../component/ProtectedRoute.jsx"
+import ProtectedRoute from "../component/util/ProtectedRoute.jsx"
 import categoryRouter from "./categoryRouter.jsx";
 import LoadingPage from "../pages/LoadingPage.jsx";
+import LayoutPage from "../pages/LayoutPage.jsx";
 
 const MainPage = lazy(() => import("../pages/MainPage"));
 const ShopMain = lazy(() => import("../pages/ShopMainPage.jsx"));
+const Layout = lazy(() => import("../pages/LayoutPage.jsx"));
 
 const Loading = <LoadingPage />;
+
 
 
 const mainRouter = createBrowserRouter([
@@ -24,21 +27,26 @@ const mainRouter = createBrowserRouter([
         element: <ProtectedRoute />, // ProtectedRoute 적용
         children: [
             {
-                path: "/",
-                element: <Suspense fallback={Loading}><MainPage /></Suspense>,
-            },
-            {
-                path: "/search",
-                element: <Suspense fallback={Loading}><SearchIndex /></Suspense>,
-            },
-            {
-                path: "/shop",
-                element: <Suspense fallback={Loading}><ShopMain></ShopMain></Suspense>
-            },
-            productRouter, // 상품 라우터
-            cartRouter,    // 장바구니 라우터
-            myPageRouter,  // 마이페이지 라우터
-            categoryRouter,
+                element: <Layout />,
+                children: [
+                    {
+                        path: "/",
+                        element: <Suspense fallback={Loading}><MainPage /></Suspense>,
+                    },
+                    {
+                        path: "/search",
+                        element: <Suspense fallback={Loading}><SearchIndex /></Suspense>,
+                    },
+                    {
+                        path: "/shop",
+                        element: <Suspense fallback={Loading}><ShopMain></ShopMain></Suspense>
+                    },
+                    productRouter, // 상품 라우터
+                    cartRouter,    // 장바구니 라우터
+                    myPageRouter,  // 마이페이지 라우터
+                    categoryRouter,
+                ]
+            }
         ],
     },
 

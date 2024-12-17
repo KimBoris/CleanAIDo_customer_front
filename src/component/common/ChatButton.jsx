@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, useRef} from "react";
+import useImageUpload from "../../hooks/useImageUpload.js";
+import ChatModalComponent from "../ai/ChatModalComponent.jsx";
 
 function ChatButton() {
     const [isVisible, setIsVisible] = useState(false);
@@ -23,13 +25,45 @@ function ChatButton() {
         checkLocalStorage();
     }, []);
 
+    // const fileInputRef = useRef(null); // 파일 입력 참조
+    // const cameraInputRef = useRef(null); // 카메라 참조
+    //
+    // const [isModalOpen, setIsModalOpen] = useState(false); // 모달 사용 유무
+    //
+    // const {handleShotClick, handleFileChange} = useImageUpload(fileInputRef, cameraInputRef)
+    //
+    // const handleClickButtom = () => {
+    //     setIsModalOpen(true);
+    // }
+    //
+    // // 모달 닫기
+    // const closeCallback = () => {
+    //     setIsModalOpen(false);
+    // }
+
     return (
         <>
+            {/*{isModalOpen && (*/}
+            {/*    <div className="z-100">*/}
+            {/*        <ChatModalComponent handleShotClick={handleShotClick} callback={closeCallback}/>*/}
+
+            {/*        <input*/}
+            {/*            type="file"*/}
+            {/*            ref={cameraInputRef}*/}
+            {/*            accept="image/*"*/}
+            {/*            capture="environment"*/}
+            {/*            onChange={handleFileChange}*/}
+            {/*            style={{display: "none"}}*/}
+            {/*        />*/}
+            {/*    </div>*/}
+            {/*)}*/}
+
             {isVisible && (
                 <div className="fixed bottom-28 right-0 z-99">
                     <img src="/images/chat_button.svg" className="w-[6.25rem]" alt="Chat" />
                 </div>
             )}
+
         </>
     );
 }
