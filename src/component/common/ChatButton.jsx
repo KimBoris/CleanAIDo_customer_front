@@ -26,7 +26,7 @@ function ChatButton() {
     return (
         <>
             {isVisible && (
-                <div className="fixed bottom-28 right-0 z-100">
+                <div className="fixed bottom-28 right-0 z-99">
                     <img src="/images/chat_button.svg" className="w-[6.25rem]" alt="Chat" />
                 </div>
             )}

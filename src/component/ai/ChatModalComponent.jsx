@@ -95,14 +95,15 @@ function ChatModalComponent({handleShotClick, callback}) {
                     <img src="/images/bara_profile.png" className="mb-4"/>
                     <div className="w-full bg-white p-4 text-bara_sodomy rounded-[0.5rem]">
                         <p>안녕하세요. AI 싹싹바라 입니다.</p>
-                        <pre className="whitespace-pre-wrap break-words font-sans">{solution}</pre>
+                        <p className="whitespace-pre-wrap break-words font-sans">
+                            {solution.replace(/\\n/g, '\n')}
+                        </p>
                         <hr className="border-bara_gray_3 my-4"/>
 
                         {/* 상품 추천 */}
                         <div className="">
                             {productList}
                         </div>
-
                     </div>
                 </div>
 
