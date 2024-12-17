@@ -1,57 +1,89 @@
-import {Link} from "react-router-dom";
-import {getReviewsByCustomer} from "../../api/reviewAPI.js";
-import {useEffect, useState} from "react";
-import {getFreqProductList} from "../../api/productAPI.js";
-import {fetchOrders} from "../../api/OrderAPI.js";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getReviewsByCustomer } from "../../api/reviewAPI.js";
+import { getFreqProductList } from "../../api/productAPI.js";
+import { fetchOrders } from "../../api/OrderAPI.js";
+import { fetchCustomerInfo } from "../../api/customerAPI.js";
 
 function MyPageComponent() {
-
-    const [reviewCount, setReviewCount] = useState([]);
+    const [reviewCount, setReviewCount] = useState(0);
     const [freqProduct, setFreqProduct] = useState([]);
-    const [orderCount, setOrderCount] = useState([]);
+    const [orderCount, setOrderCount] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
+    const [customerName, setCustomerName] = useState("사용자"); // 기본값 설정
+    const [errorMessage, setErrorMessage] = useState(""); // 오류 메시지 상태
 
+    // 고객 정보 가져오기
+    useEffect(() => {
+        const loadCustomerInfo = async () => {
+            try {
+                const data = await fetchCustomerInfo(); // API 호출
+                setCustomerName(data.customerName); // 사용자 이름 설정
+            } catch (error) {
+                console.error("Error fetching customer info:", error);
+                setErrorMessage("고객 정보를 불러오는 데 실패했습니다.");
+            }
+        };
+
+        loadCustomerInfo();
+    }, []);
+
+    // 리뷰 개수 가져오기
     const fetchReviewCount = async () => {
-        getReviewsByCustomer().then((res) => {
-            console.log(res);
+        try {
+            const res = await getReviewsByCustomer();
             setReviewCount(res.totalCount);
-        });
-    }
+        } catch (error) {
+            console.error("리뷰 개수 가져오기 실패:", error);
+        }
+    };
 
-    const fetchListFreqProdcut = async () => {
-        getFreqProductList(1, 5).then((res) => {
-            console.log(res);
+    // 자주 구매한 상품 가져오기
+    const fetchListFreqProduct = async () => {
+        try {
+            const res = await getFreqProductList(1, 5);
             setFreqProduct(res.dtoList);
-        });
-    }
-    
+        } catch (error) {
+            console.error("자주 구매한 상품 가져오기 실패:", error);
+        }
+    };
+
+    // 주문 개수 및 총 금액 가져오기
     const fetchOrderCount = async () => {
-        fetchOrders().then((res) => {
-            console.log(res.data);
+        try {
+            const res = await fetchOrders();
             setOrderCount(res.data.length);
 
             const total = res.data.reduce((acc, item) => acc + item.totalPrice, 0);
-            setTotalPrice(total); // 상태 업데이트
-        });
-    }
+            setTotalPrice(total);
+        } catch (error) {
+            console.error("주문 개수 가져오기 실패:", error);
+        }
+    };
 
+    // 데이터 불러오기
     useEffect(() => {
         fetchReviewCount();
-        fetchListFreqProdcut();
+        fetchListFreqProduct();
         fetchOrderCount();
     }, []);
 
     return (
         <div>
             <div className="pb-40 text-bara_sodomy mt-[9rem] bg-bara_gray_1">
+                {/* 고객 이름 */}
                 <div className="px-8 pt-8 text-[1.2rem] pb-4">
-                    {/* 사용자 이름 데이터 넣어야 함!!!! */}
-                    <b>박소영</b>님, 반갑습니다!
+                    {errorMessage ? (
+                        <span className="text-red-500">{errorMessage}</span>
+                    ) : (
+                        <b>{customerName}</b>
+                    )}
+                    님, 반갑습니다!
                 </div>
+
+                {/* 대시보드 */}
                 <div className="bg-white py-4 px-8 mb-4">
-                    {/* 대시보드 */}
-                    <div
-                        className="bg-bara_gray_1 rounded-[0.5rem] w-full h-28 flex justify-between items-center p-8 relative">
+                    <div className="bg-bara_gray_1 rounded-[0.5rem] w-full h-28 flex justify-between items-center p-8 relative">
                         <div className="flex flex-col items-center">
                             <p className="font-bold text-[1.2rem]">
                                 {

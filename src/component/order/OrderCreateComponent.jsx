@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 import { preParePayment } from '../../api/orderAPI.js';
 import useOrderStore from '../../store/useOrderStore.js';
+import {fetchCustomerInfo} from "../../api/customerAPI.js";
 
 const OrderCreateComponent = () => {
     const { state } = useLocation();
@@ -33,29 +33,21 @@ const OrderCreateComponent = () => {
 
     // 고객 정보 가져오기
     useEffect(() => {
-        const fetchCustomerInfo = async () => {
+        const loadCustomerInfo = async () => {
             try {
-                const response = await axios.get(
-                    'http://localhost:8080/api/v1/customer/info',
-                    {
-                        headers: {
-                            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                        },
-                    }
-                );
 
-                const { customerId, customerName, phoneNumber, address } = response.data;
-                setCustomerId(customerId);
-                setCustomerName(customerName);
-                setPhoneNumber(phoneNumber);
-                setDeliveryAddress(address);
+                const data = await fetchCustomerInfo();
+                setCustomerId(data.customerId);
+                setCustomerName(data.customerName);
+                setPhoneNumber(data.phoneNumber);
+                setDeliveryAddress(data.deliveryAddress);
             } catch (error) {
                 console.error('Error fetching customer info:', error);
                 setErrorMessage('고객 정보를 불러오는 데 실패했습니다.');
             }
         };
 
-        fetchCustomerInfo();
+        loadCustomerInfo();
     }, []);
 
     // 주문 처리
