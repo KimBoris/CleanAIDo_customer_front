@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchOrders, updateOrderStatus } from "../../api/orderApi";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const OrderListComponent = () => {
     const [orders, setOrders] = useState([]);
@@ -57,9 +56,10 @@ const OrderListComponent = () => {
     };
 
     // 리뷰 작성 버튼
-    const handleClickReview = (order) => {
-        const orderNumber = order.orderNumber;
-        navigate("/mypage/review/register", { state: { orderNumber } });
+    const handleClickReview = (orderDetails) => {
+        const productNumbers = orderDetails.map(detail => Number(detail.productId));
+        console.log(productNumbers);
+        navigate("/mypage/review/register", { state: { productNumbers } });
     };
 
     // 고객 정보 가져오고 주문 목록 불러오기
@@ -134,12 +134,14 @@ const OrderListComponent = () => {
                                 취소
                             </button>
                         </div>
-                        <button
-                            onClick={() => handleClickReview(order)}
-                            className="bg-bara_blue text-white w-full py-4 rounded-[0.5rem]"
-                        >
-                            리뷰 작성
-                        </button>
+                        {order.orderStatus == "배송완료" && (
+                            <button
+                                onClick={() => handleClickReview(order.orderDetails)}
+                                className="bg-bara_blue text-white w-full py-4 rounded-[0.5rem]"
+                            >
+                                리뷰 작성
+                            </button>
+                        )}
                     </li>
                 ))}
             </ul>
