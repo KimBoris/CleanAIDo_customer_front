@@ -2,12 +2,15 @@ import {useCallback, useState} from "react";
 import ChatModalComponent from "./ChatModalComponent.jsx";
 import {saveImage} from "../../hooks/useIndexedDB.js";
 import {getSolution} from "../../api/aiAPI.js";
+import AnswerLoadingComponent from "../common/AnswerLoadingComponent.jsx";
 
 function TextModalComponent({handleShotClick, encodedImg, formData, url, callback}) {
+
 
     const [isChatModalOpen, setIsChatModalOpen] = useState(false); // 모달 사용 유무
     const [question, setQuestion] = useState("");
     const [error, setError] = useState(null);
+    const [isLoading, setLoading] = useState(false)
 
     console.log(formData);
 
@@ -18,7 +21,7 @@ function TextModalComponent({handleShotClick, encodedImg, formData, url, callbac
 
     // 완료 버튼 이벤트
     const handleClickComplate = async () => {
-
+        setLoading(true)
         // 이미지 form데이터 서버 전송해서 1차 카테고리(키워드), 2차 카테고리(상품) 받기
         // 키워드와 상품, 질문 합쳐서 지피티에 전송하고 답변 받기
         // 키워드와 상품, 답변 로컬스토리지에 저장
@@ -46,6 +49,7 @@ function TextModalComponent({handleShotClick, encodedImg, formData, url, callbac
             // 경과 시간 계산
             const elapsedTime = endTime - startTime; // 밀리초 단위
             console.log(`Elapsed time: ${elapsedTime} ms`);
+            setLoading(false)
             setIsChatModalOpen(true);
 
         } catch (error) {
@@ -94,57 +98,77 @@ function TextModalComponent({handleShotClick, encodedImg, formData, url, callbac
 
     return (
         <>
-            {isChatModalOpen && <ChatModalComponent handleShotClick={handleShotClick} callback={callback} />}
-            <div className="px-8 w-full min-h-screen fixed bg-bara_gray_1 z-10">
-                {/* 닫기 버튼 */}
-                <div className="min-h-16 mb-12s">
-                    <div className="h-[7rem] pt-12 flex items-center justify-between box-border">
-                        <img
-                            src="/images/close.svg"
-                            alt="닫기"
-                            className="mt-[1.2rem] w-auto h-auto"
-                            onClick={callback}
+            {/* 로딩 상태일 때 AnswerLoadingComponent 표시 */}
+            {isLoading ? (
+                <AnswerLoadingComponent />
+            ) : (
+                <>
+                    {isChatModalOpen && (
+                        <ChatModalComponent
+                            handleShotClick={handleShotClick}
+                            callback={callback}
                         />
+                    )}
+                    <div className="px-8 w-full min-h-screen fixed bg-bara_gray_1 z-10">
+                        {/* 닫기 버튼 */}
+                        <div className="fixed top-0 left-0 right-0 min-h-16 px-8 py-4 bg-white z-50"
+                             style={{ boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)' }}>
+                            <div className="h-[7rem] pt-12 flex items-center justify-between box-border">
+                                <img
+                                    src="/images/close.svg"
+                                    alt="닫기"
+                                    className="mt-[1.2rem] w-auto h-auto"
+                                    onClick={callback}
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            {/* 이미지 미리 보기 */}
+                            <div className="w-[10.875rem] h-[10.875rem] rounded-[0.5rem] overflow-hidden m-auto mb-12">
+                                <img
+                                    src={url}
+                                    alt="미리보기"
+                                    className="object-cover w-full h-full"
+                                />
+                            </div>
+
+                            <p className="text-bara_sodomy text-center mb-4">
+                                어떤 상황인가요?
+                            </p>
+
+                            <input
+                                type="text"
+                                name="question"
+                                value={question}
+                                onChange={(e) => handleChange(e)}
+                                className="
+                                p-4 rounded-[0.5rem] border-2 border-bara_gray_2 w-full mb-4 text-bara_gray_4
+                            "
+                            />
+
+                            <div className="flex text-white">
+                                <button
+                                    className="p-4 bg-bara_sky_blue rounded-[0.5rem] w-full mr-4"
+                                    onClick={handleClickSkip}
+                                >
+                                    건너뛰기
+                                </button>
+                                <button
+                                    className="p-4 bg-bara_blue rounded-[0.5rem] w-full disabled:bg-bara_gray_3"
+                                    onClick={handleClickComplate}
+                                    disabled={!question.trim()}
+                                >
+                                    완 료
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div>
-                    {/* 이미지 미리 보기 */}
-                    <div className="w-[10.875rem] h-[10.875rem] rounded-[0.5rem] overflow-hidden m-auto mb-12">
-                        <img src={url} alt="미리보기" className="object-cover w-full h-full"/>
-                    </div>
-
-                    <p className="text-bara_sodomy text-center mb-4">어떤 상황인가요?</p>
-
-                    <input
-                        type="text"
-                        name="question"
-                        value={question}
-                        onChange={e => handleChange(e)}
-                        className="
-                        p-4 rounded-[0.5rem] border-2 border-bara_gray_2 w-full mb-4 text-bara_gray_4
-                    "
-                    />
-
-                    <div className="flex text-white">
-                        <button
-                            className="p-4 bg-bara_sky_blue rounded-[0.5rem] w-full mr-4"
-                            onClick={handleClickSkip}
-                        >건너뛰기
-                        </button>
-                        <button
-                            className="p-4 bg-bara_blue rounded-[0.5rem] w-full disabled:bg-bara_gray_3"
-                            onClick={handleClickComplate}
-                            disabled={!question.trim()}
-                        >완 료
-                        </button>
-                    </div>
-
-                </div>
-
-            </div>
+                </>
+            )}
         </>
     );
+
 }
 
 export default TextModalComponent;
