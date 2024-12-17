@@ -53,7 +53,7 @@ function MyPageComponent() {
                     <div
                         className="bg-bara_gray_1 rounded-[0.5rem] w-full h-28 flex justify-between items-center p-8 relative">
                         <div className="flex flex-col items-center">
-                            <p className="font-bold text-[1.5rem]">
+                            <p className="font-bold text-[1.2rem]">
                                 {
                                     totalPrice >= 10000?
                                         <span>{Math.floor(totalPrice/10000)}만원</span>
@@ -61,7 +61,7 @@ function MyPageComponent() {
                                         <span>{totalPrice}원</span>
                                 }
                             </p>
-                            <p>총결제액</p>
+                            <p className="text-[0.9rem]">총결제액</p>
                         </div>
 
                         {/* 세로선 */}
@@ -69,8 +69,8 @@ function MyPageComponent() {
                             className="absolute left-1/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-[1px] bg-bara_gray_3"></div>
 
                         <div className="flex flex-col items-center">
-                            <p className="font-bold text-[1.5rem]">{orderCount}건</p>
-                            <p>총구매수</p>
+                            <p className="font-bold text-[1.2rem]">{orderCount}건</p>
+                            <p className="text-[0.9rem]">총구매수</p>
                         </div>
 
                         {/* 세로선 */}
@@ -78,8 +78,8 @@ function MyPageComponent() {
                             className="absolute left-2/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-12 w-[1px] bg-bara_gray_3"></div>
 
                         <div className="flex flex-col items-center">
-                            <p className="font-bold text-[1.5rem]">{reviewCount}건</p>
-                            <p>후기작성</p>
+                            <p className="font-bold text-[1.2rem]">{reviewCount}건</p>
+                            <p className="text-[0.9rem]">후기작성</p>
                         </div>
                     </div>
 
