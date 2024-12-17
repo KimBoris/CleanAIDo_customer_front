@@ -19,8 +19,9 @@ function ReviewRegisterComponent() {
 
     const fileInputRefs = useRef({}); // 파일첨부 참조
 
-    //const productNumbers = state?.productNumbers;
-    const productNumbers = [1, 2]; //  테스트용 데이터
+    const productNumbers = state?.productNumbers;
+
+    console.log(productNumbers);
 
     // 상품 데이터 호출
     const fetchProducts = async (pno) => {
