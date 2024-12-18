@@ -69,20 +69,21 @@ function MyPageComponent() {
     }, []);
 
     return (
-        <div>
-            <div className="pb-40 text-bara_sodomy mt-[9rem] bg-bara_gray_1">
-                {/* 고객 이름 */}
-                <div className="px-8 pt-8 text-[1.2rem] pb-4">
-                    {errorMessage ? (
-                        <span className="text-red-500">{errorMessage}</span>
-                    ) : (
-                        <b>{customerName}</b>
-                    )}
-                    님, 반갑습니다!
-                </div>
+        <div className="bg-bara_gray_1">
+            <div className="bg-bara_gray_1 h-4"></div>
+            <div className="pb-40 text-bara_sodomy mt-[9rem]">
 
                 {/* 대시보드 */}
                 <div className="bg-white py-4 px-8 mb-4">
+                    {/* 고객 이름 */}
+                    <div className="pt-4 text-[1.3rem] pb-4">
+                        {errorMessage ? (
+                            <span className="text-red-500">{errorMessage}</span>
+                        ) : (
+                            <b>{customerName}</b>
+                        )}
+                        님, 반갑습니다!
+                    </div>
                     <div className="bg-bara_gray_1 rounded-[0.5rem] w-full h-28 flex justify-between items-center p-8 relative">
                         <div className="flex flex-col items-center">
                             <p className="font-bold text-[1.2rem]">
