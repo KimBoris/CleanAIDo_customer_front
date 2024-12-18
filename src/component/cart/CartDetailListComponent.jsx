@@ -76,7 +76,7 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
                             <div className="p-2 w-28 h-28 bg-bara_gray_4 flex-shrink-0">
                                 {item.product?.imageFiles?.length > 0 ? (
                                     <img
-                                        src={`/path/to/images/${item.product.imageFiles[0].fileName}`}
+                                        src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${item.product.imageFiles[0].fileName}`}
                                         alt="상품 이미지"
                                         className="w-full h-full object-cover"
                                     />

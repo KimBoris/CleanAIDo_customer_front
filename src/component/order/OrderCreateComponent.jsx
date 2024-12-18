@@ -148,7 +148,7 @@ const OrderCreateComponent = () => {
                         <div key={index} className="flex items-center shadow-sm">
                             <div className="bg-bara_gray_4 w-20 h-20 overflow-hidden mr-4">
                                 <img
-                                    src={`/images/${item.thumFileNames[0]}`}
+                                    src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${item.thumFileNames[0]}`}
                                     alt={item.thumFileNames[0] || '상품 이미지'}
                                     className="object-cover rounded-md"
                                 />

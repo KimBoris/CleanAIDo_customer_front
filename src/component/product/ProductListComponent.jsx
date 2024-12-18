@@ -35,6 +35,7 @@ const ProductListComponent = () => {
         setLoading(true);
         try {
             const data = await getProductList(page, 10, keyword, type);
+            console.log(data)
             setProducts((prevProducts) => [...prevProducts, ...data.dtoList]);
             setTotalPages(data.totalPages);
             // setReviewCount(data.reviewCount)
@@ -92,7 +93,7 @@ const ProductListComponent = () => {
                         <Link to={`/product/read/${product.pno}`} className="flex w-full">
 
                             <img
-                                src={`/images/${product.fileName}`}
+                                src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${product.fileName}`}
                                 className="w-24 h-24 object-cover flex-shrink-0"
                             />
                             <div className="ml-4">
