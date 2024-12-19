@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { preParePayment } from '../../api/orderAPI.js';
+import { preParePayment } from '../../api/OrderAPI.js';
 import useOrderStore from '../../store/useOrderStore.js';
 import {fetchCustomerInfo} from "../../api/customerAPI.js";
 
