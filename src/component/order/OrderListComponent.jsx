@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchOrders, updateOrderStatus } from "../../api/OrderApi";
+import { fetchOrders, updateOrderStatus } from "../../api/OrderAPI";
 import { useNavigate } from "react-router-dom";
 
 const OrderListComponent = () => {
