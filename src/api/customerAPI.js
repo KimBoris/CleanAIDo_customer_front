@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const host = 'http://localhost:8080/api/v1/customer' // https로 된 주소 필요
+const host = '/api/v1/customer' // https로 된 주소 필요
 
 // fcm 토큰 업데이트(첫 로그인, 로그인 시 사용)
 // export const updateFcmToken = async (customerId, fcmToken) => {
