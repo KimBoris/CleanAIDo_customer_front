@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { addCart, getProductOne } from "../../api/productAPI.js";
-import CarouselComponent from "../common/CarouselComponent.jsx";
+import { Carousel } from "@material-tailwind/react";
 import ReviewByProductComponent from "../review/ReviewByProductComponent.jsx";
 
 function ProductReadComponent() {
@@ -64,7 +64,15 @@ function ProductReadComponent() {
                 <div key={product.pno} className="grid grid-cols-1 md:grid-cols-2 mb-4">
                     {/* 이미지 캐러셀 */}
                     <div className="w-full aspect-square bg-bara_gray_3 overflow-hidden">
-                        <CarouselComponent images={product.thumFileNames} />
+                        <Carousel>
+                            {product.thumFileNames.map((fileName, index) => (
+                                <img key={index}
+                                     src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${fileName}`}
+                                     alt={fileName} className="object-center object-cover w-full h-full"/>
+                            ))}
+                        </Carousel>
+
+                        {/*<CarouselComponent images={product.thumFileNames} />*/}
                     </div>
 
                     {/* 상품 정보 */}
@@ -79,7 +87,7 @@ function ProductReadComponent() {
                     <div className="bg-white px-8 py-8 mb-4">
                         <h3 className="text-[1.2rem] font-bold">상품 정보</h3>
                         {product.detailFileNames.map((fileName, index) => (
-                            <img key={index} src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${fileName}`} alt="상세 이미지" />
+                            <img key={index} src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${fileName}`} alt={fileName} />
                         ))}
                     </div>
 
