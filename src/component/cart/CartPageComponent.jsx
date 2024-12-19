@@ -12,6 +12,7 @@ function CartPageComponent() {
         setLoading(true);
         try {
             const data = await getCartList();
+            console.log(data)
             setCart(data);
         } catch (error) {
             console.error("Error fetching cart list:", error);

@@ -73,16 +73,12 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
 
                         {/* 상품 이미지 및 수량 */}
                         <div className="flex">
-                            <div className="p-2 w-28 h-28 bg-bara_gray_4 flex-shrink-0">
-                                {item.product?.imageFiles?.length > 0 ? (
+                            <div className="w-28 h-28 bg-bara_gray_4 flex-shrink-0">
                                     <img
-                                        src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${item.product.imageFiles[0].fileName}`}
+                                        src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${item.product.fileName}`}
                                         alt="상품 이미지"
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-center object-cover"
                                     />
-                                ) : (
-                                    <span>No Image</span>
-                                )}
                             </div>
 
                             {/* 상품 가격 및 수량 조작 */}
