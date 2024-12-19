@@ -6,12 +6,13 @@ const LoginComponent = () => {
     const handleKakaoLogin = () => {
         const clientId = "bd7725f821010811fbfbb131b8f9985d"; // REST API 키
         const redirectUri = "http://localhost:5173/oauth/kakao/callback"; // Redirect URI
-        const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+        const kakaoAuthUrl =
+            `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
         window.location.href = kakaoAuthUrl; // 카카오 로그인 페이지로 이동
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-bara_gray_1 via-white to-bara_gray_2">
+        <div className="flex justify-center pt-36 min-h-screen bg-gradient-to-b from-bara_gray_1 to-bara_gray_2">
             {/* 메인 컨테이너 */}
             <div className="flex flex-col items-center w-full max-w-md p-8 space-y-8">
                 {/* 타이틀 로고 */}
@@ -19,12 +20,12 @@ const LoginComponent = () => {
                     <img
                         src="/images/cleanaido_logo_sm.svg"
                         alt="청소 AI 하니 로고"
-                        className="w-40"
+                        className="w-[13rem]"
                     />
                 </div>
 
                 {/* 설명 */}
-                <p className="text-bara_gray_5 text-sm leading-6 text-center">
+                <p className="text-bara_sodomy text-center">
                     <span className="font-bold">AI 싹싹바라</span>가<br />
                     적재적소에 추천해주는 청소용품
                 </p>
@@ -41,7 +42,7 @@ const LoginComponent = () => {
                 {/* 카카오 로그인 버튼 */}
                 <button
                     onClick={handleKakaoLogin}
-                    className="w-full flex items-center justify-center py-3 text-bara_sodomy font-medium rounded-lg bg-yellow-400 hover:bg-yellow-500 transition duration-300"
+                    className="w-full flex items-center justify-center py-[1.375rem] text-bara_sodomy font-medium rounded-lg bg-[#FEE500] transition duration-300"
                 >
                     <img
                         src="/images/kakao_icon.png"
