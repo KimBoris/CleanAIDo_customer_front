@@ -1,7 +1,7 @@
 import axios from "axios";
 import useAuthStore from "../store/authStore.js";
 
-const API_URL = "/api/v1/cart";
+const API_URL = "http://10.10.10.152:8080/api/v1/cart";
 
 // 장바구니 목록 조회
 export const getCartList = async () => {

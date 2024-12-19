@@ -1,7 +1,7 @@
 import axios from "axios";
 import useAuthStore from "../store/authStore.js";
 
-const host = "/api/v1/category";
+const host = "http://10.10.10.152:8080/api/v1/category";
 
 // 1차 카테고리 목록을 가져오는 함수
 export const getCategoryList = async () => {
