@@ -150,7 +150,7 @@ const OrderCreateComponent = () => {
                                 <img
                                     src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${item.thumFileNames[0]}`}
                                     alt={item.thumFileNames[0] || '상품 이미지'}
-                                    className="object-cover rounded-md"
+                                    className="w-full h-full object-center object-cover"
                                 />
                             </div>
                             <div className="flex flex-col flex-1">
