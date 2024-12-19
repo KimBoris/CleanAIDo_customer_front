@@ -10,7 +10,14 @@ function ChatModalComponent({handleShotClick, callback}) {
     const baraData = JSON.parse(localStorage.getItem("bara"));
     const solution = baraData.solution;
     const products = baraData.product.split(',');
+    const productsArray = products.map((i) => {
+        return i.split(" - ")
+    })
+
     const question = baraData.question;
+
+    console.log(products)
+    console.log(productsArray)
 
     // indexed db 이미지 데이터
     const [imageSrc, setImageSrc] = useState(null);
@@ -30,27 +37,32 @@ function ChatModalComponent({handleShotClick, callback}) {
         handleShotClick();
     }
 
-    const productList = products.map((product, index) => {
+    const handleLinkClick = (product) => {
+        navigate(`/product/list?keyword=${product[1]}`)
+        callback();
+    }
+
+    const productList = productsArray.map((product, index) => {
         return (
             <div key={index}>
                 <div className="flex items-center justify-between mb-4">
-                    <span className="text-4 text-bara_sodomy font-bold">{product} 검색</span>
+                    <span className="text-4 text-bara_sodomy font-bold">{product[1]} 검색</span>
                     <div className="flex items-center justify-between gap-1">
-                        <span onClick={() => navigate(`/product/list?keyword=${product}`)}>바로가기</span>
+                        <span onClick={() => handleLinkClick(product)}>바로가기</span>
                         <img src="/images/arrow-right-short-link.png" />
                     </div>
                 </div>
                 <div className="flex items-center justify-between">
 
-                    {/* 얘도 반복될거임 */}
-                    <div>
-                        <div className="bg-bara_gray_2 w-[5.625rem] h-[5.625rem]"></div>
-                        <div className="flex flex-col overflow-hidden">
-                            <span
-                                className="text-[0.75rem] text-bara_sodomy truncate w-[5.625rem]">한입 100% 구연산ddd</span>
-                            <span className="text-[0.75rem] text-bara_gray_5 truncate w-[5.625rem]">3,850원</span>
-                        </div>
-                    </div>
+                    {/*/!* 얘도 반복될거임 *!/*/}
+                    {/*<div>*/}
+                    {/*    <div className="bg-bara_gray_2 w-[5.625rem] h-[5.625rem]"></div>*/}
+                    {/*    <div className="flex flex-col overflow-hidden">*/}
+                    {/*        <span*/}
+                    {/*            className="text-[0.75rem] text-bara_sodomy truncate w-[5.625rem]">한입 100% 구연산ddd</span>*/}
+                    {/*        <span className="text-[0.75rem] text-bara_gray_5 truncate w-[5.625rem]">3,850원</span>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
 
                 </div>
                 <hr className="border-bara_gray_2 my-4" />
