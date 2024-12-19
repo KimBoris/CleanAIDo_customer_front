@@ -125,7 +125,7 @@ function TextModalComponent({handleShotClick, encodedImg, formData, url, callbac
 
                         <div>
                             {/* 이미지 미리 보기 */}
-                            <div className="w-[10.875rem] h-[10.875rem] rounded-[0.5rem] overflow-hidden m-auto mb-12">
+                            <div className="w-[10.875rem] h-[10.875rem] rounded-[0.5rem] overflow-hidden m-auto mb-12 mt-[11rem]">
                                 <img
                                     src={url}
                                     alt="미리보기"
