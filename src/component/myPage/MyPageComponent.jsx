@@ -156,7 +156,7 @@ function MyPageComponent() {
                                         <Link to={`/product/read/${product.pno}`} className="flex w-full">
                                             <div key={product.pno} className="w-40 flex-shrink-0 flex flex-col">
                                                 <div className="w-40 h-40 bg-bara_gray_3 flex-shrink-0">
-                                                    <img src={product.fileName} alt={product.pname}
+                                                    <img src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${product.fileName}`} alt={product.pname}
                                                          className="w-full h-full object-cover"/>
                                                 </div>
                                                 <div className="mt-2">

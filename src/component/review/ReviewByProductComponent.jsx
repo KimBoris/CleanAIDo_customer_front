@@ -32,7 +32,7 @@ function ReviewByProductComponent({pno}) {
             >
                 {images.map((image, i) => (
                     <div key={i} style={{flexShrink: 0, width: '5rem', height: '5rem', backgroundColor: '#B5BCD2'}}>
-                        <img src={image} alt={`Review ${i}`}
+                        <img src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${image}`} alt={`Review ${i}`}
                              style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
                     </div>
                 ))}

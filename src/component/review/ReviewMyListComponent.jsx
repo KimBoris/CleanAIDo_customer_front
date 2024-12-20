@@ -94,7 +94,7 @@ function ReviewMyListComponent() {
                         }}
                     >
                         <img
-                            src={image}
+                            src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${image}`}
                             alt={`Review ${i}`}
                             style={{ width: "100%", height: "100%", objectFit: "cover" }}
                         />
