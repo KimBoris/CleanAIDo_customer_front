@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import { registerBoard } from '../../api/boardApi'; // registerBoard를 가져옴
 
 const BoardCreateComponent = () => {
     const [board, setBoard] = useState({
@@ -37,12 +37,9 @@ const BoardCreateComponent = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/board/register', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            alert('게시물 등록 성공: ' + response.data); // 성공 메시지
+            // registerBoard 호출
+            const response = await registerBoard(formData);
+            alert('게시물 등록 성공: ' + response); // 성공 메시지
         } catch (error) {
             console.error('게시물 등록 실패:', error); // 에러 처리
         }
