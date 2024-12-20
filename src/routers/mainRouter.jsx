@@ -10,6 +10,7 @@ import ProtectedRoute from "../component/util/ProtectedRoute.jsx"
 import categoryRouter from "./categoryRouter.jsx";
 import LoadingPage from "../pages/LoadingPage.jsx";
 import LayoutPage from "../pages/LayoutPage.jsx";
+import boardRouter from "./boardRouter.jsx";
 
 const MainPage = lazy(() => import("../pages/MainPage"));
 const ShopMain = lazy(() => import("../pages/ShopMainPage.jsx"));
@@ -45,6 +46,7 @@ const mainRouter = createBrowserRouter([
                     cartRouter,    // 장바구니 라우터
                     myPageRouter,  // 마이페이지 라우터
                     categoryRouter,
+                    boardRouter
                 ]
             }
         ],
