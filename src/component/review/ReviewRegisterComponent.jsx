@@ -147,7 +147,11 @@ function ReviewRegisterComponent() {
                         <div key={product.pno} className="mb-8">
                             <div className="flex mb-2">
                                 <div className="bg-bara_gray_4 w-20 h-20 mr-2">
-                                    <img src={product.thumFileNames[0]}/>
+                                    <img
+                                        src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${product.thumFileNames[0]}`}
+                                        alt={product.thumFileNames[0] || '상품 이미지'}
+                                        className="w-full h-full object-center object-cover"
+                                    />
                                 </div>
                                 <div>
                                     <div className="mb-4">{product.pname}</div>
