@@ -94,7 +94,7 @@ const OrderListComponent = () => {
                             <div key={detail.productId} className="flex items-center mb-4">
                                 <div className="w-20 h-20 flex-shrink-0 mr-4 bg-bara_gray_4">
                                     <img
-                                        src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${detail.productImage}`}
+                                        src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${detail.productImage[0]}`}
                                         alt={detail.productName || "상품 이미지"}
                                         className="w-full h-full object-center object-cover"
                                     />
