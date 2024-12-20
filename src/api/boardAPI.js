@@ -39,11 +39,10 @@ export const registerBoard = async (formData) => {
         });
         return response.data;
     } catch (error) {
-        console.error("게시물 생성 실패:", error);
+        console.error('게시물 생성 실패:', error);
         throw error;
     }
 };
-
 
 export const updateBoard = async (bno, boardData) => {
     console.log("Sending board data:", boardData);
