@@ -77,24 +77,33 @@ function ProductReadComponent() {
 
                     {/* 상품 정보 */}
                     <div className="mb-4 bg-white px-8 py-8">
+                        {product.countScore > 0 && (
+                            <div className="flex text-bara_gray_4">
+                                <img src={`/images/star_${Math.round(product.averageScore)}.svg`}
+                                     className='ml-auto w-28'
+                                     alt="Star rating"/>
+                                <span>({product.countScore})</span>
+                            </div>
+                        )}
                         <h2 className="text-[1.2rem]">{product.pname}</h2>
-                        <p className="text-2xl font-semibold text-bara_blue">
-                            {product.price.toLocaleString()} 원
-                        </p>
+                        <hr className="my-4 border-bara_gray_3"/>
+                        <p className="text-2xl font-semibold text-bara_blue">{product.price.toLocaleString()} 원</p>
                     </div>
 
                     {/* 상세 이미지 */}
                     <div className="bg-white px-8 py-8 mb-4">
                         <h3 className="text-[1.2rem] font-bold">상품 정보</h3>
                         {product.detailFileNames.map((fileName, index) => (
-                            <img key={index} src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${fileName}`} alt={fileName} />
+                            <img key={index}
+                                 src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${fileName}`}
+                                 alt={fileName}/>
                         ))}
                     </div>
 
                     {/* 리뷰 */}
                     <div className="bg-white px-8 py-8">
                         <h3 className="text-[1.2rem] font-bold">리뷰</h3>
-                        <ReviewByProductComponent pno={pno} />
+                        <ReviewByProductComponent pno={pno}/>
                     </div>
                 </div>
             </div>

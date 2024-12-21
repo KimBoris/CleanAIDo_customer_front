@@ -1,11 +1,8 @@
 import './App.css'
-import ChatButton from "./component/common/ChatButton.jsx";
-import {useEffect, useRef, useState} from "react";
-import ChatModalComponent from "./component/ai/ChatModalComponent.jsx";
-import useImageUpload from "./hooks/useImageUpload.js";
+import {useEffect} from "react";
 // import { getToken, onMessage } from "firebase/messaging";
 // import { messaging } from "./firebase/firebaseConfige.js";
-// import {useEffect} from "react";
+// import {updateFcmToken} from "./api/customerAPI.js";
 
 function App() {
 
@@ -21,6 +18,8 @@ function App() {
     //         //We can send token to server
     //         console.log("Token generated : ", token);
     //
+    //         updateFcmToken(token);
+    //
     //     } else if (permission === "denied") {
     //         //notifications are blocked
     //         alert("You denied for the notification");
@@ -30,7 +29,7 @@ function App() {
     // useEffect(() => {
     //     requestPermission();
     // }, []);
-
+    //
     // onMessage(messaging, (payload) => {
     //     console.log(payload);
     //     alert("On Message ")
