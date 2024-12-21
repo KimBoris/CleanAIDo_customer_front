@@ -29,9 +29,8 @@ const BoardRead = () => {
 
     // 수정 버튼 클릭 시 수정 페이지로 이동
     const handleEdit = () => {
-        console.log("bno = "+ bno)
-        navigate(`/board/edit/${bno}`, {state: {board}});  // 수정 페이지로 이동
-
+        console.log("bno = " + bno);
+        navigate(`/board/edit/${bno}`, { state: { board: { ...board, imageFiles: board.imageFiles || [] } } });
     };
 
     // 삭제 버튼 클릭 시 게시물 삭제
