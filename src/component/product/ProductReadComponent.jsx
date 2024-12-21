@@ -94,14 +94,16 @@ function ProductReadComponent() {
                     <div className="bg-white px-8 py-8 mb-4">
                         <h3 className="text-[1.2rem] font-bold">상품 정보</h3>
                         {product.detailFileNames.map((fileName, index) => (
-                            <img key={index} src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${fileName}`} alt={fileName} />
+                            <img key={index}
+                                 src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${fileName}`}
+                                 alt={fileName}/>
                         ))}
                     </div>
 
                     {/* 리뷰 */}
                     <div className="bg-white px-8 py-8">
                         <h3 className="text-[1.2rem] font-bold">리뷰</h3>
-                        <ReviewByProductComponent pno={pno} />
+                        <ReviewByProductComponent pno={pno}/>
                     </div>
                 </div>
             </div>

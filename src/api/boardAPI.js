@@ -1,5 +1,6 @@
 import axios from 'axios';
 import useAuthStore from "../store/authStore.js";
+import {jwtDecode} from "jwt-decode";
 
 
 const host = 'http://localhost:8080/api/v1/board';
@@ -44,20 +45,37 @@ export const registerBoard = async (formData) => {
     }
 };
 
-export const updateBoard = async (bno, boardData) => {
-    console.log("Sending board data:", boardData);
-    console.log("Authorization Header:", getAuthHeaders());  // 헤더 확인
+
+export const updateBoard = async (bno, formData) => {
+    console.log("Sending board data:", formData);
     try {
-        const response = await axios.put(`${host}/edit/${bno}`, boardData, {
-            headers: getAuthHeaders(),  // 인증 헤더 전달
+        const response = await axios.put(`${host}/edit/${bno}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                ...getAuthHeaders(), // 인증 헤더 추가
+            },
         });
-        console.log(response.data);
+        console.log("boardData = "+ formData.data);
         return response.data;
     } catch (error) {
         console.error("게시물 수정 실패:", error);
         throw error;
     }
 };
+// export const updateBoard = async (bno, formData) => {
+//     try {
+//         const response = await axios.put(`/api/boards/${bno}`, formData, {
+//             headers: {
+//                 'Content-Type': 'multipart/form-data',
+//             },
+//         });
+//         return response.data;
+//     } catch (error) {
+//         console.error('게시물 수정 실패', error);
+//         throw error;
+//     }
+// };
+
 
 export const readBoard = async (bno) => {
     try {
