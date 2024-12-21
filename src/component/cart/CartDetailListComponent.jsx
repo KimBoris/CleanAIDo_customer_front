@@ -39,7 +39,7 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
             pname: item.product.pname,
             price: item.product.price,
             quantity: item.quantity,
-            fileName: item.product.fileName,
+            thumFileNames: item.product.thumFileNames || [item.product.fileName], // thumFileNames 추가
         }));
 
         if (productsToPurchase.length === 0) {
