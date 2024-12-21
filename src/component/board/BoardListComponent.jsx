@@ -148,7 +148,7 @@ const BoardListComponent = () => {
                             <div className="flex items-center">
                                 {board.fileName && (
                                     <img
-                                        src={board.fileName}
+                                        src={  `C:\\Boris\\FinalProject_Cleanaido\\CustomerBack\\upload${board.fileName}`}
                                         alt="Board Thumbnail"
                                         className="w-24 h-24 object-cover flex-shrink-0 rounded-md border-2 border-bara_gray_4"  // 이미지 외곽선
                                     />
