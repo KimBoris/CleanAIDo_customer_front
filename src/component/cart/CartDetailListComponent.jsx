@@ -39,6 +39,7 @@ function CartDetailListComponent({ cart, onDelete, onUpdate }) {
             pname: item.product.pname,
             price: item.product.price,
             quantity: item.quantity,
+            fileName: item.product.fileName,
         }));
 
         if (productsToPurchase.length === 0) {

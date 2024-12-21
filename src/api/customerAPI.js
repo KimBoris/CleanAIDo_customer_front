@@ -1,7 +1,7 @@
 import axios from 'axios';
 import useAuthStore from "../store/authStore.js";
 
-const host = 'http://localhost:8080/api/v1/customer' // https로 된 주소 필요
+const host = 'http://10.10.10.152:8080/api/v1/customer' // https로 된 주소 필요
 
 // fcm 토큰 업데이트(첫 로그인, 로그인 시 사용)
 export const updateFcmToken = async (fcmToken) => {

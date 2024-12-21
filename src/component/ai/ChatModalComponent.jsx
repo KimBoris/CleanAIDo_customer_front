@@ -23,6 +23,7 @@ function ChatModalComponent({handleShotClick, callback}) {
     const [imageSrc, setImageSrc] = useState(null);
 
     useEffect(() => {
+        window.scrollTo(0, 1); // 주소창 숨기기
         loadImage("imgKey")
             .then((image) => {
                 setImageSrc(image);
