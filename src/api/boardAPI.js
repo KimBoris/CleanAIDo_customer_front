@@ -3,7 +3,7 @@ import useAuthStore from "../store/authStore.js";
 import {jwtDecode} from "jwt-decode";
 
 
-const host = 'http://localhost:8080/api/v1/board';
+const host = '/api/v1/board';
 
 
 export const getAuthHeaders = () => {
