@@ -83,13 +83,16 @@ const EditComponent = () => {
     };
 
     return (
-        <div className="h-screen bg-white flex flex-col justify-start p-6 overflow-y-auto pb-[6.25rem]">
-            <div className="w-full p-6">
+        <div
+            className="h-screen bg-gradient-to-r from-gray-50 to-gray-100 flex flex-col justify-start p-4 pt-36 overflow-y-auto pb-[6.25rem]">
+            <div className="w-full max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-xl">
                 {/* editedBoard가 정의된 경우에만 렌더링 */}
                 {editedBoard ? (
                     <>
-                        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
-                            <h1 className="text-4xl font-semibold text-gray-800 mb-4 md:mb-0 mt-40">게시물 수정</h1>
+                        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
+                            <h1 className="text-3xl font-extrabold text-gray-800 mb-4 md:mb-0 mt-10">
+                                게시물 수정
+                            </h1>
                             <div className="text-sm text-gray-600 md:text-right">
                                 <p><strong>작성자:</strong> {editedBoard.customerId}</p>
                                 <p><strong>작성일:</strong> {new Date(editedBoard.createTime).toLocaleDateString()}</p>
@@ -97,48 +100,52 @@ const EditComponent = () => {
                         </div>
 
                         <div className="mb-6">
-                            <label className="block text-lg font-semibold text-gray-700">제목</label>
+                            <label htmlFor="title" className="block text-xl font-semibold text-gray-700 mb-3">
+                                제목
+                            </label>
                             <input
                                 type="text"
                                 name="title"
                                 value={editedBoard.title}
                                 onChange={handleChange}
-                                className="w-full p-3 border border-gray-300 rounded-md"
+                                className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                             />
                         </div>
 
                         <div className="mb-6">
-                            <label className="block text-lg font-semibold text-gray-700">내용</label>
+                            <label htmlFor="description" className="block text-xl font-semibold text-gray-700 mb-3">
+                                내용
+                            </label>
                             <textarea
                                 name="description"
                                 value={editedBoard.description}
                                 onChange={handleChange}
-                                className="w-full p-3 border border-gray-300 rounded-md"
+                                className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                                 rows="6"
                             />
                         </div>
 
                         <div className="mb-6">
-                            <h3 className="text-xl font-semibold text-gray-800 mb-3">첨부파일</h3>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-4">첨부파일</h3>
                             <input
                                 type="file"
                                 onChange={handleImageChange}  // 새로 추가된 파일을 처리
-                                className="w-full p-3 border border-gray-300 rounded-md"
+                                className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                             />
 
                             {editedBoard.imageFiles && editedBoard.imageFiles.length > 0 && (
-                                <div className="mt-4">
+                                <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
                                     {editedBoard.imageFiles.map((file, index) => (
                                         <div key={index} className="relative">
                                             <img
-                                                src={file} // 기존 이미지 URL
+                                                src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${file}`} // 기존 이미지 URL
                                                 alt={`기존 이미지 ${index + 1}`}
-                                                className="w-40 h-40 object-cover"
+                                                className="w-full h-40 object-cover rounded-lg shadow-md"
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() => handleRemoveImage(index)} // 삭제 버튼
-                                                className="absolute top-0 right-0 text-white bg-red-500 rounded-full p-1"
+                                                className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-400 transition duration-300"
                                             >
                                                 X
                                             </button>
@@ -148,29 +155,30 @@ const EditComponent = () => {
                             )}
 
                             {newImageFile && newImageFile.length > 0 && (
-                                <div className="mt-4">
+                                <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4">
                                     {newImageFile.map((file, index) => (
-                                        <img
-                                            key={index}
-                                            src={URL.createObjectURL(file)} // 새로운 이미지 미리보기
-                                            alt={`새로운 이미지 ${index + 1}`}
-                                            className="w-40 h-40 object-cover"
-                                        />
+                                        <div key={index}>
+                                            <img
+                                                src={URL.createObjectURL(file)} // 새로운 이미지 미리보기
+                                                alt={`새로운 이미지 ${index + 1}`}
+                                                className="w-full h-40 object-cover rounded-lg shadow-md"
+                                            />
+                                        </div>
                                     ))}
                                 </div>
                             )}
                         </div>
 
-                        <div className="flex justify-between mt-8">
+                        <div className="flex justify-between mt-10 space-x-4">
                             <button
                                 onClick={handleSave}  // 수정 완료 후 저장
-                                className="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-400 transition duration-300 shadow-md"
+                                className="w-1/2 py-3 bg-blue-500 text-white text-l font-semibold rounded-lg hover:bg-blue-400 transition-all shadow-md"
                             >
                                 저장
                             </button>
                             <button
                                 onClick={() => navigate(`/board/${editedBoard.bno}`)}  // 수정 취소 시 상세 페이지로 돌아감
-                                className="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-400 transition duration-300 shadow-md"
+                                className="w-1/2 px-8 py-3 bg-gray-500 text-white text-l font-semibold rounded-lg hover:bg-gray-400 transition-all shadow-md"
                             >
                                 취소
                             </button>
@@ -178,11 +186,12 @@ const EditComponent = () => {
                     </>
                 ) : (
                     <div className="flex justify-center items-center h-full">
-                        <p>로딩 중...</p>  {/* 데이터 로딩 중일 때 표시 */}
+                        <p className="text-xl font-semibold text-gray-600">로딩 중...</p>  {/* 데이터 로딩 중일 때 표시 */}
                     </div>
                 )}
             </div>
         </div>
+
     );
 };
 

@@ -46,52 +46,75 @@ const BoardRead = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white flex flex-col justify-start p-6">
-            <div className="w-full p-6">
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
-                    <h1 className="text-4xl font-semibold text-gray-800 mb-4 md:mb-0 mt-40">{board.title}</h1>
-                    <div className="text-sm text-gray-600 md:text-right">
-                        <p><strong>작성자:</strong> {board.customerId}</p>
-                        <p><strong>작성일:</strong> {formattedDate}</p>
-                        <p><strong>조회수:</strong> {board.viewCount}</p>
-                    </div>
+        <div
+            className="board-view max-w-4xl mx-auto bg-gradient-to-r from-gray-50 to-gray-100 shadow-lg rounded-xl p-10 pt-20">
+            <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center border-b-4 border-blue-500 pb-4">
+                게시물 보기
+            </h2>
+            <div className="space-y-8">
+                <div>
+                    <h3 className="text-xl font-medium text-gray-700 mb-3">제목</h3>
+                    <p className="w-full p-4 border border-gray-300 rounded-lg bg-gray-50 shadow-md">
+                        {board.title}
+                    </p>
                 </div>
-
-                <div className="text-lg text-gray-700 mb-6 border-b-2 pb-6">{board.description}</div>
-
-                <div className="mb-6">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-3">첨부파일</h3>
+                <div>
+                    <h3 className="text-xl font-medium text-gray-700 mb-3">내용</h3>
+                    <p className="w-full p-4 border border-gray-300 rounded-lg bg-gray-50 shadow-md min-h-[200px]">
+                        {board.description}
+                    </p>
+                </div>
+                <div>
+                    <h3 className="text-xl font-medium text-gray-700 mb-3">작성자</h3>
+                    <p className="w-full p-4 border border-gray-300 rounded-lg bg-gray-50 shadow-md">
+                        {board.customerId}
+                    </p>
+                </div>
+                <div>
+                    <h3 className="text-xl font-medium text-gray-700 mb-3">작성일</h3>
+                    <p className="w-full p-4 border border-gray-300 rounded-lg bg-gray-50 shadow-md">
+                        {formattedDate}
+                    </p>
+                </div>
+                <div>
+                    <h3 className="text-xl font-medium text-gray-700 mb-3">첨부파일</h3>
                     {board.imageFiles && board.imageFiles.length > 0 ? (
-                        <div className="flex space-x-4 overflow-x-auto pb-4">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                             {board.imageFiles.map((file, index) => (
-                                <div key={index} className="w-30 h-30 overflow-hidden flex-shrink-0 border border-gray-300 rounded-md">
-                                    <img src={file} alt={board.imageFiles} className="w-full h-full object-cover" />
+                                <div
+                                    key={index}
+                                    className="w-full h-40 overflow-hidden border border-gray-300 rounded-lg shadow-md">
+                                    <img
+                                        src={`https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${file}`}
+                                        alt={`첨부파일 ${file} ${index + 1}`}
+                                        className="w-full h-full object-cover"
+                                    />
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <div className="w-30 h-30 border border-gray-300 rounded-md flex items-center justify-center text-gray-600">
-                            <p>첨부파일이 없습니다.</p>
+                        <div
+                            className="w-full h-40 border border-gray-300 rounded-lg flex items-center justify-center bg-gray-50 text-gray-500">
+                            첨부파일이 없습니다.
                         </div>
                     )}
                 </div>
-
-                <div className="flex justify-between mt-8">
+                <div className="flex justify-end space-x-4">
                     <button
-                        onClick={handleEdit}  // 수정 버튼 클릭 시 수정 페이지로 이동
-                        className="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-400 transition duration-300 shadow-md"
-                    >
+                        onClick={handleEdit}
+                        className="w-1/2 py-3 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition-all shadow-md">
                         수정
                     </button>
                     <button
-                        onClick={handleDelete}  // 삭제 버튼 클릭 시 게시물 삭제
-                        className="px-6 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-400 transition duration-300 shadow-md"
-                    >
+                        onClick={handleDelete}
+                        className="w-1/2 py-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition-all shadow-md">
                         삭제
                     </button>
                 </div>
+
             </div>
         </div>
+
     );
 };
 
