@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate 가져오기
-import { registerBoard } from '../../api/boardApi'; // registerBoard를 가져옴
+import { registerBoard } from '../../api/boardAPI'; // registerBoard를 가져옴
 
 const BoardCreateComponent = () => {
     const [board, setBoard] = useState({
