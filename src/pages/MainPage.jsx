@@ -3,6 +3,7 @@ import NaviBarMain from "../component/layout/NaviBarMain.jsx";
 import {useEffect, useRef, useState} from "react";
 import TextModalComponent from "../component/ai/TextModalComponent.jsx";
 import useImageUpload from "../hooks/useImageUpload.js";
+import {Link} from "react-router-dom";
 
 function MainPage() {
 
@@ -113,16 +114,18 @@ function MainPage() {
                 <div className="pl-8 pr-8 mt-20">
                     {/* 팁 게시판 바로가기 */}
                     <div className="w-full h-24 bg-white rounded-[0.5rem] shadow-lg p-4 text-bara_gray_5">
-                        <div>
-                            <p className="text-[0.875rem]">청소 꿀팁을 알고싶다면</p>
-                            <p className="text-[1.2rem] font-medium">팁 게시판 바로가기</p>
-                        </div>
+                        <Link to={'/board/list'}>
+                            <div>
+                                <p className="text-[0.875rem]">청소 꿀팁을 알고싶다면</p>
+                                <p className="text-[1.2rem] font-medium">팁 게시판 바로가기</p>
+                            </div>
+                        </Link>
                         <img src="/images/arrow-right-short.svg" alt="사진 선택" className="ml-auto mt-auto self-end mb-0"/>
                     </div>
 
                     <div
                         className="w-full h-24 bg-bara_light_blue rounded-[0.5rem] shadow-lg text-bara_sodomy mt-4 overflow-hidden">
-                        <img src="/images/ad/청소업체%20광고.png" className="object-cover" />
+                        <img src="/images/ad/청소업체%20광고.png" className="object-cover"/>
                     </div>
                 </div>
 

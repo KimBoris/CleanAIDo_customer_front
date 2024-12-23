@@ -38,6 +38,8 @@ const BoardListComponent = () => {
             setBoard((prevBoards) => [...prevBoards, ...data.dtoList]);
             setTotalPages(data.totalPages);
             setHasMore(page < data.totalPages); // 더 가져올 데이터가 있는지 확인
+            console.log("ddddddkjfdldjldjdljdl")
+            console.log(board.fileName)
         } catch (error) {
             setError('게시판 데이터를 가져오는데 실패했습니다.');
         } finally {
@@ -148,7 +150,7 @@ const BoardListComponent = () => {
                             <div className="flex items-center">
                                 {board.fileName && (
                                     <img
-                                        src={  `C:\\Boris\\FinalProject_Cleanaido\\CustomerBack\\upload${board.fileName}`}
+                                        src={  `https://bucket-cleanaido.s3.ap-northeast-2.amazonaws.com/${board.fileName}`}
                                         alt="Board Thumbnail"
                                         className="w-24 h-24 object-cover flex-shrink-0 rounded-md border-2 border-bara_gray_4"  // 이미지 외곽선
                                     />
