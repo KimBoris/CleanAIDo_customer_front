@@ -1,6 +1,6 @@
 import axios from 'axios';
 import useAuthStore from "../store/authStore.js";
-import {jwtDecode} from "jwt-decode";
+
 
 
 const host = '/api/v1/board';
