@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {getCategoryList} from '../../api/categoryApi';
+import {getCategoryList} from '../../api/categoryAPI.js';
 import {Link} from "react-router-dom";
 
 const CategoryListComponent = () => {
